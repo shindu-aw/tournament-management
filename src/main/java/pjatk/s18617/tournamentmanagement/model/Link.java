@@ -1,4 +1,4 @@
-package pjatk.s18617.tournamentmanagement;
+package pjatk.s18617.tournamentmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;

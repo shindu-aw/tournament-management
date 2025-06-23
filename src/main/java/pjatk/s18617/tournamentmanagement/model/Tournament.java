@@ -3,7 +3,6 @@ package pjatk.s18617.tournamentmanagement.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import pjatk.s18617.tournamentmanagement.Location;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
