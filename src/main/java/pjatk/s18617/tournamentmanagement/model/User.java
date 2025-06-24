@@ -35,12 +35,15 @@ public class User {
     @Column(name = "description", length = 1000)
     private String description;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Set<TeamUser> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
+    @Builder.Default
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
     private Set<Tournament> tournamentsOwned = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
+    @Builder.Default
     @ManyToMany(mappedBy = "usersManaging")
     private Set<Tournament> tournamentsManaged = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 

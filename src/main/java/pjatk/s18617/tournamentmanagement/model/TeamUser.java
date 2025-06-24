@@ -20,11 +20,11 @@ public class TeamUser {
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-    private Team team; // bidirectional
+    private Team team; // bidirectional TODO maintain relationships
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user; // bidirectional
+    private User user; // bidirectional TODO maintain relationships
 
     @ManyToOne
     @JoinColumn(name = "game_id")

@@ -33,12 +33,15 @@ public class Team {
     @Column(name = "secret_code", nullable = false, length = 8)
     private String secretCode;
 
+    @Builder.Default
     @OneToMany(mappedBy = "team", orphanRemoval = true)
     private Set<TeamUser> userRegistrations = new LinkedHashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "team", orphanRemoval = true)
     private Set<TournamentTeam> tournamentRegistrations = new LinkedHashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Link> links = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 

@@ -47,6 +47,7 @@ public class Tournament {
     @JoinColumn(name = "user_owner_id")
     private User userOwner;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "tournament_user",
             joinColumns = @JoinColumn(name = "tournament_id"),
@@ -61,12 +62,15 @@ public class Tournament {
     @JoinColumn(name = "game_id")
     private Game game; // bidirectional TODO maintain relationships
 
+    @Builder.Default
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
     private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
+    @Builder.Default
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
     private Set<Match> matches = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
+    @Builder.Default
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Announcement> announcements = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
