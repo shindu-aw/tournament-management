@@ -18,6 +18,9 @@ public class TournamentTeam {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "score_sum")
+    private Integer scoreSum;
+
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament; // bidirectional
@@ -25,8 +28,5 @@ public class TournamentTeam {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team; // bidirectional
-
-    @Column(name = "score")
-    private Integer score;
 
 }
