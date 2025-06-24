@@ -53,9 +53,12 @@ public class Tournament {
     private Game game;
 
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
-    private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>();
+    private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
-    private Set<Match> matches = new LinkedHashSet<>();
+    private Set<Match> matches = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Announcement> announcements = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
 }
