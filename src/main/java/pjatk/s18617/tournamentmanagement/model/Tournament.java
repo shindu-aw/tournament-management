@@ -37,12 +37,21 @@ public class Tournament {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
-    @Column(name = "secret_code", nullable = false, length = 8)
-    private String secretCode;
+    @Column(name = "join_secret_code", nullable = false, length = 8)
+    private String joinSecretCode; // for joining teams
+
+    @Column(name = "manage_secret_code", nullable = false, length = 8)
+    private String manageSecretCode; // for user managers
 
     @ManyToOne
     @JoinColumn(name = "user_owner_id")
     private User userOwner;
+
+    @ManyToMany
+    @JoinTable(name = "tournament_user",
+            joinColumns = @JoinColumn(name = "tournament_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> usersManaging = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id")
@@ -50,7 +59,7 @@ public class Tournament {
 
     @ManyToOne
     @JoinColumn(name = "game_id")
-    private Game game;
+    private Game game; // bidirectional TODO maintain relationships
 
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
     private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships

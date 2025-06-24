@@ -24,7 +24,8 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Size(min = 1, max = 20)
+    @Column(unique = true, nullable = false, length = 20)
     private String nickname;
 
     @Column(nullable = false)
@@ -35,11 +36,13 @@ public class User {
     private String description;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private Set<TeamUser> teamRegistrations = new LinkedHashSet<>();
+    private Set<TeamUser> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
-    private Set<Tournament> tournamentsOwned = new LinkedHashSet<>();
+    private Set<Tournament> tournamentsOwned = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
+    @ManyToMany(mappedBy = "usersManaging")
+    private Set<Tournament> tournamentsManaged = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
 
 
     @Override
