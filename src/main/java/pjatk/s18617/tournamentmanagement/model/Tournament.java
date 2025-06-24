@@ -23,6 +23,10 @@ public class Tournament {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Size(min = 1, max = 50)
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
+
     @Size(max = 1000)
     @Column(name = "description", length = 1000)
     private String description;

@@ -22,7 +22,8 @@ public class Team {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Size(min = 1, max = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
     @Size(max = 1000)
