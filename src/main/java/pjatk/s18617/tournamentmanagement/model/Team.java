@@ -39,4 +39,7 @@ public class Team {
     @OneToMany(mappedBy = "team", orphanRemoval = true)
     private Set<TournamentTeam> tournamentRegistrations = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Link> links = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+
 }

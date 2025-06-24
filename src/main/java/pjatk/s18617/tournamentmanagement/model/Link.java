@@ -25,4 +25,8 @@ public class Link {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team; // bidirectional TODO maintain relationships
+
 }
