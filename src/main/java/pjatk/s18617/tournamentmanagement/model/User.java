@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
@@ -26,7 +26,7 @@ public class User {
 
     @Size(min = 1, max = 20)
     @Column(unique = true, nullable = false, length = 20)
-    private String nickname;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -34,6 +34,10 @@ public class User {
     @Size(max = 1000)
     @Column(name = "description", length = 1000)
     private String description;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
+    private Set<Team> teamsOwned = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", orphanRemoval = true)
@@ -66,5 +70,31 @@ public class User {
         return this instanceof HibernateProxy ?
                 ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() :
                 getClass().hashCode();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    // TODO: add proper boolean checks
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }
