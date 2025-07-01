@@ -37,14 +37,16 @@ public class Tournament {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @Size(min = 8, max = 8)
     @Column(name = "join_secret_code", nullable = false, length = 8)
     private String joinSecretCode; // for joining teams
 
+    @Size(min = 8, max = 8)
     @Column(name = "manage_secret_code", nullable = false, length = 8)
-    private String manageSecretCode; // for user managers
+    private String manageSecretCode; // for user managers/moderators
 
     @ManyToOne
-    @JoinColumn(name = "user_owner_id")
+    @JoinColumn(name = "user_owner_id", nullable = false)
     private User userOwner;
 
     @Builder.Default
@@ -52,7 +54,7 @@ public class Tournament {
     @JoinTable(name = "tournament_user",
             joinColumns = @JoinColumn(name = "tournament_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> usersManaging = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<User> usersManaging = new LinkedHashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id")
@@ -60,18 +62,18 @@ public class Tournament {
 
     @ManyToOne
     @JoinColumn(name = "game_id")
-    private Game game; // bidirectional TODO maintain relationships
+    private Game game;
 
     @Builder.Default
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
-    private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
-    private Set<Match> matches = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<Match> matches = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Announcement> announcements = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<Announcement> announcements = new LinkedHashSet<>();
 
 }
