@@ -22,7 +22,8 @@ public class Game {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Size(min = 1, max = 50)
+    @Column(name = "name", unique = true, nullable = false, length = 50)
     private String name;
 
     @Size(max = 1000)
@@ -31,6 +32,6 @@ public class Game {
 
     @Builder.Default
     @OneToMany(mappedBy = "game", orphanRemoval = true)
-    private Set<Tournament> tournaments = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<Tournament> tournaments = new LinkedHashSet<>();
 
 }
