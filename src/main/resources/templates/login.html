@@ -12,9 +12,21 @@
     Zostałeś wylogowany.
 </div>
 <form th:action="@{/login}" method="post">
-    <div><label> Nazwa użytkownika: <input type="text" name="username"/> </label></div>
-    <div><label> Hasło: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Zaloguj się"/></div>
+    <table>
+        <tr>
+            <td>Nazwa użytkownika:</td>
+            <td><input type="text" name="username"/></td>
+        </tr>
+        <tr>
+            <td>Hasło:</td>
+            <td><input type="password" name="password"/></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Zaloguj się"/>
+            </td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>
