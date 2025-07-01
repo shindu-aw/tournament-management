@@ -1,6 +1,9 @@
 package pjatk.s18617.tournamentmanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -18,19 +21,29 @@ public class Location {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "country")
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "country", nullable = false, length = 100)
     private String country;
 
-    @Column(name = "postal_code")
+    @NotBlank
+    @Pattern(regexp = "^[A-Za-z0-9\\- ]{3,10}$")
+    @Column(name = "postal_code", nullable = false, length = 10)
     private String postalCode;
 
-    @Column(name = "city")
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "city", nullable = false, length = 100)
     private String city;
 
-    @Column(name = "street")
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "street", nullable = false, length = 100)
     private String street;
 
-    @Column(name = "house_number")
+    @NotBlank
+    @Size(max = 10)
+    @Column(name = "house_number", nullable = false, length = 10)
     private String houseNumber;
 
 }
