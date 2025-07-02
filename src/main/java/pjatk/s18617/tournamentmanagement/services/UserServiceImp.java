@@ -13,6 +13,7 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
 
+    @Override
     public User register(UserRegistrationDto userRegistrationDto) {
         User newUser = User.builder()
                 .username(userRegistrationDto.getUsername())
@@ -21,6 +22,7 @@ public class UserServiceImp implements UserService {
         return this.save(newUser);
     }
 
+    @Override
     public User save(User user) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
