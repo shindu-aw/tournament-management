@@ -37,6 +37,9 @@ public class Tournament {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @Column(name = "finished", nullable = false)
+    private Boolean finished = false;
+
     @Size(min = 8, max = 8)
     @Column(name = "join_secret_code", nullable = false, length = 8)
     private String joinSecretCode; // for joining teams
