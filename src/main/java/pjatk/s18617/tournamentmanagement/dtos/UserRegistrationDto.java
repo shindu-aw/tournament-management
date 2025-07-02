@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pjatk.s18617.tournamentmanagement.validation.UniqueUsername;
 
 import java.io.Serializable;
 
@@ -20,6 +21,7 @@ public class UserRegistrationDto implements Serializable {
     @NotNull
     @Size(min = 1, max = 20)
     @NotEmpty
+    @UniqueUsername
     private String username;
 
     @NotNull
