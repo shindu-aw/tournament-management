@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<head>
+    <title>Turniej</title>
+</head>
+<body>
+<h1><span th:text="${tournament.name}"/></h1>
+
+<table>
+    <tr>
+        <td>Właściciel:</td>
+        <td th:text="${{tournament.userOwner.username}}"/>
+    </tr>
+    <tr>
+        <td>Data rozpoczęcia:</td>
+        <td th:text="${{tournament.startDate}}"/>
+    </tr>
+    <tr>
+        <td>Data zakończenia:</td>
+        <td th:if="${tournament.endDate} != null" th:text="${{tournament.endDate}}"/>
+    </tr>
+</table>
+
+<h2>Opis</h2>
+<p th:text="${{tournament.description}}"/>
+
+<h2>Drużyny</h2>
+<table>
+    <tr th:each="teamRegistration: ${sortedTeamRegistrations}" >
+        <td>
+            <a th:href="@{'/team/' + ${teamRegistration.team.id}}" th:text="${{teamRegistration.team.name}}" ></a>
+        </td>
+        <td th:text="${{teamRegistration.scoreSum}}" />
+    </tr>
+</table>
+
+
+<h2>Mecze</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Drużyna 1</th>
+        <th>Wynik drużyny 1</th>
+        <th>Drużyna 2</th>
+        <th>Wynik drużyny 2</th>
+        <th>Drużyna wygrana</th>
+    </tr>
+    <tr th:each="match: ${sortedMatches}">
+        <td>
+            <a th:href="@{'/match/' + ${match.id}}" th:text="'[' + ${{match.id}} + ']'"></a>
+        </td>
+        <td th:text="${{match.date}}" />
+        <td>
+            <a th:href="@{'/team/' + ${match.tournamentTeam1.team.id}}"
+               th:text="${{match.tournamentTeam1.team.name}}"></a>
+        </td>
+        <td th:text="${{match.team1Score}}" />
+        <td>
+            <a th:href="@{'/team/' + ${match.tournamentTeam2.team.id}}"
+               th:text="${{match.tournamentTeam2.team.name}}"></a>
+        </td>
+        <td th:text="${{match.team2Score}}" />
+        <td th:if="${match.tournamentTeamWinner} != null">
+            <a th:href="@{'/team/' + ${match.tournamentTeamWinner.team.id}}"
+               th:text="${{match.tournamentTeamWinner.team.name}}"></a>
+        </td>
+    </tr>
+</table>
+
+
+</body>
+</html>

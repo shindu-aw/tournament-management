@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<head>
+    <title>Turnieje</title>
+</head>
+<body>
+<h1 th:text="'Lista turninejów ' + ${{tournaments.getFirst().game.name}}" ></h1>
+<table>
+    <tr th:each="tournament: ${tournaments}">
+        <td>
+            <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}" ></a>
+        </td>
+        <td th:text="${{tournament.userOwner.username}}"/>
+        <td th:text="${{tournament.startDate}}"/>
+        <td th:text="${{tournament.endDate}}"/>
+    </tr>
+</table>
+</body>
+</html>
