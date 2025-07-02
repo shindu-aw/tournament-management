@@ -33,10 +33,6 @@ public class Match {
     @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "team_1_id", nullable = false)
-    private TournamentTeam team1;
-
     @ManyToOne
     @JoinColumn(name = "tournament_team_1_id")
     private TournamentTeam tournamentTeam1;
