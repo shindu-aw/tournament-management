@@ -18,8 +18,9 @@ public class TournamentTeam {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Builder.Default
     @Column(name = "score_sum")
-    private Integer scoreSum;
+    private Integer scoreSum = 0;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")

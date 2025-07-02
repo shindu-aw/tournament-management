@@ -3,7 +3,7 @@ package pjatk.s18617.tournamentmanagement.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,14 +20,16 @@ public class Match {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Builder.Default
     @Column(name = "team_1_score")
-    private Integer team1Score;
+    private Integer team1Score = 0;
 
+    @Builder.Default
     @Column(name = "team_2_score")
-    private Integer team2Score;
+    private Integer team2Score = 0;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "tournament_id", nullable = false)
