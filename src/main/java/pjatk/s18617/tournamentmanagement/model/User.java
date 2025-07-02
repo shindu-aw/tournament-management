@@ -41,15 +41,15 @@ public class User implements UserDetails {
 
     @Builder.Default
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private Set<TeamUser> teamRegistrations = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<TeamUser> teamRegistrations = new LinkedHashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
-    private Set<Tournament> tournamentsOwned = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<Tournament> tournamentsOwned = new LinkedHashSet<>();
 
     @Builder.Default
     @ManyToMany(mappedBy = "usersManaging")
-    private Set<Tournament> tournamentsManaged = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<Tournament> tournamentsManaged = new LinkedHashSet<>();
 
 
     @Override

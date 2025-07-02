@@ -27,6 +27,6 @@ public class Link {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "team_id", nullable = false)
-    private Team team; // bidirectional TODO maintain relationships
+    private Team team;
 
 }
