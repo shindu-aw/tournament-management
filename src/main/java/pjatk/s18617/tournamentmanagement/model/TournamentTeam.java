@@ -23,10 +23,10 @@ public class TournamentTeam {
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
-    private Tournament tournament; // bidirectional TODO maintain relationships
+    private Tournament tournament;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-    private Team team; // bidirectional TODO maintain relationships
+    private Team team;
 
 }
