@@ -33,6 +33,10 @@ public class Team {
     @Column(name = "secret_code", nullable = false, length = 8)
     private String secretCode;
 
+    @ManyToOne
+    @JoinColumn(name = "user_owner_id", nullable = false)
+    private User userOwner;
+
     @Builder.Default
     @OneToMany(mappedBy = "team", orphanRemoval = true)
     private Set<TeamUser> userRegistrations = new LinkedHashSet<>();
@@ -43,6 +47,6 @@ public class Team {
 
     @Builder.Default
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Link> links = new LinkedHashSet<>(); // bidirectional TODO maintain relationships
+    private Set<Link> links = new LinkedHashSet<>();
 
 }
