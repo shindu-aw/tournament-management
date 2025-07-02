@@ -87,8 +87,8 @@ public class BootstrapData implements CommandLineRunner {
                     .location(location1)
                     .build();
             Tournament tournament2 = Tournament.builder()
-                    .name("Tournament 1")
-                    .description("Tournament 1 description.")
+                    .name("Tournament 2")
+                    .description("Tournament 2 description.")
                     .startDate(LocalDateTime.now())
                     .endDate(LocalDateTime.now())
                     .joinSecretCode("12345678")
