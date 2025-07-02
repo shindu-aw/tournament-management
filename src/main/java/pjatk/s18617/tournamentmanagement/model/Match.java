@@ -28,7 +28,7 @@ public class Match {
     @Column(name = "team_2_score")
     private Integer team2Score = 0;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
     @ManyToOne(optional = false)
