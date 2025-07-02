@@ -7,10 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
-import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.services.UserService;
 
 @Controller
