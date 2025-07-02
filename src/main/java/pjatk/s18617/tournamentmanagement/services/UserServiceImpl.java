@@ -7,6 +7,8 @@ import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,6 +29,11 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsernameIgnoreCase(username);
     }
 
 }
