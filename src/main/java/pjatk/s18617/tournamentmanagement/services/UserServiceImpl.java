@@ -9,7 +9,7 @@ import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 
 @RequiredArgsConstructor
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
