@@ -31,7 +31,7 @@ public class Match {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "tournament_id", nullable = false)
-    private Tournament tournament; // bidirectional TODO maintain relationships
+    private Tournament tournament;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "team_1_id", nullable = false)
