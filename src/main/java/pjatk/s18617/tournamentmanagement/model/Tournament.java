@@ -37,6 +37,7 @@ public class Tournament {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @Builder.Default
     @Column(name = "finished", nullable = false)
     private Boolean finished = false;
 
