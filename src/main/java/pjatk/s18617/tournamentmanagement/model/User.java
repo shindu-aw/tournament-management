@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
@@ -34,6 +35,11 @@ public class User implements UserDetails {
     @Size(max = 1000)
     @Column(name = "description", length = 1000)
     private String description;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 5)
+    private Role role = Role.USER;
 
     @Builder.Default
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
@@ -74,7 +80,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        final String ROLE_PREFIX = "ROLE_";
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.toString()));
+        return grantedAuthorities;
     }
 
     // TODO: add proper boolean checks
