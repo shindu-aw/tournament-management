@@ -38,7 +38,7 @@ public class TournamentController {
         return "tournaments";
     }
 
-    @GetMapping("/tournaments/{gameId}/new")
+    @GetMapping("/tournament/new/{gameId}")
     public String showTournamentCreationForm(@PathVariable Long gameId, Model model) {
         model.addAttribute("tournamentCreationDto", new TournamentCreationDto());
 
@@ -49,7 +49,7 @@ public class TournamentController {
 
 
     // BindingResult MUST immediately follow the @Valid annotated parameter in the method signature
-    @PostMapping("/tournaments/{gameId}/new")
+    @PostMapping("/tournament/new/{gameId}")
     public String processTournamentCreationForm(@PathVariable Long gameId, Principal principal,
                                                 @Valid TournamentCreationDto tournamentCreationDto,
                                                 BindingResult result, Model model) {
