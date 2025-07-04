@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll); // .logout((logout) -> logout.permitAll());
+                .logout(LogoutConfigurer::permitAll); // same as .logout((logout) -> logout.permitAll());
 
         return http.build();
     }
