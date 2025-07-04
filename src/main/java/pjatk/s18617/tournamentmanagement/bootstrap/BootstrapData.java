@@ -36,6 +36,12 @@ public class BootstrapData implements CommandLineRunner {
         if (gameRepository.count() == 0) {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            User admin = User.builder()
+                    .username("admin")
+                    .password(encoder.encode("admin"))
+                    .description("Test admin account description.")
+                    .role(Role.ADMIN)
+                    .build();
             User user1 = User.builder()
                     .username("testUser")
                     .password(encoder.encode("testPassword"))
@@ -46,7 +52,7 @@ public class BootstrapData implements CommandLineRunner {
                     .password(encoder.encode("testPassword2"))
                     .description("Test description 2.")
                     .build();
-            userRepository.saveAllAndFlush(Arrays.asList(user1, user2));
+            userRepository.saveAllAndFlush(Arrays.asList(admin, user1, user2));
 
 
             Game cs2 = Game.builder()
