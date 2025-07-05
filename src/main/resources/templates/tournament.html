@@ -4,10 +4,17 @@
 <head>
     <title>Turniej</title>
 </head>
-<body>
+<body th:with="
+isAdmin=${#authorization.expression('hasRole(''ADMIN'')')},
+isOwnerOrAdmin=${isAdmin or #authentication.name == tournament.userOwner.username},
+isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authentication.name)}
+">
+
 <h1><span th:text="${tournament.name}"/></h1>
 
-<div th:if="${#authentication.name == tournament.userOwner.username or #authorization.expression('hasRole(''ADMIN'')')}">
+<h2 th:if="${isModerator}">You are a moderator.</h2>
+
+<div th:if="${isOwnerOrAdmin}">
     <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get">
         <input type="submit" value="Edytuj turniej"/>
     </form>
@@ -15,7 +22,7 @@
         <input type="submit" value="Usuń turniej"/>
     </form>
     <form>
-        <input type="submit" value="Zakończ turniej" /> <!-- TODO implement -->
+        <input type="submit" value="Zakończ turniej"/> <!-- TODO implement -->
     </form>
     <br>
 </div>
@@ -65,11 +72,24 @@
 
 <h2>Drużyny</h2>
 <table>
+    <tr>
+        <th>Nazwa</th>
+        <th>Punkty</th>
+        <th th:if="${isOwnerOrAdmin}">
+            Akcje
+        </th>
+    </tr>
     <tr th:each="teamRegistration: ${sortedTeamRegistrations}">
         <td>
             <a th:href="@{'/team/' + ${teamRegistration.team.id}}" th:text="${{teamRegistration.team.name}}"></a>
         </td>
         <td th:text="${{teamRegistration.scoreSum}}"/>
+
+        <td th:if="${isOwnerOrAdmin}">
+            <form>
+                <input type="submit" value="Usuń"/> <!-- TODO implement -->
+            </form>
+        </td>
     </tr>
 </table>
 
@@ -84,11 +104,13 @@
         <th>Wynik drużyny 1</th>
         <th>Drużyna 2</th>
         <th>Wynik drużyny 2</th>
-        <th>Drużyna wygrana</th>
+        <th th:if="${isOwnerOrAdminOrModerator}">
+            Akcje
+        </th>
     </tr>
     <tr th:each="match: ${sortedMatches}">
         <td>
-            <a th:href="@{'/match/' + ${match.id}}" th:text="'[' + ${{match.id}} + ']'"></a>
+            <a th:text="'[' + ${{match.id}} + ']'"></a>
         </td>
         <td th:text="${{match.date}}"/>
         <td>
@@ -101,9 +123,14 @@
                th:text="${{match.tournamentTeam2.team.name}}"></a>
         </td>
         <td th:text="${{match.team2Score}}"/>
-        <td th:if="${match.tournamentTeamWinner} != null">
-            <a th:href="@{'/team/' + ${match.tournamentTeamWinner.team.id}}"
-               th:text="${{match.tournamentTeamWinner.team.name}}"></a>
+
+        <td th:if="${isOwnerOrAdminOrModerator}">
+            <form>
+                <input type="submit" value="Edytuj"/> <!-- TODO implement -->
+            </form>
+            <form>
+                <input type="submit" value="Usuń"/> <!-- TODO implement -->
+            </form>
         </td>
     </tr>
 </table>
