@@ -2,14 +2,15 @@ package pjatk.s18617.tournamentmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.TournamentEditDto;
 import pjatk.s18617.tournamentmanagement.model.*;
 import pjatk.s18617.tournamentmanagement.services.GameService;
 import pjatk.s18617.tournamentmanagement.services.TournamentService;
@@ -79,5 +80,65 @@ public class TournamentController {
         model.addAttribute("sortedTeamRegistrations", sortedTeamRegistrations);
         return "tournament";
     }
+
+
+    @GetMapping("/tournament/{tournamentId}/edit")
+    public String showTournamentEditForm(@PathVariable Long tournamentId, Principal principal, Model model) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+
+        User currentUser = userService.findByUsername(principal.getName()).orElseThrow(NotFoundException::new);
+        if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
+            throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
+
+        model.addAttribute("tournamentEditDto", new TournamentEditDto(
+                tournament.getId(), tournament.getName(), tournament.getDescription(),
+                tournament.getStartDate(), tournament.getEndDate()
+        ));
+        return "tournament-edit";
+    }
+
+    @PostMapping("/tournament/{tournamentId}/edit")
+    public String processTournamentEditForm(@PathVariable Long tournamentId, Principal principal,
+                                            @Valid TournamentEditDto tournamentEditDto, BindingResult result,
+                                            Model model) {
+        System.out.println("Sigiemka 1");
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        User currentUser = userService.findByUsername(principal.getName()).orElseThrow(NotFoundException::new);
+        if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
+            throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
+
+        System.out.println("Sigiemka 2");
+
+        if (result.hasErrors()) {
+            model.addAttribute("tournamentEditDto", tournamentEditDto);
+            return "tournament-edit";
+        }
+        System.out.println("Sigiemka 3");
+
+        tournamentService.update(tournament, tournamentEditDto);
+        System.out.println("Sigiemka 4");
+
+        return "redirect:/tournament/" + tournamentId;
+    }
+
+
+    @PostMapping("/tournament/{tournamentId}/delete")
+    public String deleteTournament(@PathVariable Long tournamentId, Principal principal,
+                                   RedirectAttributes redirectAttributes) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        String currentUserName = principal.getName();
+        User currentUser = userService.findByUsername(currentUserName).orElseThrow(NotFoundException::new);
+
+        if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
+            throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
+
+        if (!tournamentService.deleteById(tournamentId))
+            throw new NotFoundException();
+
+        String message = "Turniej '" + tournament.getName() + "' usunięty.";
+        redirectAttributes.addAttribute("message", message);
+        return "redirect:/";
+    }
+
 
 }

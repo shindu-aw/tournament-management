@@ -7,6 +7,16 @@
 <body>
 <h1><span th:text="${tournament.name}"/></h1>
 
+<div th:if="${#authentication.name == tournament.userOwner.username or #authorization.expression('hasRole(''ADMIN'')')}">
+    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get">
+        <input type="submit" value="Edytuj turniej"/>
+    </form>
+    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post">
+        <input type="submit" value="Usuń turniej"/>
+    </form>
+    <br>
+</div>
+
 <table>
     <tr>
         <td>Właściciel:</td>
@@ -27,23 +37,23 @@
 <table th:if="${tournament.location} != null">
     <tr>
         <td>Kraj:</td>
-        <td th:text="${{tournament.location.country}}" />
+        <td th:text="${{tournament.location.country}}"/>
     </tr>
     <tr>
         <td>Kod pocztowy:</td>
-        <td th:text="${{tournament.location.postalCode}}" />
+        <td th:text="${{tournament.location.postalCode}}"/>
     </tr>
     <tr>
         <td>Miasto:</td>
-        <td th:text="${{tournament.location.city}}" />
+        <td th:text="${{tournament.location.city}}"/>
     </tr>
     <tr>
         <td>Ulica:</td>
-        <td th:text="${{tournament.location.street}}" />
+        <td th:text="${{tournament.location.street}}"/>
     </tr>
     <tr>
         <td>Numer domu:</td>
-        <td th:text="${{tournament.location.houseNumber}}" />
+        <td th:text="${{tournament.location.houseNumber}}"/>
     </tr>
 </table>
 
@@ -52,11 +62,11 @@
 
 <h2>Drużyny</h2>
 <table>
-    <tr th:each="teamRegistration: ${sortedTeamRegistrations}" >
+    <tr th:each="teamRegistration: ${sortedTeamRegistrations}">
         <td>
-            <a th:href="@{'/team/' + ${teamRegistration.team.id}}" th:text="${{teamRegistration.team.name}}" ></a>
+            <a th:href="@{'/team/' + ${teamRegistration.team.id}}" th:text="${{teamRegistration.team.name}}"></a>
         </td>
-        <td th:text="${{teamRegistration.scoreSum}}" />
+        <td th:text="${{teamRegistration.scoreSum}}"/>
     </tr>
 </table>
 
@@ -77,17 +87,17 @@
         <td>
             <a th:href="@{'/match/' + ${match.id}}" th:text="'[' + ${{match.id}} + ']'"></a>
         </td>
-        <td th:text="${{match.date}}" />
+        <td th:text="${{match.date}}"/>
         <td>
             <a th:href="@{'/team/' + ${match.tournamentTeam1.team.id}}"
                th:text="${{match.tournamentTeam1.team.name}}"></a>
         </td>
-        <td th:text="${{match.team1Score}}" />
+        <td th:text="${{match.team1Score}}"/>
         <td>
             <a th:href="@{'/team/' + ${match.tournamentTeam2.team.id}}"
                th:text="${{match.tournamentTeam2.team.name}}"></a>
         </td>
-        <td th:text="${{match.team2Score}}" />
+        <td th:text="${{match.team2Score}}"/>
         <td th:if="${match.tournamentTeamWinner} != null">
             <a th:href="@{'/team/' + ${match.tournamentTeamWinner.team.id}}"
                th:text="${{match.tournamentTeamWinner.team.name}}"></a>

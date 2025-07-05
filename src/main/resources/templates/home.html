@@ -6,6 +6,8 @@
 <body>
 <h1>Welcome!</h1>
 
+<p th:if="${param.message}" th:text="${{param.message}}" ></p>
+
 <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
 </body>
 </html>
