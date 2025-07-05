@@ -128,8 +128,8 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
             <form>
                 <input type="submit" value="Edytuj"/> <!-- TODO implement -->
             </form>
-            <form>
-                <input type="submit" value="Usuń"/> <!-- TODO implement -->
+            <form th:action="@{'/match/' + ${match.id} + '/delete'}" method="post">
+                <input type="submit" value="Usuń"/>
             </form>
         </td>
     </tr>
