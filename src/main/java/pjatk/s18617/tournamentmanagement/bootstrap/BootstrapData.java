@@ -63,7 +63,11 @@ public class BootstrapData implements CommandLineRunner {
                     .name("Dota 2")
                     .description("Dota 2 description.")
                     .build();
-            gameRepository.saveAllAndFlush(Arrays.asList(cs2, dota2));
+            Game r6 = Game.builder()
+                    .name("Rainbow 6 Siege")
+                    .description("Rainbow 6 Siege description.")
+                    .build();
+            gameRepository.saveAllAndFlush(Arrays.asList(cs2, dota2, r6));
 
 
             Team team1 = Team.builder()
