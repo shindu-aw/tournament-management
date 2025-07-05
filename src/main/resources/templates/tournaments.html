@@ -5,7 +5,11 @@
     <title>Turnieje</title>
 </head>
 <body>
-<h1 th:text="'Lista turninejów ' + ${{tournaments.getFirst().game.name}}" ></h1>
+<h1 th:text="'Lista turninejów ' + ${{game.name}}" ></h1>
+
+<p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
+<a th:href="@{'/tournament/new/' + ${game.id}}" >Dodaj turniej</a>
+
 <table>
     <tr th:each="tournament: ${tournaments}">
         <td>
