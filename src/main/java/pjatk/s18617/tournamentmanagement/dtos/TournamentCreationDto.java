@@ -26,7 +26,9 @@ public class TournamentCreationDto implements Serializable {
     @Size(max = 1000)
     private String description;
 
+    @NotNull(message = "nie może być puste")
     private LocalDate startDate;
+
     private LocalDate endDate;
 
 }

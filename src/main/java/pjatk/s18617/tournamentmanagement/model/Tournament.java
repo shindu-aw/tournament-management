@@ -31,7 +31,7 @@ public class Tournament {
     @Column(name = "description", length = 1000)
     private String description;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
     @Column(name = "end_date")
