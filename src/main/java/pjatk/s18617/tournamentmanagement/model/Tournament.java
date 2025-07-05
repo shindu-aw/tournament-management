@@ -78,4 +78,8 @@ public class Tournament {
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Announcement> announcements = new LinkedHashSet<>();
 
+    public boolean isManagedByUser(String username) {
+        return usersManaging.stream().anyMatch(user -> user.getUsername().equals(username));
+    }
+
 }
