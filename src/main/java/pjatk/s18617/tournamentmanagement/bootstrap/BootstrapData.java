@@ -147,6 +147,7 @@ public class BootstrapData implements CommandLineRunner {
                     .game(cs2)
                     .location(location1)
                     .build();
+            tournament1.getUsersManaging().add(user2);
             Tournament tournament2 = Tournament.builder()
                     .name("Turniej 2")
                     .description("Opis drugiego turnieju.")
@@ -201,7 +202,6 @@ public class BootstrapData implements CommandLineRunner {
                     .date(LocalDate.parse("2025-07-01", formatter))
                     .team1Score(12)
                     .team2Score(30)
-                    .tournamentTeamWinner(tournamentTeam2)
                     .build();
             Match match2 = Match.builder()
                     .tournament(tournament1)
@@ -210,7 +210,6 @@ public class BootstrapData implements CommandLineRunner {
                     .date(LocalDate.parse("2025-07-02", formatter))
                     .team1Score(16)
                     .team2Score(3)
-                    .tournamentTeamWinner(tournamentTeam1)
                     .build();
             Match match3 = Match.builder()
                     .tournament(tournament1)
