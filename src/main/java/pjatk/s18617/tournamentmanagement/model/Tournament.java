@@ -68,12 +68,10 @@ public class Tournament {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "tournament", orphanRemoval = true)
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "tournament", orphanRemoval = true)
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Match> matches = new LinkedHashSet<>();
 
     @Builder.Default
