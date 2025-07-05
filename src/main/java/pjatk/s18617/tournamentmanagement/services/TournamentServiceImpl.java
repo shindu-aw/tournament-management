@@ -3,6 +3,7 @@ package pjatk.s18617.tournamentmanagement.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.TournamentEditDto;
 import pjatk.s18617.tournamentmanagement.model.Game;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.User;
@@ -56,6 +57,24 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Optional<Tournament> getWholeById(Long id) {
         return tournamentRepository.findWholeById(id);
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        if (tournamentRepository.existsById(id)) {
+            tournamentRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Tournament update(Tournament tournament, TournamentEditDto tournamentEditDto) {
+        tournament.setName(tournamentEditDto.getName());
+        tournament.setDescription(tournamentEditDto.getDescription());
+        tournament.setStartDate(tournamentEditDto.getStartDate());
+        tournament.setEndDate(tournamentEditDto.getEndDate());
+        return tournamentRepository.save(tournament);
     }
 
 
