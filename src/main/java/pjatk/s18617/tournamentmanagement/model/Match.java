@@ -43,8 +43,4 @@ public class Match {
     @JoinColumn(name = "tournament_team_2_id")
     private TournamentTeam tournamentTeam2;
 
-    @ManyToOne
-    @JoinColumn(name = "tournament_team_winner_id")
-    private TournamentTeam tournamentTeamWinner;
-
 }
