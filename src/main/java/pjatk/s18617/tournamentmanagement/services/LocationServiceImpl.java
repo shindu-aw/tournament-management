@@ -54,6 +54,7 @@ public class LocationServiceImpl implements LocationService {
         return tournament.getLocation();
     }
 
+    @Override
     public void deleteWithAuthorization(Tournament tournament, String username) {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         checkAuthorization(tournament, user);
