@@ -18,29 +18,29 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LocationCreationDto implements Serializable {
 
-    @NotNull
-    @Size(max = 100)
-    @NotBlank
+    @NotNull(message = "nie może być puste")
+    @Size(max = 100, message = "nie może być dłuższe od 100 znaków")
+    @NotBlank(message = "nie może być puste")
     private String country;
 
-    @NotNull
-    @Pattern(regexp = "^[A-Za-z0-9\\- ]{3,10}$")
-    @NotBlank
+    @NotNull(message = "nie może być puste")
+    @Pattern(regexp = "^[A-Za-z0-9\\- ]{3,10}$", message = "musi być prawidłowym kodem pocztowym")
+    @NotBlank(message = "nie może być puste")
     private String postalCode;
 
-    @NotNull
-    @Size(max = 100)
-    @NotBlank
+    @NotNull(message = "nie może być puste")
+    @Size(max = 100, message = "nie może być dłuższe od 100 znaków")
+    @NotBlank(message = "nie może być puste")
     private String city;
 
-    @NotNull
-    @Size(max = 100)
-    @NotBlank
+    @NotNull(message = "nie może być puste")
+    @Size(max = 100, message = "nie może być dłuższe od 100 znaków")
+    @NotBlank(message = "nie może być puste")
     private String street;
 
-    @NotNull
-    @Size(max = 10)
-    @NotBlank
+    @NotNull(message = "nie może być puste")
+    @Size(max = 10, message = "nie może być dłuższe od 10 znaków")
+    @NotBlank(message = "nie może być puste")
     private String houseNumber;
 
 }

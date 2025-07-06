@@ -44,6 +44,13 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
 <h2>Lokalizacja</h2>
 
+<div th:if="${tournament.location} == null" >
+    Ten turniej nie ma zapisanej lokalizacji.
+    <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/new/location'}" method="get">
+        <input type="submit" value="Dodaj lokalizacje"/>
+    </form>
+</div>
+
 <table th:if="${tournament.location} != null">
     <tr>
         <td>Kraj:</td>
@@ -95,6 +102,12 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
 
 <h2>Mecze</h2>
+
+<div th:if="${isOwnerOrAdminOrModerator}" >
+    <form th:action="@{'/tournament/' + ${tournament.id} + '/new/match'}" method="get">
+        <input type="submit" value="Dodaj nowy mecz"/>
+    </form>
+</div>
 
 <table>
     <tr>

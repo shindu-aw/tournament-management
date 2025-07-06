@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<head>
+    <title>Dodawanie lokalizacji</title>
+</head>
+<body>
+<h1 th:text="'Dodaj lokalizację do turnieju ' + ${{tournament.name}}" ></h1>
+
+<form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/new/location' }" th:object="${locationCreationDto}"
+      method="post">
+    <table>
+        <tr>
+            <td>Kraj:</td>
+            <td><input type="text" th:field="*{country}"/></td>
+            <td th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Błąd w kraju</td>
+        </tr>
+        <tr>
+            <td>Kod pocztowy:</td>
+            <td><input type="text" th:field="*{postalCode}"/></td>
+            <td th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}">Błąd w kodzie pocztowym</td>
+        </tr>
+        <tr>
+            <td>Miasto:</td>
+            <td><input type="text" th:field="*{city}"/></td>
+            <td th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Błąd w mieście</td>
+        </tr>
+        <tr>
+            <td>Ulica:</td>
+            <td><input type="text" th:field="*{street}"/></td>
+            <td th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Błąd w ulicy</td>
+        </tr>
+        <tr>
+            <td>Numer domu:</td>
+            <td><input type="text" th:field="*{houseNumber}"/></td>
+            <td th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">Błąd w numerze domu</td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Dodaj lokalizację</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>
