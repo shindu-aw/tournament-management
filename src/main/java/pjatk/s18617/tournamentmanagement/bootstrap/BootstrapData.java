@@ -180,17 +180,14 @@ public class BootstrapData implements CommandLineRunner {
             TournamentTeam tournamentTeam1 = TournamentTeam.builder()
                     .tournament(tournament1)
                     .team(team1)
-                    .scoreSum(28)
                     .build();
             TournamentTeam tournamentTeam2 = TournamentTeam.builder()
                     .tournament(tournament1)
                     .team(team2)
-                    .scoreSum(30)
                     .build();
             TournamentTeam tournamentTeam3 = TournamentTeam.builder()
                     .tournament(tournament1)
                     .team(team3)
-                    .scoreSum(3)
                     .build();
             TournamentTeam tournamentTeam4 = TournamentTeam.builder()
                     .tournament(tournament1)
