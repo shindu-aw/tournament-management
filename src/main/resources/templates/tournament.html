@@ -68,6 +68,9 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
         </tr>
     </table>
 
+    <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/edit/location'}" method="get">
+        <input type="submit" value="Edytuj lokalizacje"/>
+    </form>
     <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/delete/location'}" method="post">
         <input type="submit" value="Usuń lokalizacje"/>
     </form>

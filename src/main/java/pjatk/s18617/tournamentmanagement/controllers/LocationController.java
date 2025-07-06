@@ -63,4 +63,39 @@ public class LocationController {
         return "redirect:/tournament/" + tournamentId;
     }
 
+    @GetMapping("/tournament/{tournamentId}/edit/location")
+    public String showLocationEditForm(@PathVariable Long tournamentId, Model model, Principal principal) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        Location location = tournament.getLocation();
+
+        String username = principal.getName();
+        locationService.checkAuthorization(tournament, username);
+
+        LocationCreationDto locationCreationDto = new LocationCreationDto(
+                location.getCountry(),
+                location.getPostalCode(),
+                location.getCity(),
+                location.getStreet(),
+                location.getHouseNumber()
+        );
+        model.addAttribute("locationCreationDto", locationCreationDto);
+        model.addAttribute("tournament", tournament);
+        return "location-edit";
+    }
+
+    @PostMapping("/tournament/{tournamentId}/edit/location")
+    public String processLocationEditForm(@PathVariable Long tournamentId, Model model, Principal principal,
+                                          @Valid LocationCreationDto locationCreationDto, BindingResult result) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        String username = principal.getName();
+
+        if (result.hasErrors()) {
+            model.addAttribute("tournament", tournament);
+            return "location-edit";
+        }
+
+        locationService.updateWithAuthorization(tournament, locationCreationDto, username);
+        return "redirect:/tournament/" + tournamentId;
+    }
+
 }

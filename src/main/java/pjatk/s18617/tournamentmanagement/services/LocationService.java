@@ -15,4 +15,6 @@ public interface LocationService {
 
     void deleteWithAuthorization(Tournament tournament, String username);
 
+    Location updateWithAuthorization(Tournament tournament, LocationCreationDto locationCreationDto, String username);
+
 }
