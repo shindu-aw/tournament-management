@@ -49,9 +49,17 @@ public class LocationServiceImpl implements LocationService {
                 .build();
 
         tournament.setLocation(newLocation);
-        tournamentRepository.save(tournament); // also saves Location because of the Cascade.ALL
+        tournamentRepository.save(tournament); // also saves Location because of Cascade.ALL relationship
 
         return tournament.getLocation();
+    }
+
+    public void deleteWithAuthorization(Tournament tournament, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        checkAuthorization(tournament, user);
+
+        tournament.setLocation(null);
+        tournamentRepository.save(tournament); // also deletes Location because of Cascade.ALL relationship
     }
 
 }

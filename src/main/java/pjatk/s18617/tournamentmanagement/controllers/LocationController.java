@@ -23,6 +23,17 @@ public class LocationController {
     private final TournamentService tournamentService;
     private final LocationService locationService;
 
+    @PostMapping("/tournament/{tournamentId}/delete/location")
+    public String deleteLocation(@PathVariable Long tournamentId, Principal principal) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+
+        String username = principal.getName();
+        locationService.checkAuthorization(tournament, username);
+
+        locationService.deleteWithAuthorization(tournament, username);
+        return "redirect:/tournament/" + tournamentId;
+    }
+
     @GetMapping("/tournament/{tournamentId}/new/location")
     public String showLocationCreationForm(@PathVariable Long tournamentId, Model model, Principal principal) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);

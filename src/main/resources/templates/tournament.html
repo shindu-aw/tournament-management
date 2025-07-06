@@ -44,37 +44,46 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
 <h2>Lokalizacja</h2>
 
+<div th:if="${tournament.location != null}" >
+    <table th:if="${tournament.location} != null">
+        <tr>
+            <td>Kraj:</td>
+            <td th:text="${{tournament.location.country}}"/>
+        </tr>
+        <tr>
+            <td>Kod pocztowy:</td>
+            <td th:text="${{tournament.location.postalCode}}"/>
+        </tr>
+        <tr>
+            <td>Miasto:</td>
+            <td th:text="${{tournament.location.city}}"/>
+        </tr>
+        <tr>
+            <td>Ulica:</td>
+            <td th:text="${{tournament.location.street}}"/>
+        </tr>
+        <tr>
+            <td>Numer domu:</td>
+            <td th:text="${{tournament.location.houseNumber}}"/>
+        </tr>
+    </table>
+
+    <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/delete/location'}" method="post">
+        <input type="submit" value="Usuń lokalizacje"/>
+    </form>
+
+</div>
+
 <div th:if="${tournament.location} == null" >
     Ten turniej nie ma zapisanej lokalizacji.
+
     <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/new/location'}" method="get">
         <input type="submit" value="Dodaj lokalizacje"/>
     </form>
 </div>
 
-<table th:if="${tournament.location} != null">
-    <tr>
-        <td>Kraj:</td>
-        <td th:text="${{tournament.location.country}}"/>
-    </tr>
-    <tr>
-        <td>Kod pocztowy:</td>
-        <td th:text="${{tournament.location.postalCode}}"/>
-    </tr>
-    <tr>
-        <td>Miasto:</td>
-        <td th:text="${{tournament.location.city}}"/>
-    </tr>
-    <tr>
-        <td>Ulica:</td>
-        <td th:text="${{tournament.location.street}}"/>
-    </tr>
-    <tr>
-        <td>Numer domu:</td>
-        <td th:text="${{tournament.location.houseNumber}}"/>
-    </tr>
-</table>
-
 <h2>Opis</h2>
+
 <p th:text="${{tournament.description}}"/>
 
 <h2>Drużyny</h2>

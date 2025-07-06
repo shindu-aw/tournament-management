@@ -13,4 +13,6 @@ public interface LocationService {
 
     Location saveWithAuthorization(LocationCreationDto locationCreationDto, Tournament tournament, String username);
 
+    void deleteWithAuthorization(Tournament tournament, String username);
+
 }
