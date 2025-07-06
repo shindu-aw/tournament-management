@@ -101,22 +101,17 @@ public class TournamentController {
     public String processTournamentEditForm(@PathVariable Long tournamentId, Principal principal,
                                             @Valid TournamentEditDto tournamentEditDto, BindingResult result,
                                             Model model) {
-        System.out.println("Sigiemka 1");
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
         User currentUser = userService.findByUsername(principal.getName()).orElseThrow(NotFoundException::new);
         if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
             throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
 
-        System.out.println("Sigiemka 2");
-
         if (result.hasErrors()) {
             model.addAttribute("tournamentEditDto", tournamentEditDto);
             return "tournament-edit";
         }
-        System.out.println("Sigiemka 3");
 
         tournamentService.update(tournament, tournamentEditDto);
-        System.out.println("Sigiemka 4");
 
         return "redirect:/tournament/" + tournamentId;
     }
