@@ -43,16 +43,21 @@ public class BootstrapData implements CommandLineRunner {
                     .role(Role.ADMIN)
                     .build();
             User user1 = User.builder()
-                    .username("testUser")
-                    .password(encoder.encode("testPassword"))
+                    .username("test1")
+                    .password(encoder.encode("test1"))
                     .description("Test description.")
                     .build();
             User user2 = User.builder()
-                    .username("testUser2")
-                    .password(encoder.encode("testPassword2"))
+                    .username("test2")
+                    .password(encoder.encode("test2"))
                     .description("Test description 2.")
                     .build();
-            userRepository.saveAllAndFlush(Arrays.asList(admin, user1, user2));
+            User user3 = User.builder()
+                    .username("test3")
+                    .password(encoder.encode("test3"))
+                    .description("Test description 3.")
+                    .build();
+            userRepository.saveAllAndFlush(Arrays.asList(admin, user1, user2, user3));
 
 
             Game cs2 = Game.builder()
