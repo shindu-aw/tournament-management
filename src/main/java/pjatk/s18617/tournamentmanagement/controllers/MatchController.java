@@ -8,16 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import pjatk.s18617.tournamentmanagement.dtos.MatchCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.MatchEditDto;
 import pjatk.s18617.tournamentmanagement.model.Match;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
-import pjatk.s18617.tournamentmanagement.model.User;
-import pjatk.s18617.tournamentmanagement.services.GameService;
 import pjatk.s18617.tournamentmanagement.services.MatchService;
 import pjatk.s18617.tournamentmanagement.services.TournamentService;
-import pjatk.s18617.tournamentmanagement.services.UserService;
 
 import java.security.Principal;
 
@@ -26,8 +22,6 @@ import java.security.Principal;
 public class MatchController {
 
     private final TournamentService tournamentService;
-    private final GameService gameService;
-    private final UserService userService;
     private final MatchService matchService;
 
     @PostMapping("/match/{matchId}/delete")
