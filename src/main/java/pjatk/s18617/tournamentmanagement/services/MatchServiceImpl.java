@@ -50,6 +50,8 @@ public class MatchServiceImpl implements MatchService {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         checkAuthorization(match.getTournament(), user);
 
+        // each TournamentTeam's scoreSum is updated in Match entity's JPA lifecycle methods TODO change to DB trigger
+
         matchRepository.delete(match);
     }
 
@@ -64,11 +66,7 @@ public class MatchServiceImpl implements MatchService {
         TournamentTeam tournamentTeam2 = tournamentTeamRepository.findById(matchCreationDto.getTournamentTeam2Id())
                 .orElseThrow(NotFoundException::new);
 
-        Integer team1Score = matchCreationDto.getTeam1Score();
-        Integer team2Score = matchCreationDto.getTeam2Score();
-        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() + team1Score);
-        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() + team2Score);
-        tournamentTeamRepository.saveAll(Arrays.asList(tournamentTeam1, tournamentTeam2));
+        // each TournamentTeam's scoreSum is updated in Match entity's JPA lifecycle methods TODO change to DB trigger
 
         Match match = Match.builder()
                 .tournament(tournament)

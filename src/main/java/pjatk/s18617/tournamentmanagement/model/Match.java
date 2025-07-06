@@ -2,8 +2,10 @@ package pjatk.s18617.tournamentmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -42,5 +44,26 @@ public class Match {
     @ManyToOne
     @JoinColumn(name = "tournament_team_2_id")
     private TournamentTeam tournamentTeam2;
+
+    @PrePersist
+    private void beforePersist() {
+        // TODO change to database trigger
+        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() + team1Score);
+        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() + team2Score);
+    }
+
+    @PreUpdate
+    private void beforeUpdate() {
+        // TODO change to database trigger
+        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() + team1Score);
+        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() + team2Score);
+    }
+
+    @PreRemove
+    private void beforeRemove() {
+        // TODO change to database trigger
+        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() - team1Score);
+        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() - team2Score);
+    }
 
 }
