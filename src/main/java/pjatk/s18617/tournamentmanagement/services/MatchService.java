@@ -1,6 +1,7 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import pjatk.s18617.tournamentmanagement.dtos.MatchCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.MatchEditDto;
 import pjatk.s18617.tournamentmanagement.model.Match;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.User;
@@ -18,5 +19,7 @@ public interface MatchService {
     void deleteWithAuthorization(Match match, String username);
 
     Match saveWithAuthorization(MatchCreationDto matchCreationDto, Tournament tournament, String username);
+
+    Match updateWithAuthorization(Match match, MatchEditDto matchEditDto, String username);
 
 }

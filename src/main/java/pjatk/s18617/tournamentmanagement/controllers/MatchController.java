@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pjatk.s18617.tournamentmanagement.dtos.MatchCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.MatchEditDto;
 import pjatk.s18617.tournamentmanagement.model.Match;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.User;
@@ -70,6 +71,42 @@ public class MatchController {
         return "redirect:/tournament/" + tournamentId;
     }
 
+    @GetMapping("/match/{matchId}/edit")
+    public String showMatchEditForm(@PathVariable Long matchId, Principal principal, Model model) {
+        Match match = matchService.findById(matchId).orElseThrow(NotFoundException::new);
 
+        String username = principal.getName();
+        matchService.checkAuthorization(match.getTournament(), username);
+
+        MatchEditDto matchEditDto = new MatchEditDto(
+                match.getId(),
+                match.getTeam1Score(),
+                match.getTeam2Score(),
+                match.getDate(),
+                match.getTournament().getId(),
+                match.getTournamentTeam1().getId(),
+                match.getTournamentTeam2().getId()
+        );
+
+        model.addAttribute("matchEditDto", matchEditDto);
+        model.addAttribute("tournament", match.getTournament());
+        return "match-edit";
+    }
+
+    @PostMapping("/match/{matchId}/edit")
+    public String processMatchEditForm(@PathVariable Long matchId, Principal principal, Model model,
+                                       @Valid MatchEditDto matchEditDto, BindingResult result) {
+        Match match = matchService.findById(matchId).orElseThrow(NotFoundException::new);
+        String username = principal.getName();
+
+        if (result.hasErrors()) {
+            model.addAttribute("matchEditDto", matchEditDto);
+            model.addAttribute("tournament", match.getTournament());
+            return "match-edit";
+        }
+
+        matchService.updateWithAuthorization(match, matchEditDto, username);
+        return "redirect:/tournament/" + match.getTournament().getId();
+    }
 
 }

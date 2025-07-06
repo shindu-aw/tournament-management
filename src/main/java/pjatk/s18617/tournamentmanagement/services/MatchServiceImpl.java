@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.MatchCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.MatchEditDto;
 import pjatk.s18617.tournamentmanagement.model.Match;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.TournamentTeam;
@@ -77,6 +78,42 @@ public class MatchServiceImpl implements MatchService {
                 .team2Score(matchCreationDto.getTeam2Score())
                 .build();
 
+        return matchRepository.save(match);
+    }
+
+    @Transactional
+    public Match updateWithAuthorization(Match match, MatchEditDto matchEditDto, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        checkAuthorization(match.getTournament(), user);
+
+        TournamentTeam newTournamentTeam1 = tournamentTeamRepository.findById(matchEditDto.getTournamentTeam1Id())
+                .orElseThrow(NotFoundException::new);
+        TournamentTeam newTournamentTeam2 = tournamentTeamRepository.findById(matchEditDto.getTournamentTeam2Id())
+                .orElseThrow(NotFoundException::new);
+
+        // update score sums TODO change to DB trigger
+        TournamentTeam oldTournamentTeam1 = tournamentTeamRepository.findById(match.getTournamentTeam1().getId())
+                .orElseThrow(NotFoundException::new);
+        TournamentTeam oldTournamentTeam2 = tournamentTeamRepository.findById(match.getTournamentTeam2().getId())
+                .orElseThrow(NotFoundException::new);
+        int oldTeam1Score = match.getTeam1Score();
+        int oldTeam2Score = match.getTeam2Score();
+        int newTeam1Score = matchEditDto.getTeam1Score();
+        int newTeam2Score = matchEditDto.getTeam2Score();
+        oldTournamentTeam1.setScoreSum(oldTournamentTeam1.getScoreSum() - oldTeam1Score);
+        oldTournamentTeam2.setScoreSum(oldTournamentTeam2.getScoreSum() - oldTeam2Score);
+        newTournamentTeam1.setScoreSum(newTournamentTeam1.getScoreSum() + newTeam1Score);
+        newTournamentTeam2.setScoreSum(newTournamentTeam2.getScoreSum() + newTeam2Score);
+        tournamentTeamRepository.saveAll(Arrays.asList(
+                oldTournamentTeam1, oldTournamentTeam2, newTournamentTeam1, newTournamentTeam2
+        ));
+
+        // update match
+        match.setTeam1Score(matchEditDto.getTeam1Score());
+        match.setTeam2Score(matchEditDto.getTeam2Score());
+        match.setDate(matchEditDto.getDate());
+        match.setTournamentTeam1(newTournamentTeam1);
+        match.setTournamentTeam2(newTournamentTeam2);
         return matchRepository.save(match);
     }
 

@@ -52,13 +52,6 @@ public class Match {
         tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() + team2Score);
     }
 
-    @PreUpdate
-    private void beforeUpdate() {
-        // TODO change to database trigger
-        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() + team1Score);
-        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() + team2Score);
-    }
-
     @PreRemove
     private void beforeRemove() {
         // TODO change to database trigger
