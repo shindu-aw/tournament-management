@@ -94,7 +94,7 @@ public class MatchController {
         String username = principal.getName();
 
         if (result.hasErrors()) {
-            model.addAttribute("matchEditDto", matchEditDto);
+            //model.addAttribute("matchEditDto", matchEditDto);
             model.addAttribute("tournament", match.getTournament());
             return "match-edit";
         }
