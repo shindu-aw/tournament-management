@@ -30,6 +30,8 @@ public interface TournamentService {
 
     Tournament update(Tournament tournament, TournamentEditDto tournamentEditDto);
 
+    Tournament updateWithAuthorization(Tournament tournament, TournamentEditDto tournamentEditDto, String username);
+
     Tournament regenerateSecretCodesWithAuthorization(Tournament tournament, String username);
 
 }

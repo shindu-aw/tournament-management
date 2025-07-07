@@ -86,14 +86,14 @@ public class TournamentController {
     public String showTournamentEditForm(@PathVariable Long tournamentId, Principal principal, Model model) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
 
-        User currentUser = userService.findByUsername(principal.getName()).orElseThrow(NotFoundException::new);
-        if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
-            throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
+        String username = principal.getName();
+        tournamentService.checkAuthorization(tournament, username);
 
         model.addAttribute("tournamentEditDto", new TournamentEditDto(
                 tournament.getId(), tournament.getName(), tournament.getDescription(),
                 tournament.getStartDate(), tournament.getEndDate()
         ));
+
         return "tournament-edit";
     }
 
@@ -102,17 +102,14 @@ public class TournamentController {
                                             @Valid TournamentEditDto tournamentEditDto, BindingResult result,
                                             Model model) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
-        User currentUser = userService.findByUsername(principal.getName()).orElseThrow(NotFoundException::new);
-        if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
-            throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
 
         if (result.hasErrors()) {
             model.addAttribute("tournamentEditDto", tournamentEditDto);
             return "tournament-edit";
         }
 
-        tournamentService.update(tournament, tournamentEditDto);
-
+        String currentUsername = principal.getName();
+        tournamentService.updateWithAuthorization(tournament, tournamentEditDto, currentUsername);
         return "redirect:/tournament/" + tournamentId;
     }
 

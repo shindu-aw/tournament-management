@@ -92,6 +92,19 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public Tournament updateWithAuthorization(Tournament tournament, TournamentEditDto tournamentEditDto,
+                                              String username) {
+        checkAuthorization(tournament, username);
+
+        tournament.setName(tournamentEditDto.getName());
+        tournament.setDescription(tournamentEditDto.getDescription());
+        tournament.setStartDate(tournamentEditDto.getStartDate());
+        tournament.setEndDate(tournamentEditDto.getEndDate());
+
+        return tournamentRepository.save(tournament);
+    }
+
+    @Override
     public Tournament regenerateSecretCodesWithAuthorization(Tournament tournament, String username) {
         checkAuthorization(tournament, username);
 
