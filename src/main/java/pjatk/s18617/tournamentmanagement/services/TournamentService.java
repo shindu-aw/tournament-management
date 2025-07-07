@@ -12,6 +12,10 @@ import java.util.Optional;
 
 public interface TournamentService {
 
+    void checkAuthorization(Tournament tournament, User user);
+
+    void checkAuthorization(Tournament tournament, String username);
+
     Tournament save(TournamentCreationDto tournamentCreationDto, Game game, User userOwner);
 
     List<Tournament> listByGame(Game game);
@@ -25,5 +29,7 @@ public interface TournamentService {
     boolean deleteById(Long id);
 
     Tournament update(Tournament tournament, TournamentEditDto tournamentEditDto);
+
+    Tournament regenerateSecretCodesWithAuthorization(Tournament tournament, String username);
 
 }

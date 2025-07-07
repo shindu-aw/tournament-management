@@ -12,21 +12,6 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
 <h1><span th:text="${tournament.name}"/></h1>
 
-<h2 th:if="${isModerator}">You are a moderator.</h2>
-
-<div th:if="${isOwnerOrAdmin}">
-    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get">
-        <input type="submit" value="Edytuj turniej"/>
-    </form>
-    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post">
-        <input type="submit" value="Usuń turniej"/>
-    </form>
-    <form>
-        <input type="submit" value="Zakończ turniej"/> <!-- TODO implement -->
-    </form>
-    <br>
-</div>
-
 <table>
     <tr>
         <td>Właściciel:</td>
@@ -41,6 +26,38 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
         <td th:if="${tournament.endDate} != null" th:text="${{tournament.endDate}}"/>
     </tr>
 </table>
+
+
+<div th:if="${isOwnerOrAdmin}">
+
+    <h2>Zarządzaj turniejem</h2>
+
+    <table>
+        <tr>
+            <td>Kod dla zarządzających turniejem:</td>
+            <td th:text="${{tournament.manageSecretCode}}" ></td>
+        </tr>
+        <tr>
+            <td>Kod dla dołączających drużyn:</td>
+            <td th:text="${{tournament.joinSecretCode}}" ></td>
+        </tr>
+    </table>
+
+    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get">
+        <input type="submit" value="Edytuj turniej"/>
+    </form>
+    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post">
+        <input type="submit" value="Usuń turniej"/>
+    </form>
+    <form>
+        <input type="submit" value="Zakończ turniej"/> <!-- TODO implement -->
+    </form>
+    <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post">
+        <input type="submit" value="Wygeneruj ponownie tajne kody"/>
+    </form>
+
+</div>
+
 
 <h2>Lokalizacja</h2>
 

@@ -72,7 +72,7 @@ public class TournamentController {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
         // in-memory sort instead of DB call because they're small data sets
         List<Match> sortedMatches = tournament.getMatches().stream()
-                .sorted(Comparator.comparing(Match::getDate)).toList();
+                .sorted(Comparator.comparing(Match::getDate)).toList().reversed();
         List<TournamentTeam> sortedTeamRegistrations = tournament.getTeamRegistrations().stream()
                 .sorted(Comparator.comparingInt(TournamentTeam::getScoreSum)).toList().reversed();
         model.addAttribute("tournament", tournament);
@@ -133,6 +133,16 @@ public class TournamentController {
         String message = "Turniej '" + tournament.getName() + "' usunięty.";
         redirectAttributes.addAttribute("message", message);
         return "redirect:/";
+    }
+
+    @PostMapping("/tournament/{tournamentId}/regenerate-secret-codes")
+    public String regenerateSecretCodes(@PathVariable Long tournamentId, Principal principal) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        String currentUserName = principal.getName();
+
+        tournamentService.regenerateSecretCodesWithAuthorization(tournament, currentUserName);
+
+        return "redirect:/tournament/" + tournamentId;
     }
 
 
