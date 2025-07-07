@@ -3,6 +3,9 @@ package pjatk.s18617.tournamentmanagement.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -29,5 +32,18 @@ public class TournamentTeam {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    // the two reverse associations below are added solely for easy leftover match removal
+    // CascadeType.REMOVE here causes all matches connected to this team registration to be deleted
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "tournamentTeam1", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Match> matchesAsTeam1 = new LinkedHashSet<>(); // reverse association added solely for cascade.remove
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "tournamentTeam2", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Match> matchesAsTeam2 = new LinkedHashSet<>(); // reverse association added solely for cascade.remove
 
 }

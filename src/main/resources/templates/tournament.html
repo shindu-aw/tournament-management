@@ -107,6 +107,11 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 <p th:text="${{tournament.description}}"/>
 
 <h2>Drużyny</h2>
+
+<form th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}" method="get">
+    <input type="submit" value="Dodaj drużynę"/>
+</form>
+
 <table>
     <tr>
         <th>Nazwa</th>
@@ -122,8 +127,8 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
         <td th:text="${{teamRegistration.scoreSum}}"/>
 
         <td th:if="${isOwnerOrAdmin}">
-            <form>
-                <input type="submit" value="Usuń"/> <!-- TODO implement -->
+            <form th:action="@{'/tournament/' + ${tournamentId} + '/team/remove/' + ${teamRegistration.id}}" method="post">
+                <input type="submit" value="Usuń"/>
             </form>
         </td>
     </tr>

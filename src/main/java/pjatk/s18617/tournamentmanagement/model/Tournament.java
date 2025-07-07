@@ -82,4 +82,8 @@ public class Tournament {
         return usersManaging.stream().anyMatch(user -> user.getUsername().equals(username));
     }
 
+    public boolean doesNotHaveTeamRegistered(Team team) {
+        return teamRegistrations.stream().noneMatch(teamRegistration -> teamRegistration.getTeam().equals(team));
+    }
+
 }
