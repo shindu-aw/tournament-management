@@ -26,7 +26,7 @@ public interface TournamentService {
 
     Optional<Tournament> getWholeById(Long id);
 
-    boolean deleteById(Long id);
+    void deleteWithAuthorization(Tournament tournament, String username);
 
     Tournament update(Tournament tournament, TournamentEditDto tournamentEditDto);
 

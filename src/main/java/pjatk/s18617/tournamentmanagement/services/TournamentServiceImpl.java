@@ -77,12 +77,9 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        if (tournamentRepository.existsById(id)) {
-            tournamentRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteWithAuthorization(Tournament tournament, String username) {
+        checkAuthorization(tournament, username);
+        tournamentRepository.delete(tournament);
     }
 
     @Override

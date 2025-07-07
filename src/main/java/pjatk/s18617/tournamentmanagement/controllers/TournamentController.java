@@ -122,13 +122,8 @@ public class TournamentController {
                                    RedirectAttributes redirectAttributes) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
         String currentUserName = principal.getName();
-        User currentUser = userService.findByUsername(currentUserName).orElseThrow(NotFoundException::new);
 
-        if (!currentUser.equals(tournament.getUserOwner()) && !currentUser.isAdmin())
-            throw new AccessDeniedException("Nie masz dostępu do tego turnieju.");
-
-        if (!tournamentService.deleteById(tournamentId))
-            throw new NotFoundException();
+        tournamentService.deleteWithAuthorization(tournament, currentUserName);
 
         String message = "Turniej '" + tournament.getName() + "' usunięty.";
         redirectAttributes.addAttribute("message", message);
