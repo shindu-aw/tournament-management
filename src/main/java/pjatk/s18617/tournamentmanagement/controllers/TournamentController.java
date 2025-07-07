@@ -59,10 +59,10 @@ public class TournamentController {
             model.addAttribute("game", game);
             return "tournaments-add";
         }
+
         String currentUserName = principal.getName();
-        User currentUser = userService.findByUsername(currentUserName).orElseThrow(NotFoundException::new);
-        Game currentGame = gameService.getById(gameId).orElseThrow(NotFoundException::new);
-        Tournament newTournament = tournamentService.save(tournamentCreationDto, currentGame, currentUser);
+        Tournament newTournament = tournamentService.save(tournamentCreationDto, gameId, currentUserName);
+
         return "redirect:/tournament/" + newTournament.getId();
     }
 

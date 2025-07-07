@@ -57,6 +57,13 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public Tournament save(TournamentCreationDto tournamentCreationDto, Long gameId, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        Game game = gameRepository.findById(gameId).orElseThrow(NotFoundException::new);
+        return save(tournamentCreationDto, game, user);
+    }
+
+    @Override
     public List<Tournament> listByGame(Game game) {
         return tournamentRepository.findByGame(game);
     }

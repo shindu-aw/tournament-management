@@ -18,6 +18,8 @@ public interface TournamentService {
 
     Tournament save(TournamentCreationDto tournamentCreationDto, Game game, User userOwner);
 
+    Tournament save(TournamentCreationDto tournamentCreationDto, Long gameId, String username);
+
     List<Tournament> listByGame(Game game);
 
     List<Tournament> listByGameId(Long gameId);
