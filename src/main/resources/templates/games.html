@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<head>
+    <title>Gry</title>
+</head>
+<body th:with="isAdmin=${#authorization.expression('hasRole(''ADMIN'')')}">
+<h1>Lista gier</h1>
+
+<p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
+
+<div th:if="${isAdmin}" >
+    <a th:href="@{}" >Dodaj grę</a>
+</div>
+
+<table>
+    <tr th:each="game: ${games}">
+        <td>
+            <a th:href="@{'/game/' + ${game.id}}" th:text="${{game.name}}" ></a>
+        </td>
+        <td th:text="${{game.description}}"/>
+    </tr>
+</table>
+</body>
+</html>

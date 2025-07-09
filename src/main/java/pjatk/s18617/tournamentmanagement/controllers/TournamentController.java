@@ -26,16 +26,6 @@ public class TournamentController {
     private final GameService gameService;
     private final UserService userService;
 
-    @GetMapping("/game/{gameId}")
-    public String showTournaments(@PathVariable Long gameId, Model model) {
-        Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
-        List<Tournament> tournaments = tournamentService.listByGame(game);
-
-        model.addAttribute("tournaments", tournaments);
-        model.addAttribute("game", game);
-        return "game";
-    }
-
     @GetMapping("/tournament/new/{gameId}")
     public String showTournamentCreationForm(@PathVariable Long gameId, Model model) {
         model.addAttribute("tournamentCreationDto", new TournamentCreationDto());

@@ -36,7 +36,9 @@ public class WebSecurityConfig {
                                 "/",
                                 "/home",
                                 "/register",
-                                "/tournament/*"
+                                "/tournament/*",
+                                "/game",
+                                "/game/*"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

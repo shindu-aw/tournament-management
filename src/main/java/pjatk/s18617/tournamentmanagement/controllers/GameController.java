@@ -1,0 +1,41 @@
+package pjatk.s18617.tournamentmanagement.controllers;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import pjatk.s18617.tournamentmanagement.model.Game;
+import pjatk.s18617.tournamentmanagement.model.Tournament;
+import pjatk.s18617.tournamentmanagement.services.GameService;
+import pjatk.s18617.tournamentmanagement.services.TournamentService;
+import pjatk.s18617.tournamentmanagement.services.UserService;
+
+import java.util.List;
+
+@Controller
+@RequiredArgsConstructor
+public class GameController {
+
+    private final TournamentService tournamentService;
+    private final GameService gameService;
+    private final UserService userService;
+
+    @GetMapping("/game")
+    public String showGames(Model model) {
+        List<Game> games = gameService.getGamesList();
+        model.addAttribute("games", games);
+        return "games";
+    }
+
+    @GetMapping("/game/{gameId}")
+    public String showTournaments(@PathVariable Long gameId, Model model) {
+        Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
+        List<Tournament> tournaments = tournamentService.listByGame(game);
+
+        model.addAttribute("tournaments", tournaments);
+        model.addAttribute("game", game);
+        return "game";
+    }
+
+}
