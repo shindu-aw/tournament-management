@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<head>
+    <title th:text="'Edycja użytkownika ' + ${editedUser.username}" ></title>
+</head>
+<body>
+<h1 th:text="'Edytuj użytkownika ' + ${editedUser.username}" ></h1>
+
+<form action="#" th:action="@{'/user/' + ${userId} + '/edit'}" th:object="${userEditDto}" method="post" autocomplete="off">
+    <table>
+        <tr>
+            <td>Hasło:</td>
+            <td><input type="password" th:field="*{password}"/></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Błąd w haśle</td>
+        </tr>
+        <tr>
+            <td>Opis:</td>
+            <td><input type="text" th:field="*{description}"/></td>
+            <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Błąd w opisie</td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Edytuj</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

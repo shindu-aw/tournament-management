@@ -6,9 +6,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
+import pjatk.s18617.tournamentmanagement.model.Team;
+import pjatk.s18617.tournamentmanagement.model.TeamUser;
+import pjatk.s18617.tournamentmanagement.model.Tournament;
+import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.services.UserService;
+
+import java.security.Principal;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,6 +54,61 @@ public class UserController {
         }
         userService.register(userRegistrationDto);
         return "redirect:/login";
+    }
+
+    @GetMapping("/user/{userId}")
+    public String showUser(@PathVariable Long userId, Principal principal, Model model) {
+        User viewedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
+
+        // in-memory sort instead of DB call because they're small data sets
+        List<Team> teamsOwned = viewedUser.getTeamsOwned().stream()
+                .sorted(Comparator.comparing(Team::getName)).toList();
+        List<TeamUser> teamRegistrations = viewedUser.getTeamRegistrations().stream()
+                .sorted(Comparator.comparing(TeamUser::getTeamName)).toList();
+        List<Tournament> tournamentsOwned = viewedUser.getTournamentsOwned().stream()
+                .sorted(Comparator.comparing(Tournament::getStartDate)).toList().reversed();
+        List<Tournament> tournamentsManaged = viewedUser.getTournamentsManaged().stream()
+                .sorted(Comparator.comparing(Tournament::getStartDate)).toList().reversed();
+
+        model.addAttribute("user", viewedUser);
+        model.addAttribute("teamsOwned", teamsOwned);
+        model.addAttribute("teamRegistrations", teamRegistrations);
+        model.addAttribute("tournamentsOwned", tournamentsOwned);
+        model.addAttribute("tournamentsManaged", tournamentsManaged);
+
+        return "user";
+    }
+
+    @GetMapping("/user/{userId}/edit")
+    public String showEditUserForm(@PathVariable Long userId, Principal principal, Model model) {
+        User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
+
+        String currentUserName = principal.getName();
+        userService.checkEditUserAuthorization(editedUser, currentUserName);
+
+        UserEditDto userEditDto = new UserEditDto();
+        userEditDto.setDescription(editedUser.getDescription());
+
+        model.addAttribute("userEditDto", userEditDto);
+        model.addAttribute("editedUser", editedUser);
+
+        return "user-edit";
+    }
+
+    @PostMapping("/user/{userId}/edit")
+    public String processEditUserForm(@PathVariable Long userId, Principal principal, Model model,
+                                      @Valid UserEditDto userEditDto, BindingResult result) {
+        User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
+
+        if (result.hasErrors()) {
+            model.addAttribute("editedUser", editedUser);
+            return "user-edit";
+        }
+
+        String currentUserName = principal.getName();
+        userService.updateUserWithAuthorization(editedUser, userEditDto, currentUserName);
+
+        return "redirect:/user/" + userId;
     }
 
 }
