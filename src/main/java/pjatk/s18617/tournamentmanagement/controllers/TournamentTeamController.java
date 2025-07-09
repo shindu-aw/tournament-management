@@ -52,7 +52,7 @@ public class TournamentTeamController {
         model.addAttribute("tournament", tournament);
         model.addAttribute("teamsOwned", teamsOwned);
 
-        return "tournament-team-add";
+        return "tournament/tournament-team-add";
     }
 
     @PostMapping("/tournament/{tournamentId}/team/add")
@@ -73,7 +73,7 @@ public class TournamentTeamController {
                     .sorted(Comparator.comparing(Team::getName)).toList();
             model.addAttribute("tournament", tournament);
             model.addAttribute("teamsOwned", teamsOwned);
-            return "tournament-team-add";
+            return "tournament/tournament-team-add";
         }
 
         tournamentTeamService.saveWithAuthorization(tournamentTeamCreationDto, tournament, user);

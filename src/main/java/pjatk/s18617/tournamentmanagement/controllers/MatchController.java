@@ -47,7 +47,7 @@ public class MatchController {
         model.addAttribute("matchCreationDto", matchCreationDto);
         model.addAttribute("tournament", tournament);
 
-        return "tournament-match-add";
+        return "tournament/tournament-match-add";
     }
 
     @PostMapping("/tournament/{tournamentId}/new/match")
@@ -57,7 +57,7 @@ public class MatchController {
 
         if (result.hasErrors()) {
             model.addAttribute("tournament", tournament);
-            return "tournament-match-add";
+            return "tournament/tournament-match-add";
         }
 
         String currentUsername = principal.getName();
@@ -84,7 +84,7 @@ public class MatchController {
 
         model.addAttribute("matchEditDto", matchEditDto);
         model.addAttribute("tournament", match.getTournament());
-        return "tournament-match-edit";
+        return "tournament/tournament-match-edit";
     }
 
     @PostMapping("/match/{matchId}/edit")
@@ -96,7 +96,7 @@ public class MatchController {
         if (result.hasErrors()) {
             //model.addAttribute("matchEditDto", matchEditDto);
             model.addAttribute("tournament", match.getTournament());
-            return "tournament-match-edit";
+            return "tournament/tournament-match-edit";
         }
 
         matchService.updateWithAuthorization(match, matchEditDto, username);

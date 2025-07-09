@@ -44,7 +44,7 @@ public class LocationController {
         model.addAttribute("locationCreationDto", new LocationCreationDto());
         model.addAttribute("tournament", tournament);
 
-        return "tournament-location-add";
+        return "tournament/tournament-location-add";
     }
 
     @PostMapping("/tournament/{tournamentId}/new/location")
@@ -54,7 +54,7 @@ public class LocationController {
 
         if (result.hasErrors()) {
             model.addAttribute("tournament", tournament);
-            return "tournament-location-add";
+            return "tournament/tournament-location-add";
         }
 
         String username = principal.getName();
@@ -80,7 +80,7 @@ public class LocationController {
         );
         model.addAttribute("locationCreationDto", locationCreationDto);
         model.addAttribute("tournament", tournament);
-        return "tournament-location-edit";
+        return "tournament/tournament-location-edit";
     }
 
     @PostMapping("/tournament/{tournamentId}/edit/location")
@@ -91,7 +91,7 @@ public class LocationController {
 
         if (result.hasErrors()) {
             model.addAttribute("tournament", tournament);
-            return "tournament-location-edit";
+            return "tournament/tournament-location-edit";
         }
 
         locationService.updateWithAuthorization(tournament, locationCreationDto, username);

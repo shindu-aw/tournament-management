@@ -36,7 +36,7 @@ public class TournamentModeratorController {
         model.addAttribute("tournament", tournament);
         model.addAttribute("secretCodeDto", new SecretCodeDto());
 
-        return "tournament-moderator-apply";
+        return "tournament/tournament-moderator-apply";
     }
 
     @PostMapping("/tournament/{tournamentId}/moderator/apply")
@@ -50,7 +50,7 @@ public class TournamentModeratorController {
 
         if (result.hasErrors()) {
             model.addAttribute("tournament", tournament);
-            return "tournament-moderator-apply";
+            return "tournament/tournament-moderator-apply";
         }
 
         tournamentService.addUserModerator(tournament, username);

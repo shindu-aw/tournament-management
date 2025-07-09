@@ -42,7 +42,7 @@ public class TournamentController {
 
         Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
         model.addAttribute("game", game);
-        return "tournament-add";
+        return "tournament/tournament-add";
     }
 
 
@@ -54,7 +54,7 @@ public class TournamentController {
         if (result.hasErrors()) {
             Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
             model.addAttribute("game", game);
-            return "tournament-add";
+            return "tournament/tournament-add";
         }
 
         String currentUserName = principal.getName();
@@ -75,7 +75,7 @@ public class TournamentController {
         model.addAttribute("tournament", tournament);
         model.addAttribute("sortedMatches", sortedMatches);
         model.addAttribute("sortedTeamRegistrations", sortedTeamRegistrations);
-        return "tournament";
+        return "tournament/tournament";
     }
 
 
@@ -91,7 +91,7 @@ public class TournamentController {
                 tournament.getStartDate(), tournament.getEndDate()
         ));
 
-        return "tournament-edit";
+        return "tournament/tournament-edit";
     }
 
     @PostMapping("/tournament/{tournamentId}/edit")
@@ -102,7 +102,7 @@ public class TournamentController {
 
         if (result.hasErrors()) {
             model.addAttribute("tournamentEditDto", tournamentEditDto);
-            return "tournament-edit";
+            return "tournament/tournament-edit";
         }
 
         String currentUsername = principal.getName();
