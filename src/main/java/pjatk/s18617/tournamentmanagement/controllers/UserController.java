@@ -12,7 +12,7 @@ import pjatk.s18617.tournamentmanagement.services.UserService;
 
 @Controller
 @RequiredArgsConstructor
-public class AuthController {
+public class UserController {
 
     private final UserService userService;
 
