@@ -33,7 +33,6 @@ public class TournamentTeamController {
                                          Principal principal) {
         String currentUsername = principal.getName();
         tournamentTeamService.deleteWithAuthorization(tournamentTeamId, currentUsername);
-        System.out.println("sigiemka");
         return "redirect:/tournament/" + tournamentId;
     }
 

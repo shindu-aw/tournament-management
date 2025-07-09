@@ -29,7 +29,7 @@ public class TournamentController {
     private final GameService gameService;
     private final UserService userService;
 
-    @GetMapping("/tournaments/{gameId}")
+    @GetMapping("/game/{gameId}")
     public String showTournaments(@PathVariable Long gameId, Model model) {
         Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
         List<Tournament> tournaments = tournamentService.listByGame(game);
