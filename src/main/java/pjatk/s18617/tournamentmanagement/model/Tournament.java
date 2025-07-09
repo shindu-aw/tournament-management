@@ -47,7 +47,7 @@ public class Tournament {
 
     @Size(min = 8, max = 8)
     @Column(name = "manage_secret_code", nullable = false, length = 8)
-    private String manageSecretCode; // for user managers/moderators
+    private String manageSecretCode; // for user moderating tournament
 
     @ManyToOne
     @JoinColumn(name = "user_owner_id", nullable = false)
