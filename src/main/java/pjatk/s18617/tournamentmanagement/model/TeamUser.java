@@ -30,4 +30,8 @@ public class TeamUser {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    public String getTeamName() {
+        return team.getName();
+    }
+
 }
