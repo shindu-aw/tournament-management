@@ -34,7 +34,7 @@ public class TournamentTeam {
     private Team team;
 
     // the two reverse associations below are added solely for easy leftover match removal
-    // CascadeType.REMOVE here causes all matches connected to this team registration to be deleted
+    // CascadeType.REMOVE here causes all matches connected to this team registration to be deleted together with it
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
