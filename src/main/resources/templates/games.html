@@ -5,13 +5,14 @@
     <title>Gry</title>
 </head>
 <body th:with="isAdmin=${#authorization.expression('hasRole(''ADMIN'')')}">
+
+<div th:if="${isAdmin}" >
+    <a th:href="@{'/game/new'}" >Dodaj grę</a>
+</div>
+
 <h1>Lista gier</h1>
 
 <p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
-
-<div th:if="${isAdmin}" >
-    <a th:href="@{}" >Dodaj grę</a>
-</div>
 
 <table>
     <tr th:each="game: ${games}">

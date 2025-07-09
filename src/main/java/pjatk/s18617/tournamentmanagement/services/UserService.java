@@ -7,6 +7,10 @@ import java.util.Optional;
 
 public interface UserService {
 
+    void checkAdminAuthorization(User user);
+
+    void checkAdminAuthorization(String username);
+
     User save(User user);
 
     User register(UserRegistrationDto userRegistrationDto);

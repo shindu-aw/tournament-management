@@ -1,6 +1,7 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
@@ -15,6 +16,19 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Override
+    public void checkAdminAuthorization(User user) {
+        boolean userIsNotAdmin = !user.isAdmin();
+        if (userIsNotAdmin)
+            throw new AccessDeniedException("Nie masz praw administratora.");
+    }
+
+    @Override
+    public void checkAdminAuthorization(String username) {
+        User user = userRepository.findByUsernameIgnoreCase(username).orElseThrow(NotFoundException::new);
+        checkAdminAuthorization(user);
+    }
 
     @Override
     public User register(UserRegistrationDto userRegistrationDto) {
