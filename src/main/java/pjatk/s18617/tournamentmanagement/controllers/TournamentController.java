@@ -2,8 +2,6 @@ package pjatk.s18617.tournamentmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +17,6 @@ import pjatk.s18617.tournamentmanagement.services.UserService;
 import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +33,7 @@ public class TournamentController {
 
         model.addAttribute("tournaments", tournaments);
         model.addAttribute("game", game);
-        return "tournaments";
+        return "game";
     }
 
     @GetMapping("/tournament/new/{gameId}")
@@ -45,7 +42,7 @@ public class TournamentController {
 
         Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
         model.addAttribute("game", game);
-        return "tournaments-add";
+        return "tournament-add";
     }
 
 
@@ -57,7 +54,7 @@ public class TournamentController {
         if (result.hasErrors()) {
             Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
             model.addAttribute("game", game);
-            return "tournaments-add";
+            return "tournament-add";
         }
 
         String currentUserName = principal.getName();
