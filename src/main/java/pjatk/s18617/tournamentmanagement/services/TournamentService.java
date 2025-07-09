@@ -1,6 +1,5 @@
 package pjatk.s18617.tournamentmanagement.services;
 
-import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentEditDto;
 import pjatk.s18617.tournamentmanagement.model.Game;
@@ -35,5 +34,9 @@ public interface TournamentService {
     Tournament updateWithAuthorization(Tournament tournament, TournamentEditDto tournamentEditDto, String username);
 
     Tournament regenerateSecretCodesWithAuthorization(Tournament tournament, String username);
+
+    Tournament addUserModerator(Tournament tournament, String username);
+
+    void removeUserModeratorWithAuthorization(Long tournamentId, Long managingUserId, String currentUserName);
 
 }

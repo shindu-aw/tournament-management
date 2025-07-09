@@ -121,5 +121,23 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentRepository.save(tournament);
     }
 
+    @Override
+    public Tournament addUserModerator(Tournament tournament, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        tournament.getUsersManaging().add(user);
+        return tournamentRepository.save(tournament);
+    }
+
+    @Override
+    public void removeUserModeratorWithAuthorization(Long tournamentId, Long managingUserId, String currentUserName) {
+        Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(NotFoundException::new);
+
+        checkAuthorization(tournament, currentUserName);
+
+        User userManager = userService.findById(managingUserId).orElseThrow(NotFoundException::new);
+        tournament.getUsersManaging().remove(userManager);
+        tournamentRepository.save(tournament);
+    }
+
 
 }

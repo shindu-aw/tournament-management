@@ -3,6 +3,7 @@ package pjatk.s18617.tournamentmanagement.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
@@ -34,6 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsernameIgnoreCase(username);
+    }
+
+    @Override
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
 }

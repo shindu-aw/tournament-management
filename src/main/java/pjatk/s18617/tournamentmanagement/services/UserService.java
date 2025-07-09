@@ -12,4 +12,6 @@ public interface UserService {
     User register(UserRegistrationDto userRegistrationDto);
 
     Optional<User> findByUsername(String username);
+
+    Optional<User> findById(Long userId);
 }
