@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<body>
+
+<nav th:fragment="nav" class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Navbar</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/game}">Gry</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">Link</a> <!-- TODO replace -->
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/}">Action</a></li> <!-- TODO replace -->
+                        <li><a class="dropdown-item" th:href="@{/}">Another action</a></li> <!-- TODO replace -->
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{/}">Something else here</a></li> <!-- TODO replace -->
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a> <!-- TODO replace -->
+                </li>
+            </ul>
+
+            <div sec:authorize="isAnonymous()" class="col-md-3 text-end">
+                <a th:href="@{/login}" class="btn btn-primary me-2">Logowanie</a>
+                <a th:href="@{/register}" class="btn btn-secondary">Rejestracja</a>
+            </div>
+
+            <div sec:authorize="isAuthenticated()" class="dropdown text-end">
+                <a href="#"
+                   class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <img th:unless="${#authorization.expression('hasRole(''ADMIN'')')}"
+                         th:src="@{images/circle-user-round-white.svg}" alt="user" aria-label="Użytkownik"
+                         width="32" height="32" role="img" data-bs-theme="dark">
+                    <img th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+                         th:src="@{images/shield-user-white.svg}" alt="user" aria-label="Administrator"
+                         width="32" height="32" role="img" data-bs-theme="dark">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small">
+                    <li th:with="prefix=${#authorization.expression('hasRole(''ADMIN'')') ? '[ADMIN] @' : '@' }" >
+                        <h4 th:text="${{prefix + #authentication.name}}" class="dropdown-header" ></h4>
+                    </li>
+                    <li><a class="dropdown-item" th:href="@{'/user/' + ${#authentication.principal.id}}">Profil</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" th:href="@{/}">New project...</a></li> <!-- TODO replace -->
+                    <li><a class="dropdown-item" th:href="@{/}">Settings</a></li> <!-- TODO replace -->
+                    <li><a class="dropdown-item" th:href="@{/}">Profile</a></li> <!-- TODO replace -->
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="dropdown-item">Wyloguj się</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>
