@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
     <title>Gry</title>
 </head>
-<body th:with="isAdmin=${#authorization.expression('hasRole(''ADMIN'')')}">
+<body>
 
-<div th:if="${isAdmin}" >
-    <a th:href="@{'/game/new'}" >Dodaj grę</a>
-</div>
+<section layout:fragment="content">
+    <div class="container" th:with="isAdmin=${#authorization.expression('hasRole(''ADMIN'')')}" >
 
-<h1>Lista gier</h1>
+        <div th:if="${isAdmin}" >
+            <a th:href="@{'/game/new'}" >Dodaj grę</a>
+        </div>
 
-<p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
+        <h1>Lista gier</h1>
 
-<table>
-    <tr th:each="game: ${games}">
-        <td>
-            <a th:href="@{'/game/' + ${game.id}}" th:text="${{game.name}}" ></a>
-        </td>
-        <td th:text="${{game.description}}"/>
-    </tr>
-</table>
+        <p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
+
+        <table>
+            <tr th:each="game: ${games}">
+                <td>
+                    <a th:href="@{'/game/' + ${game.id}}" th:text="${{game.name}}" ></a>
+                </td>
+                <td th:text="${{game.description}}"/>
+            </tr>
+        </table>
+
+    </div>
+</section>
 </body>
 </html>

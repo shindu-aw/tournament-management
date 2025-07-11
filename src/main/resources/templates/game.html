@@ -1,24 +1,33 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title>Turnieje</title>
+    <title th:text="'Turnieje ' + ${game.name}" ></title>
 </head>
 <body>
-<h1 th:text="'Lista turninejów ' + ${{game.name}}" ></h1>
 
-<p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
-<a th:href="@{'/tournament/new/' + ${game.id}}" >Dodaj turniej</a>
+<section layout:fragment="content">
+    <div class="container">
 
-<table>
-    <tr th:each="tournament: ${tournaments}">
-        <td>
-            <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}" ></a>
-        </td>
-        <td th:text="${{tournament.userOwner.username}}"/>
-        <td th:text="${{tournament.startDate}}"/>
-        <td th:text="${{tournament.endDate}}"/>
-    </tr>
-</table>
+        <h1 th:text="'Lista turninejów ' + ${{game.name}}" ></h1>
+
+        <p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
+        <a th:href="@{'/tournament/new/' + ${game.id}}" >Dodaj turniej</a>
+
+        <table>
+            <tr th:each="tournament: ${tournaments}">
+                <td>
+                    <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}" ></a>
+                </td>
+                <td th:text="${{tournament.userOwner.username}}"/>
+                <td th:text="${{tournament.startDate}}"/>
+                <td th:text="${{tournament.endDate}}"/>
+            </tr>
+        </table>
+
+    </div>
+</section>
 </body>
 </html>

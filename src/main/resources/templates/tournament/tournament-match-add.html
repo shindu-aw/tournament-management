@@ -1,70 +1,77 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title>Dodawanie meczu</title>
+    <title th:text="'Dodawanie meczu do ' + ${tournament.name}" ></title>
 </head>
 <body>
-<h1 th:text="'Dodaj mecz do turnieju ' + ${{tournament.name}}" ></h1>
+<section layout:fragment="content">
+    <div class="container">
 
-<form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/new/match' }" th:object="${matchCreationDto}"
-      method="post">
-    <input type="hidden" th:field="*{tournamentId}" /> <!-- ! important, otherwise it isn't passed to validation -->
-    <table>
+        <h1 th:text="'Dodaj mecz do turnieju ' + ${{tournament.name}}" ></h1>
 
-        <tr>
-            <td>Data:</td>
-            <td><input type="date" th:field="*{date}"/></td>
-            <td th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Błąd w dacie</td>
-        </tr>
+        <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/new/match' }" th:object="${matchCreationDto}"
+              method="post">
+            <input type="hidden" th:field="*{tournamentId}" /> <!-- ! important, otherwise it isn't passed to validation -->
+            <table>
 
-        <tr>
-            <td>Drużyna 1:</td>
-            <td>
-                <select th:field="*{tournamentTeam1Id}" >
-                    <option
-                            th:each="teamRegistration: ${tournament.teamRegistrations}"
-                            th:text="${teamRegistration.team.name}"
-                            th:value="${teamRegistration.id}"
-                    ></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('tournamentTeam1Id')}" th:errors="*{tournamentTeam1Id}">Błąd w ID drużyny 1</td>
-        </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td><input type="date" th:field="*{date}"/></td>
+                    <td th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Błąd w dacie</td>
+                </tr>
 
-        <tr>
-            <td>Wynik drużyny 1:</td>
-            <td><input type="number" th:field="*{team1Score}"/></td>
-            <td th:if="${#fields.hasErrors('team1Score')}" th:errors="*{team1Score}">Błąd w wyniku drużyny 1</td>
-        </tr>
+                <tr>
+                    <td>Drużyna 1:</td>
+                    <td>
+                        <select th:field="*{tournamentTeam1Id}" >
+                            <option
+                                    th:each="teamRegistration: ${tournament.teamRegistrations}"
+                                    th:text="${teamRegistration.team.name}"
+                                    th:value="${teamRegistration.id}"
+                            ></option>
+                        </select>
+                    </td>
+                    <td th:if="${#fields.hasErrors('tournamentTeam1Id')}" th:errors="*{tournamentTeam1Id}">Błąd w ID drużyny 1</td>
+                </tr>
 
-        <tr>
-            <td>Drużyna 2:</td>
-            <td>
-                <select th:field="*{tournamentTeam2Id}" >
-                    <option
-                            th:each="teamRegistration: ${tournament.teamRegistrations}"
-                            th:text="${teamRegistration.team.name}"
-                            th:value="${teamRegistration.id}"
-                    ></option>
-                </select>
-            </td>
-            <td th:if="${#fields.hasErrors('tournamentTeam1Id')}" th:errors="*{tournamentTeam1Id}">Błąd w ID drużyny 2</td>
-        </tr>
+                <tr>
+                    <td>Wynik drużyny 1:</td>
+                    <td><input type="number" th:field="*{team1Score}"/></td>
+                    <td th:if="${#fields.hasErrors('team1Score')}" th:errors="*{team1Score}">Błąd w wyniku drużyny 1</td>
+                </tr>
 
-        <tr>
-            <td>Wynik drużyny 2:</td>
-            <td><input type="number" th:field="*{team2Score}"/></td>
-            <td th:if="${#fields.hasErrors('team2Score')}" th:errors="*{team2Score}">Błąd w wyniku drużyny 2</td>
-        </tr>
+                <tr>
+                    <td>Drużyna 2:</td>
+                    <td>
+                        <select th:field="*{tournamentTeam2Id}" >
+                            <option
+                                    th:each="teamRegistration: ${tournament.teamRegistrations}"
+                                    th:text="${teamRegistration.team.name}"
+                                    th:value="${teamRegistration.id}"
+                            ></option>
+                        </select>
+                    </td>
+                    <td th:if="${#fields.hasErrors('tournamentTeam1Id')}" th:errors="*{tournamentTeam1Id}">Błąd w ID drużyny 2</td>
+                </tr>
 
-        <tr>
-            <td>
-                <button type="submit">Utwórz mecz</button>
-            </td>
-        </tr>
-    </table>
-</form>
+                <tr>
+                    <td>Wynik drużyny 2:</td>
+                    <td><input type="number" th:field="*{team2Score}"/></td>
+                    <td th:if="${#fields.hasErrors('team2Score')}" th:errors="*{team2Score}">Błąd w wyniku drużyny 2</td>
+                </tr>
 
+                <tr>
+                    <td>
+                        <button type="submit">Utwórz mecz</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</section>
 </body>
 </html>

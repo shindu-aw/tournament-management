@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
-
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
     <title>Error</title>
 </head>
-
 <body>
-<h1 th:text="${messageH1}">Coś poszło nie tak!</h1>
-<h2 th:text="${messageH2}">Drużyna specjalnie wytrenowanych małp już się tym zajmuje!</h2>
-<p th:text="${errorMessage}"></p>
-<a href="/">Wróć do strony głównej</a>
+
+<section layout:fragment="content">
+    <div class="container">
+        <h1 th:text="${messageH1}">Coś poszło nie tak!</h1>
+        <h2 th:text="${messageH2}">Drużyna specjalnie wytrenowanych małp już się tym zajmuje!</h2>
+        <p th:text="${errorMessage}"></p>
+        <a href="/">Wróć do strony głównej</a>
+    </div>
+</section>
 </body>
 </html>

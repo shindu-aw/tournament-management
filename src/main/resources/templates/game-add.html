@@ -1,32 +1,41 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
     <title>Dodawanie gry</title>
 </head>
 <body>
-<h1>Dodaj grę</h1>
 
-<form action="#" th:action="@{'/game/new'}" th:object="${gameCreationDto}"
-      method="post">
-    <table>
-        <tr>
-            <td>Nazwa:</td>
-            <td><input type="text" th:field="*{name}"/></td>
-            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Błąd w nazwie</td>
-        </tr>
-        <tr>
-            <td>Opis:</td>
-            <td><input type="text" th:field="*{description}"/></td>
-            <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Błąd w opisie</td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Utwórz grę</button>
-            </td>
-        </tr>
-    </table>
-</form>
+<section layout:fragment="content">
+    <div class="container">
 
+        <h1>Dodaj grę</h1>
+
+        <form action="#" th:action="@{'/game/new'}" th:object="${gameCreationDto}"
+              method="post">
+            <table>
+                <tr>
+                    <td>Nazwa:</td>
+                    <td><input type="text" th:field="*{name}"/></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Błąd w nazwie</td>
+                </tr>
+                <tr>
+                    <td>Opis:</td>
+                    <td><input type="text" th:field="*{description}"/></td>
+                    <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Błąd w opisie</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit">Utwórz grę</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+
+    </div>
+</section>
 </body>
 </html>

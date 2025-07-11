@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title>Aplikowanie na moderatora</title>
+    <title th:text="'Aplikowanie na moderatora do ' + ${{tournament.name}}" ></title>
 </head>
 <body>
-<h1 th:text="'Dołącz jako moderator do turnieju ' + ${{tournament.name}}"></h1>
+<section layout:fragment="content">
+    <div class="container">
 
-<form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/moderator/apply' }"
-      th:object="${secretCodeDto}" method="post">
-    <table>
-        <tr>
-            <td>Tajny kod:</td>
-            <td><input type="text" th:field="*{secretCode}"/></td>
-            <td th:if="${#fields.hasErrors('secretCode')}" th:errors="*{secretCode}">Błąd w tajnym kodzie</td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Dołącz jako moderator</button>
-            </td>
-        </tr>
-    </table>
-</form>
+        <h1 th:text="'Dołącz jako moderator do turnieju ' + ${{tournament.name}}"></h1>
 
+        <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/moderator/apply' }"
+              th:object="${secretCodeDto}" method="post">
+            <table>
+                <tr>
+                    <td>Tajny kod:</td>
+                    <td><input type="text" th:field="*{secretCode}"/></td>
+                    <td th:if="${#fields.hasErrors('secretCode')}" th:errors="*{secretCode}">Błąd w tajnym kodzie</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit">Dołącz jako moderator</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</section>
 </body>
 </html>

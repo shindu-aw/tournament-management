@@ -1,35 +1,52 @@
 <!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title>Rejestracja</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+
+        <h1>Zarejestruj się</h1>
+
+        <form action="#" th:action="@{/register}" th:object="${userRegistrationDto}" method="post" autocomplete="off">
+            <table>
+                <tr>
+                    <td>Nazwa użytkownika:</td>
+                    <td><input type="text" th:field="*{username}"/></td>
+                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Błąd w nazwie użytkownika</td>
+                </tr>
+                <tr>
+                    <td>Hasło:</td>
+                    <td><input type="password" th:field="*{password}"/></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Błąd w haśle</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit">Zarejestruj się</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</section>
+</body>
+</html>
+
+
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
 <head>
     <title>Rejestracja użytkownika</title>
 </head>
 <body>
-<h1>Zarejestruj się</h1>
 
-<form action="#" th:action="@{/register}" th:object="${userRegistrationDto}" method="post" autocomplete="off">
-    <table>
-        <tr>
-            <td>Nazwa użytkownika:</td>
-            <td><input type="text" th:field="*{username}"/></td>
-            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Błąd w nazwie użytkownika</td>
-        </tr>
-        <tr>
-            <td>Hasło:</td>
-            <td><input type="password" th:field="*{password}"/></td>
-            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Błąd w haśle</td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Zarejestruj się</button>
-            </td>
-        </tr>
-    </table>
-</form>
-
-<div>
-    <p>Masz już założone konto? <a href="/login">Zaloguj się tutaj.</a></p>
-</div>
 
 </body>
 </html>

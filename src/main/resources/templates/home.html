@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title>Spring Security Example</title>
+    <title>Strona główna</title>
 </head>
 <body>
-<h1>Welcome!</h1>
+<section layout:fragment="content">
+    <div class="container">
 
-<p th:if="${param.message}" th:text="${{param.message}}" ></p>
+        <h1>System do zarządzania turniejami</h1>
 
-<p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
+    </div>
+</section>
 </body>
 </html>
