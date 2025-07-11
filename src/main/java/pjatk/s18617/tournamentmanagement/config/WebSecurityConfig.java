@@ -34,6 +34,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
                                 "/webjars/**",
+                                "/error",
                                 "/",
                                 "/home",
                                 "/register",
