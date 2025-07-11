@@ -50,10 +50,10 @@
                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                    data-bs-toggle="dropdown" aria-expanded="false">
                     <img th:unless="${#authorization.expression('hasRole(''ADMIN'')')}"
-                         th:src="@{images/circle-user-round-white.svg}" alt="user" aria-label="Użytkownik"
+                         th:src="@{/images/circle-user-round-white.svg}" alt="user" aria-label="Użytkownik"
                          width="32" height="32" role="img" data-bs-theme="dark">
                     <img th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-                         th:src="@{images/shield-user-white.svg}" alt="user" aria-label="Administrator"
+                         th:src="@{/images/shield-user-white.svg}" alt="user" aria-label="Administrator"
                          width="32" height="32" role="img" data-bs-theme="dark">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small">
