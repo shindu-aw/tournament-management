@@ -33,6 +33,7 @@ public class WebSecurityConfig {
                 //.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
+                                "/webjars/**",
                                 "/",
                                 "/home",
                                 "/register",
