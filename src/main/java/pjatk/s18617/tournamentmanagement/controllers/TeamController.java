@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.model.Link;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.TeamUser;
@@ -27,17 +29,29 @@ public class TeamController {
 
         // in-memory sort instead of DB call because they're small data sets
         List<TeamUser> userRegistrations = viewedTeam.getUserRegistrations().stream()
-                        .sorted(Comparator.comparing(TeamUser::getUserName)).toList();
+                .sorted(Comparator.comparing(TeamUser::getUserName)).toList();
         List<TournamentTeam> tournamentRegistrations = viewedTeam.getTournamentRegistrations().stream()
-                        .sorted(Comparator.comparing(TournamentTeam::getTournamentName)).toList();
+                .sorted(Comparator.comparing(TournamentTeam::getTournamentName)).toList();
         List<Link> links = viewedTeam.getLinks().stream()
-                        .sorted(Comparator.comparing(Link::getName)).toList();
+                .sorted(Comparator.comparing(Link::getName)).toList();
 
         model.addAttribute("team", viewedTeam);
         model.addAttribute("userRegistrations", userRegistrations);
         model.addAttribute("tournamentRegistrations", tournamentRegistrations);
         model.addAttribute("links", links);
         return "team";
+    }
+
+    @PostMapping("/team/{teamId}/delete")
+    public String deleteTeam(@PathVariable Long teamId, Principal principal, RedirectAttributes redirectAttributes) {
+        Team teamToDelete = teamService.findById(teamId).orElseThrow(NotFoundException::new);
+        String username = principal.getName();
+
+        String message = "Drużyna '" + teamToDelete.getName() + "' usunięta.";
+        redirectAttributes.addAttribute("message", message);
+
+        teamService.deleteWithAuthorization(teamToDelete, username);
+        return "redirect:/";
     }
 
 }
