@@ -49,4 +49,11 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Link> links = new LinkedHashSet<>();
 
+    // checks whether the user is already a member of this team assigned to this game
+    public boolean doesNotHaveUserRegisteredOnGame(User user, Game game) {
+        return userRegistrations.stream().noneMatch(userRegistration ->
+                userRegistration.getGame().equals(game) && userRegistration.getUser().equals(user)
+        );
+    }
+
 }
