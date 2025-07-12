@@ -109,10 +109,10 @@ public class TournamentController {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
         String currentUserName = principal.getName();
 
-        tournamentService.deleteWithAuthorization(tournament, currentUserName);
-
         String message = "Turniej '" + tournament.getName() + "' usunięty.";
         redirectAttributes.addAttribute("message", message);
+
+        tournamentService.deleteWithAuthorization(tournament, currentUserName);
         return "redirect:/";
     }
 
