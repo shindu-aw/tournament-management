@@ -10,6 +10,22 @@
 <section layout:fragment="content">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/game'}" class="link-body-emphasis fw-semibold text-decoration-none">Gry</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/game/' + ${game.id}}" th:text="${game.name}"
+                       class="link-body-emphasis fw-semibold text-decoration-none"></a>
+                </li>
+                <li th:text="'Dodawanie turnieju'" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
+
         <h1>Dodaj turniej</h1>
 
         <form action="#" th:action="@{'/tournament/new/' + ${game.id} }" th:object="${tournamentCreationDto}"

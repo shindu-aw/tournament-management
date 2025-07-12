@@ -11,6 +11,18 @@
 <section layout:fragment="content">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/game'}" class="link-body-emphasis fw-semibold text-decoration-none">Gry</a>
+                </li>
+                <li th:text="${game.name}" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
+
         <h1 th:text="'Lista turninejów ' + ${{game.name}}" ></h1>
 
         <p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>

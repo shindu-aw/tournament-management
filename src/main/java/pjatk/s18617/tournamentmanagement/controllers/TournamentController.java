@@ -80,6 +80,7 @@ public class TournamentController {
                 tournament.getId(), tournament.getName(), tournament.getDescription(),
                 tournament.getStartDate(), tournament.getEndDate()
         ));
+        model.addAttribute("tournament", tournament);
 
         return "tournament/tournament-edit";
     }
@@ -92,6 +93,7 @@ public class TournamentController {
 
         if (result.hasErrors()) {
             model.addAttribute("tournamentEditDto", tournamentEditDto);
+            model.addAttribute("tournament", tournament);
             return "tournament/tournament-edit";
         }
 

@@ -11,6 +11,15 @@
 <section layout:fragment="content">
     <div class="container" th:with="isAdmin=${#authorization.expression('hasRole(''ADMIN'')')}" >
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Gry</li>
+            </ol>
+        </nav>
+
         <div th:if="${isAdmin}" >
             <a th:href="@{'/game/new'}" >Dodaj grę</a>
         </div>

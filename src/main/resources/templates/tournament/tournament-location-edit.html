@@ -10,6 +10,26 @@
 <section layout:fragment="content">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/game'}" class="link-body-emphasis fw-semibold text-decoration-none">Gry</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/game/' + ${tournament.game.id}}" th:text="${tournament.game.name}"
+                       class="link-body-emphasis fw-semibold text-decoration-none"></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${tournament.name}"
+                       class="link-body-emphasis fw-semibold text-decoration-none"></a>
+                </li>
+                <li th:text="${'Edytowanie lokalizacji'}" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
+
         <h1 th:text="'Edytuj lokalizację do turnieju ' + ${{tournament.name}}" ></h1>
 
         <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/edit/location' }" th:object="${locationCreationDto}"
