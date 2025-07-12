@@ -22,7 +22,7 @@ public class LinkController {
     private final TeamService teamService;
     private final LinkService linkService;
 
-    @GetMapping("/team/{teamId}/new/link")
+    @GetMapping("/team/{teamId}/link/new")
     public String showLinkCreationForm(@PathVariable Long teamId, Model model, Principal principal) {
         Team team = teamService.findById(teamId).orElseThrow(NotFoundException::new);
         String currentUserName = principal.getName();
@@ -35,7 +35,7 @@ public class LinkController {
         return "team/team-link-add";
     }
 
-    @PostMapping("/team/{teamId}/new/link")
+    @PostMapping("/team/{teamId}/link/new")
     public String processLinkCreationForm(@PathVariable Long teamId, Model model, Principal principal,
                                           @Valid LinkCreationDto linkCreationDto,  BindingResult result) {
         Team team = teamService.findById(teamId).orElseThrow(NotFoundException::new);
