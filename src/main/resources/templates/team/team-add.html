@@ -15,6 +15,18 @@
         <div class="row justify-content-center">
             <div class="col-12 col-sm-8 col-md-6 col-lg-4">
 
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/team}" class="link-body-emphasis fw-semibold text-decoration-none">Drużyny</a>
+                        </li>
+                        <li th:text="'Dodawanie drużyny'" class="breadcrumb-item active" aria-current="page"></li>
+                    </ol>
+                </nav>
+
                 <form action="#" th:action="@{'/team/new'}" th:object="${teamCreationDto}" method="post"
                       autocomplete="off">
 
