@@ -28,13 +28,22 @@
 
         <p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
 
-        <table>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Opis</th>
+            </tr>
+            </thead>
+            <tbody>
             <tr th:each="game: ${games}">
                 <td>
                     <a th:href="@{'/game/' + ${game.id}}" th:text="${{game.name}}" ></a>
                 </td>
                 <td th:text="${{game.description}}"/>
             </tr>
+            </tbody>
+
         </table>
 
     </div>

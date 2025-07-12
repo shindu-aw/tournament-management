@@ -28,7 +28,16 @@
         <p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
         <a th:href="@{'/tournament/new/' + ${game.id}}" >Dodaj turniej</a>
 
-        <table>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Właściciel</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+            </tr>
+            </thead>
+            <tbody>
             <tr th:each="tournament: ${tournaments}">
                 <td>
                     <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}" ></a>
@@ -37,6 +46,8 @@
                 <td th:text="${{tournament.startDate}}"/>
                 <td th:text="${{tournament.endDate}}"/>
             </tr>
+            </tbody>
+
         </table>
 
     </div>
