@@ -21,6 +21,7 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
     private final TournamentService tournamentService;
     private final TournamentTeamRepository tournamentTeamRepository;
     private final TeamRepository teamRepository;
+    private final TeamService teamService;
     private final MatchService matchService;
 
     @Transactional
@@ -37,12 +38,12 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
 
     @Override
     public TournamentTeam saveWithAuthorization(TournamentTeamCreationDto dto, Tournament tournament, User user) {
-        tournamentService.checkAuthorization(tournament, user);
-
         if (!dto.getSecretCode().equals(tournament.getJoinSecretCode()))
             throw new AccessDeniedException("Zły tajny kod do dodania drużyny.");
 
         Team team = teamRepository.findById(dto.getTeamId()).orElseThrow(NotFoundException::new);
+
+        teamService.checkAuthorization(team, user);
 
         TournamentTeam tournamentTeam = TournamentTeam.builder()
                 .team(team)

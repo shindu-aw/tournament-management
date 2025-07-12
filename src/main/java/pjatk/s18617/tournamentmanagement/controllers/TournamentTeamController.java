@@ -42,7 +42,6 @@ public class TournamentTeamController {
 
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
-        tournamentService.checkAuthorization(tournament, user);
 
         // filters out already registered teams and sorts them alphabetically by name
         List<Team> teamsOwned = user.getTeamsOwned().stream().filter(tournament::doesNotHaveTeamRegistered)
@@ -62,7 +61,6 @@ public class TournamentTeamController {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
-        tournamentService.checkAuthorization(tournament, user);
 
         if (!tournamentTeamCreationDto.getSecretCode().equals(tournament.getJoinSecretCode()))
             result.rejectValue("secretCode", "error.secretCode", "zły kod");
