@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
 import pjatk.s18617.tournamentmanagement.model.Link;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.TeamUser;
@@ -72,6 +73,37 @@ public class TeamController {
         String currentUserName = principal.getName();
         Team newTeam = teamService.save(teamCreationDto, currentUserName);
         return "redirect:/team/" + newTeam.getId();
+    }
+
+    @GetMapping("/team/{teamId}/edit")
+    public String showTeamEditForm(@PathVariable Long teamId, Model model, Principal principal) {
+        Team editedTeam = teamService.findById(teamId).orElseThrow(NotFoundException::new);
+
+        String username = principal.getName();
+        teamService.checkAuthorization(editedTeam, username);
+
+        model.addAttribute("teamEditDto", new TeamEditDto(
+                editedTeam.getId(), editedTeam.getName(), editedTeam.getDescription()
+        ));
+        model.addAttribute("team", editedTeam);
+
+        return "team/team-edit";
+    }
+
+    @PostMapping("/team/{teamId}/edit")
+    public String processTeamEditForm(@PathVariable Long teamId, Principal principal, Model model,
+                                      @Valid TeamEditDto teamEditDto, BindingResult result) {
+        Team editedTeam = teamService.findById(teamId).orElseThrow(NotFoundException::new);
+
+        if (result.hasErrors()) {
+            model.addAttribute("team", editedTeam);
+            return "team/team-edit";
+        }
+
+        String currentUserName = principal.getName();
+        teamService.updateWithAuthorization(editedTeam, teamEditDto, currentUserName);
+
+        return "redirect:/team/" + editedTeam.getId();
     }
 
 }

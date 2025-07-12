@@ -5,6 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.TeamRepository;
@@ -60,6 +61,16 @@ public class TeamServiceImpl implements TeamService {
     public Team save(TeamCreationDto dto, String userOwnerUsername) {
         User user = userService.findByUsername(userOwnerUsername).orElseThrow(NotFoundException::new);
         return save(dto, user);
+    }
+
+    @Override
+    public Team updateWithAuthorization(Team updatedTeam, TeamEditDto dto, String currentUserName) {
+        checkAuthorization(updatedTeam, currentUserName);
+
+        updatedTeam.setName(dto.getName());
+        updatedTeam.setDescription(dto.getDescription());
+
+        return teamRepository.save(updatedTeam);
     }
 
 }

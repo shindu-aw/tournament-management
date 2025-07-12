@@ -1,6 +1,7 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.User;
 
@@ -20,4 +21,5 @@ public interface TeamService {
 
     Team save(TeamCreationDto dto, String currentUserName);
 
+    Team updateWithAuthorization(Team updatedTeam, TeamEditDto dto, String currentUserName);
 }
