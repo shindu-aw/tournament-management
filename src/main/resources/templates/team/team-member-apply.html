@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title th:text="'Dołączanie do drużyny ' + ${{team.name}}"></title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna
+                                strona</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/team}"
+                               class="link-body-emphasis fw-semibold text-decoration-none">Drużyny</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{'/team/' + ${team.id}}" th:text="${{team.name}}"
+                               class="link-body-emphasis fw-semibold text-decoration-none"></a>
+                        </li>
+                        <li th:text="'Dodawanie linku'" class="breadcrumb-item active" aria-current="page"></li>
+                    </ol>
+                </nav>
+
+                <form action="#" th:action="@{'/team/' + ${teamId} + '/member/apply'}"
+                      th:object="${teamUserCreationDto}"
+                      method="post" autocomplete="off">
+
+                    <h1 class="h3 mb-3 fw-normal text-center">Dołącz do drużyny</h1>
+
+                    <div class="form-group mb-3">
+                        <label for="secretCode">Tajny kod</label>
+                        <input type="text" th:field="*{secretCode}" id="secretCode" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('secretCode')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="gameId">Gra</label>
+                        <select th:field="*{gameId}" id="gameId" class="form-control">
+                            <option th:each="game: ${games}"
+                                    th:value="${game.id}"
+                                    th:text="${{game.name}}">
+                        </select>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('gameId')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Dołącz</button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+</html>

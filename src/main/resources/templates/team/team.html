@@ -67,11 +67,17 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
 
         <h2>Gracze</h2>
 
+        <div sec:authorize="isAuthenticated()">
+            <a th:text="'Dołącz do drużyny'" th:href="@{'/team/' + ${teamId} + '/member/apply'}"
+               class="btn btn-primary"></a>
+        </div>
+
         <table class="table">
             <thead>
             <tr>
                 <th>Nazwa</th>
                 <th>Gra</th>
+                <th>Data dołączenia</th>
             </tr>
             </thead>
             <tbody>
@@ -84,6 +90,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                     <a th:href="@{'/game/' + ${userRegistration.game.id}}"
                        th:text="${{userRegistration.game.name}}"></a>
                 </td>
+                <td th:text="${{userRegistration.joinDate}}"></td>
             </tr>
             </tbody>
 
