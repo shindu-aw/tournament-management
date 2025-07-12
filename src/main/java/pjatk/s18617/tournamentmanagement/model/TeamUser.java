@@ -2,6 +2,9 @@ package pjatk.s18617.tournamentmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,6 +32,10 @@ public class TeamUser {
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
+
+    @CreationTimestamp
+    @Column(name = "join_date", nullable = false)
+    private LocalDate joinDate;
 
     public String getTeamName() {
         return team.getName();
