@@ -34,4 +34,8 @@ public class TeamUser {
         return team.getName();
     }
 
+    public String getUserName() {
+        return user.getUsername();
+    }
+
 }
