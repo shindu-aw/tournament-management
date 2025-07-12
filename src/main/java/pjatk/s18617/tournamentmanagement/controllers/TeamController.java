@@ -39,7 +39,7 @@ public class TeamController {
         model.addAttribute("userRegistrations", userRegistrations);
         model.addAttribute("tournamentRegistrations", tournamentRegistrations);
         model.addAttribute("links", links);
-        return "team";
+        return "team/team";
     }
 
     @PostMapping("/team/{teamId}/delete")
