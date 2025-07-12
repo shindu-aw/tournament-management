@@ -28,7 +28,6 @@ public class LocationController {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
 
         String username = principal.getName();
-        locationService.checkAuthorization(tournament, username);
 
         locationService.deleteWithAuthorization(tournament, username);
         return "redirect:/tournament/" + tournamentId;
