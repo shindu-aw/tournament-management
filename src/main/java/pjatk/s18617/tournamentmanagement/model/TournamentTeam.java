@@ -46,4 +46,8 @@ public class TournamentTeam {
     @OneToMany(mappedBy = "tournamentTeam2", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Match> matchesAsTeam2 = new LinkedHashSet<>(); // reverse association added solely for cascade.remove
 
+    public String getTournamentName() {
+        return tournament.getName();
+    }
+
 }
