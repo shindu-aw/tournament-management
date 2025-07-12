@@ -57,8 +57,7 @@ public class LocationController {
         }
 
         String username = principal.getName();
-        Location newLocation = locationService.saveWithAuthorization(locationCreationDto, tournament, username);
-        System.out.println(newLocation.getId());
+        locationService.saveWithAuthorization(locationCreationDto, tournament, username);
         return "redirect:/tournament/" + tournamentId;
     }
 
