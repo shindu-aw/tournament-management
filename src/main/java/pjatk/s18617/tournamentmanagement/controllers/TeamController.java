@@ -1,12 +1,15 @@
 package pjatk.s18617.tournamentmanagement.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Link;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.TeamUser;
@@ -52,6 +55,23 @@ public class TeamController {
 
         teamService.deleteWithAuthorization(teamToDelete, username);
         return "redirect:/";
+    }
+
+    @GetMapping("/team/new")
+    public String showTeamCreationForm(Model model) {
+        model.addAttribute("teamCreationDto", new TeamCreationDto());
+        return "team/team-add";
+    }
+
+    @PostMapping("/team/new")
+    public String processTeamCreationForm(@Valid TeamCreationDto teamCreationDto, BindingResult result,
+                                          Principal principal) {
+        if (result.hasErrors())
+            return "team/team-add";
+
+        String currentUserName = principal.getName();
+        Team newTeam = teamService.save(teamCreationDto, currentUserName);
+        return "redirect:/team/" + newTeam.getId();
     }
 
 }

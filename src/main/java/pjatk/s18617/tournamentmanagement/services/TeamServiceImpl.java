@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
+import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.TeamRepository;
+import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -42,6 +43,23 @@ public class TeamServiceImpl implements TeamService {
     public void deleteWithAuthorization(Team team, String username) {
         checkAuthorization(team, username);
         teamRepository.delete(team);
+    }
+
+    @Override
+    public Team save(TeamCreationDto dto, User userOwner) {
+        Team team = Team.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .userOwner(userOwner)
+                .secretCode(SecretCodeGenerator.generateSecretCode())
+                .build();
+        return teamRepository.save(team);
+    }
+
+    @Override
+    public Team save(TeamCreationDto dto, String userOwnerUsername) {
+        User user = userService.findByUsername(userOwnerUsername).orElseThrow(NotFoundException::new);
+        return save(dto, user);
     }
 
 }

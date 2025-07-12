@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title>Tworzenie drużyny</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+                <form action="#" th:action="@{'/team/new'}" th:object="${teamCreationDto}" method="post"
+                      autocomplete="off">
+
+                    <h1 class="h3 mb-3 fw-normal text-center">Stwórz nową drużynę</h1>
+
+                    <div class="form-group mb-3">
+                        <label for="name">Nazwa</label>
+                        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="description">Opis</label>
+                        <textarea type="text" th:field="*{description}" id="description"
+                                  class="form-control"></textarea>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('description')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Stwórz drużynę</button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+</html>

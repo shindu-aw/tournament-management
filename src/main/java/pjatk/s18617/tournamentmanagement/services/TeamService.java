@@ -1,5 +1,6 @@
 package pjatk.s18617.tournamentmanagement.services;
 
+import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.User;
 
@@ -14,5 +15,9 @@ public interface TeamService {
     Optional<Team> findById(Long teamId);
 
     void deleteWithAuthorization(Team team, String username);
+
+    Team save(TeamCreationDto dto, User userOwner);
+
+    Team save(TeamCreationDto dto, String currentUserName);
 
 }
