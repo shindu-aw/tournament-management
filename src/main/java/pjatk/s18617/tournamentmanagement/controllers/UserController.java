@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public String showUser(@PathVariable Long userId, Principal principal, Model model) {
+    public String showUser(@PathVariable Long userId, Model model) {
         User viewedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
 
         // in-memory sort instead of DB call because they're small data sets
