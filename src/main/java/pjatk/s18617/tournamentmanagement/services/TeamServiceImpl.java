@@ -24,8 +24,8 @@ public class TeamServiceImpl implements TeamService {
     public void checkAuthorization(Team team, User user) {
         boolean userIsNotAdmin = !user.isAdmin();
         boolean userIsNotOwner = !user.equals(team.getUserOwner());
-        boolean cannotManageLocation = userIsNotAdmin && userIsNotOwner;
-        if (cannotManageLocation)
+        boolean cannotManageTeam = userIsNotAdmin && userIsNotOwner;
+        if (cannotManageTeam)
             throw new AccessDeniedException("Nie masz praw do zarządzania tą drużyną.");
     }
 
