@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title th:text="'Turniej ' + ${tournament.name}" ></title>
+    <title th:text="'Turniej ' + ${tournament.name}"></title>
 </head>
 <body>
 
@@ -32,46 +32,52 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
             </tr>
         </table>
 
-        <div sec:authorize="isAuthenticated()" th:unless="${isOwnerOrAdminOrModerator}" >
-            <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}" >Aplikuj jako moderator do tego turnieju.</a>
+        <div sec:authorize="isAuthenticated()" th:unless="${isOwnerOrAdminOrModerator}">
+            <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}">
+                Aplikuj jako moderator do tego turnieju.
+            </a>
         </div>
 
         <div th:if="${isOwnerOrAdmin}">
 
             <h2>Zarządzaj turniejem</h2>
 
+            <div class="d-flex gap-2">
+                <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
+                    <input type="submit" value="Edytuj turniej" class="btn btn-secondary"/>
+                </form>
+                <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
+                    <input type="submit" value="Usuń turniej" class="btn btn-danger"/>
+                </form>
+                <form class="m-0">
+                    <input type="submit" value="Zakończ turniej" class="btn btn-success"/> <!-- TODO implement -->
+                </form>
+            </div>
+
             <table>
                 <tr>
                     <td>Kod dla zarządzających turniejem:</td>
-                    <td th:text="${{tournament.manageSecretCode}}" ></td>
+                    <td th:text="${{tournament.manageSecretCode}}"></td>
                 </tr>
                 <tr>
                     <td>Kod dla dołączających drużyn:</td>
-                    <td th:text="${{tournament.joinSecretCode}}" ></td>
+                    <td th:text="${{tournament.joinSecretCode}}"></td>
                 </tr>
             </table>
-
-            <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get">
-                <input type="submit" value="Edytuj turniej"/>
-            </form>
-            <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post">
-                <input type="submit" value="Usuń turniej"/>
-            </form>
-            <form>
-                <input type="submit" value="Zakończ turniej"/> <!-- TODO implement -->
-            </form>
-            <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post">
-                <input type="submit" value="Wygeneruj ponownie tajne kody"/>
+            <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post"
+                  class="m-0">
+                <input type="submit" value="Wygeneruj ponownie tajne kody" class="btn btn-warning"/>
             </form>
 
             <h3>Moderatorzy turnieju</h3>
 
             <table>
-                <tr th:each="moderator: ${tournament.usersManaging}" >
-                    <td th:text="${{moderator.username}}" />
+                <tr th:each="moderator: ${tournament.usersManaging}">
+                    <td th:text="${{moderator.username}}"/>
                     <td>
-                        <form th:action="@{'/tournament/' + ${tournamentId} + '/moderator/remove/' + ${moderator.id}}" method="post">
-                            <input type="submit" value="Usuń"/>
+                        <form th:action="@{'/tournament/' + ${tournamentId} + '/moderator/remove/' + ${moderator.id}}"
+                              method="post">
+                            <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm"/>
                         </form>
                     </td>
                 </tr>
@@ -82,7 +88,7 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
         <h2>Lokalizacja</h2>
 
-        <div th:if="${tournament.location != null}" >
+        <div th:if="${tournament.location != null}">
             <table th:if="${tournament.location} != null">
                 <tr>
                     <td>Kraj:</td>
@@ -106,19 +112,25 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                 </tr>
             </table>
 
-            <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/edit/location'}" method="get">
-                <input type="submit" value="Edytuj lokalizacje"/>
-            </form>
-            <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/delete/location'}" method="post">
-                <input type="submit" value="Usuń lokalizacje"/>
-            </form>
+            <div class="d-flex gap-2">
+                <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/edit/location'}"
+                      method="get" class="m-0">
+                    <input type="submit" value="Edytuj lokalizacje" class="btn btn-secondary"/>
+                </form>
+                <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/delete/location'}"
+                      method="post" class="m-0">
+                    <input type="submit" value="Usuń lokalizacje" class="btn btn-danger"/>
+                </form>
+            </div>
+
 
         </div>
 
-        <div th:if="${tournament.location} == null" >
+        <div th:if="${tournament.location} == null">
             Ten turniej nie ma zapisanej lokalizacji.
 
-            <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/new/location'}" method="get">
+            <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/new/location'}"
+                  method="get">
                 <input type="submit" value="Dodaj lokalizacje"/>
             </form>
         </div>
@@ -129,11 +141,13 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
         <h2>Drużyny</h2>
 
-        <form sec:authorize="isAuthenticated()" th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}" method="get">
-            <input type="submit" value="Aplikuj drużyną"/>
+        <form sec:authorize="isAuthenticated()" th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
+              method="get">
+            <input type="submit" value="Aplikuj drużyną" class="btn btn-primary"/>
         </form>
 
-        <table>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Nazwa</th>
                 <th>Punkty</th>
@@ -141,30 +155,37 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                     Akcje
                 </th>
             </tr>
+            </thead>
+            <tbody class="table-group-divider">
             <tr th:each="teamRegistration: ${sortedTeamRegistrations}">
                 <td>
-                    <a th:href="@{'/team/' + ${teamRegistration.team.id}}" th:text="${{teamRegistration.team.name}}"></a>
+                    <a th:href="@{'/team/' + ${teamRegistration.team.id}}"
+                       th:text="${{teamRegistration.team.name}}"></a>
                 </td>
                 <td th:text="${{teamRegistration.scoreSum}}"/>
 
                 <td th:if="${isOwnerOrAdmin}">
-                    <form th:action="@{'/tournament/' + ${tournamentId} + '/team/remove/' + ${teamRegistration.id}}" method="post">
-                        <input type="submit" value="Usuń"/>
+                    <form th:action="@{'/tournament/' + ${tournamentId} + '/team/remove/' + ${teamRegistration.id}}"
+                          method="post" class="m-0">
+                        <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm "/>
                     </form>
                 </td>
             </tr>
+            </tbody>
+
         </table>
 
 
         <h2>Mecze</h2>
 
-        <div th:if="${isOwnerOrAdminOrModerator}" >
+        <div th:if="${isOwnerOrAdminOrModerator}">
             <form th:action="@{'/tournament/' + ${tournament.id} + '/new/match'}" method="get">
-                <input type="submit" value="Dodaj nowy mecz"/>
+                <input type="submit" value="Dodaj nowy mecz" class="btn btn-primary"/>
             </form>
         </div>
 
-        <table>
+        <table class="table">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Data</th>
@@ -176,6 +197,8 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                     Akcje
                 </th>
             </tr>
+            </thead>
+            <tbody class="table-group-divider">
             <tr th:each="match: ${sortedMatches}">
                 <td>
                     <a th:text="'[' + ${{match.id}} + ']'"></a>
@@ -193,14 +216,22 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                 <td th:text="${{match.team2Score}}"/>
 
                 <td th:if="${isOwnerOrAdminOrModerator}">
-                    <form th:action="@{'/match/' + ${match.id} + '/edit'}" method="get">
-                        <input type="submit" value="Edytuj"/>
-                    </form>
-                    <form th:action="@{'/match/' + ${match.id} + '/delete'}" method="post">
-                        <input type="submit" value="Usuń"/>
-                    </form>
+                    <!--
+                    d-flex makes the container flex (horizontal)
+                    gap-2 adds spacing between buttons
+                    m-0 removes margins from forms
+                    -->
+                    <div class="d-flex gap-2">
+                        <form th:action="@{'/match/' + ${match.id} + '/edit'}" method="get" class="m-0">
+                            <input type="submit" value="Edytuj" class="btn btn-outline-secondary btn-sm"/>
+                        </form>
+                        <form th:action="@{'/match/' + ${match.id} + '/delete'}" method="post" class="m-0">
+                            <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm"/>
+                        </form>
+                    </div>
                 </td>
             </tr>
+            </tbody>
         </table>
 
     </div>
