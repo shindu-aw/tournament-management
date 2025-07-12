@@ -6,11 +6,16 @@ import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.repositories.TeamRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
+
+    public Optional<Team> findById(Long teamId) {
+        return teamRepository.findById(teamId);
+    }
 
 }

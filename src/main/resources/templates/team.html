@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title th:text="'Drużyna ' + ${team.name}"></title>
+</head>
+<body>
+
+<section layout:fragment="content" th:with="
+isAdmin=${#authorization.expression('hasRole(''ADMIN'')')},
+isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
+">
+
+    <div class="container">
+
+        <h1 th:text="'[' + ${{team.id}} + '] ' + ${{team.name}}"></h1>
+
+        <div th:if="${isAdminOrOwner}" class="d-flex gap-2" >
+            <form th:action="@{'/team/' + ${team.id} + '/edit'}" method="get" class="m-0">
+                <input type="submit" value="Edytuj drużynę" class="btn btn-secondary btn-sm"/>
+            </form>
+            <form th:action="@{'/team/' + ${team.id} + '/delete'}" method="post" class="m-0">
+                <input type="submit" value="Usuń drużynę" class="btn btn-danger btn-sm"/>
+            </form>
+        </div>
+
+        <h2>Opis</h2>
+        <p th:text="${{team.description}}"></p>
+
+        <h2>Linki</h2>
+        <ul th:each="link: ${links}" class="list-group">
+            <li th:href="${link.url}" th:text="${link.name}" class="list-group-item"></li>
+        </ul>
+
+        <h2>Gracze</h2>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Gra</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="userRegistration: ${userRegistrations}">
+                <td>
+                    <a th:href="@{'/user/' + ${userRegistration.user.id}}"
+                       th:text="${{userRegistration.user.username}}"></a>
+                </td>
+                <td>
+                    <a th:href="@{'/game/' + ${userRegistration.game.id}}"
+                       th:text="${{userRegistration.game.name}}"></a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+
+        <h2>Turnieje</h2>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tournamentRegistration: ${tournamentRegistrations}">
+                <td>
+                    <a th:href="@{'/tournament/' + ${tournamentRegistration.tournament.id}}"
+                       th:text="${{tournamentRegistration.tournament.name}}"></a>
+                </td>
+                <td th:text="${{tournamentRegistration.tournament.startDate}}"></td>
+                <td th:if="${tournamentRegistration.tournament.endDate != null}"
+                    th:text="${{tournamentRegistration.tournament.endDate}}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+</section>
+</body>
+</html>
