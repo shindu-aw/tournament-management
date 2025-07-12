@@ -2,6 +2,7 @@ package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.LinkCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Link;
 import pjatk.s18617.tournamentmanagement.model.Team;
@@ -26,6 +27,13 @@ public class LinkServiceImpl implements LinkService {
                 .build();
 
         return linkRepository.save(link);
+    }
+
+    @Override
+    public void deleteWithAuthorization(Long linkId, String currentUserName) {
+        Link linkToDelete = linkRepository.findById(linkId).orElseThrow(NotFoundException::new);
+        teamService.checkAuthorization(linkToDelete.getTeam(), currentUserName);
+        linkRepository.delete(linkToDelete);
     }
 
 }

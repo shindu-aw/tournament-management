@@ -6,4 +6,6 @@ import pjatk.s18617.tournamentmanagement.model.Team;
 
 public interface LinkService {
     Link saveWithAuthorization(LinkCreationDto dto, Team team, String currentUserName);
+
+    void deleteWithAuthorization(Long linkId, String currentUserName);
 }

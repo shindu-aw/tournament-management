@@ -50,4 +50,11 @@ public class LinkController {
         return "redirect:/team/" + teamId;
     }
 
+    @PostMapping("/team/{teamId}/link/delete/{linkId}")
+    public String deleteLink(@PathVariable Long teamId, @PathVariable Long linkId, Principal principal) {
+        String currentUserName = principal.getName();
+        linkService.deleteWithAuthorization(linkId, currentUserName);
+        return "redirect:/team/" + teamId;
+    }
+
 }

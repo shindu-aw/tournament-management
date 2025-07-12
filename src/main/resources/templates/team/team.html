@@ -29,7 +29,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
 
         <h1 th:text="'[' + ${{team.id}} + '] ' + ${{team.name}}"></h1>
 
-        <div th:if="${isAdminOrOwner}" class="d-flex gap-2" >
+        <div th:if="${isAdminOrOwner}" class="d-flex gap-2">
             <form th:action="@{'/team/' + ${team.id} + '/edit'}" method="get" class="m-0">
                 <input type="submit" value="Edytuj drużynę" class="btn btn-secondary btn-sm"/>
             </form>
@@ -38,13 +38,32 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
             </form>
         </div>
 
-        <h2>Opis</h2>
-        <p th:text="${{team.description}}"></p>
+        <div class="row">
 
-        <h2>Linki</h2>
-        <ul th:each="link: ${links}" class="list-group">
-            <li th:href="${link.url}" th:text="${link.name}" class="list-group-item"></li>
-        </ul>
+            <div class="col-md-8">
+                <h2>Opis</h2>
+                <p th:text="${{team.description}}"></p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Linki</h2>
+
+                <a th:if="isAdminOrOwner" th:href="@{'/team/' + ${team.id} + '/link/new'}"
+                   class="btn btn-primary btn-sm">Dodaj link</a>
+
+                <ul th:each="link: ${links}" class="list-group">
+                    <li class="list-group-item d-flex gap-2">
+                        <form th:action="@{'/team/' + ${team.id} + '/link/delete/' + ${link.id}}"
+                              method="post" class="m-0">
+                            <input type="submit" value="Usuń" class="btn btn-danger btn-sm "/>
+                        </form>
+                        <a th:href="${link.url}" th:text="${{link.name}}"></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
 
         <h2>Gracze</h2>
 
