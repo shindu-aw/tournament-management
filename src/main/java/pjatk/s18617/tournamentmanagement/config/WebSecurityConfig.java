@@ -45,7 +45,8 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 new RegexRequestMatcher("/game/\\d+", null), // /game/{id}
                                 new RegexRequestMatcher("/tournament/\\d+", null), // /tournament/{id}
-                                new RegexRequestMatcher("/user/\\d+", null) // /user/{id}
+                                new RegexRequestMatcher("/user/\\d+", null), // /user/{id}
+                                new RegexRequestMatcher("/team/\\d+", null) // /team/{id}
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
