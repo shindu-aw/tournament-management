@@ -110,7 +110,9 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                     </tr>
                     <tr>
                         <th>Data zakończenia:</th>
-                        <td th:if="${tournament.endDate} != null" th:text="${{tournament.endDate}}"/>
+                        <td>
+                            <span th:if="${tournament.endDate} != null" th:text="${{tournament.endDate}}"></span>
+                        </td>
                     </tr>
                 </table>
 
