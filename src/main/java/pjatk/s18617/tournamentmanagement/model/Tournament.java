@@ -71,7 +71,7 @@ public class Tournament {
 
     @Builder.Default
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("team ASC, id ASC")
+    @OrderBy("scoreSum DESC, team ASC, id ASC")
     private List<TournamentTeam> teamRegistrations = new ArrayList<>();
 
     @Builder.Default
