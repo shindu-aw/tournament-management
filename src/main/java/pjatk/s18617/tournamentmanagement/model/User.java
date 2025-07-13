@@ -43,19 +43,23 @@ public class User implements UserDetails {
 
     @Builder.Default
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
-    private Set<Team> teamsOwned = new LinkedHashSet<>();
+    @OrderBy("name")
+    private List<Team> teamsOwned = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private Set<TeamUser> teamRegistrations = new LinkedHashSet<>();
+    @OrderBy("team")
+    private List<TeamUser> teamRegistrations = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
-    private Set<Tournament> tournamentsOwned = new LinkedHashSet<>();
+    @OrderBy("startDate DESC, endDate DESC, name ASC")
+    private List<Tournament> tournamentsOwned = new ArrayList<>();
 
     @Builder.Default
     @ManyToMany(mappedBy = "usersManaging")
-    private Set<Tournament> tournamentsManaged = new LinkedHashSet<>();
+    @OrderBy("startDate DESC, endDate DESC, name ASC")
+    private List<Tournament> tournamentsManaged = new ArrayList<>();
 
 
     @Override
