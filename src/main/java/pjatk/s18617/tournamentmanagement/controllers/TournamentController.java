@@ -35,8 +35,7 @@ public class TournamentController {
         return "tournament/tournament-add";
     }
 
-
-    // BindingResult MUST immediately follow the @Valid annotated parameter in the method signature
+    
     @PostMapping("/tournament/new/{gameId}")
     public String processTournamentCreationForm(@PathVariable Long gameId, Principal principal,
                                                 @Valid TournamentCreationDto tournamentCreationDto,
