@@ -61,7 +61,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
             <div class="col-md-4">
                 <h2>Linki</h2>
 
-                <a th:if="isAdminOrOwner" th:href="@{'/team/' + ${team.id} + '/link/new'}"
+                <a th:if="${isAdminOrOwner}" th:href="@{'/team/' + ${team.id} + '/link/new'}"
                    class="btn btn-primary btn-sm">Dodaj link</a>
 
                 <ul th:each="link: ${links}" class="list-group">
