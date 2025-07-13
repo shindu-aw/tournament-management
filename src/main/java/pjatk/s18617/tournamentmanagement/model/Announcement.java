@@ -21,6 +21,9 @@ public class Announcement {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "title", nullable = false, length = 50)
+    private String title;
+
     @Column(name = "description", nullable = false, length = 1000)
     private String description;
 
