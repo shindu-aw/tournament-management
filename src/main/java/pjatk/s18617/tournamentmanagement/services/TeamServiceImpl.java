@@ -7,10 +7,12 @@ import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
+import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.TeamRepository;
 import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -38,6 +40,26 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Optional<Team> findById(Long teamId) {
         return teamRepository.findById(teamId);
+    }
+
+    /**
+     * Retrieves a list of teams owned by the specified user that are not registered in the given tournament, sorted
+     * alphabetically by team name.
+     *
+     * <p>
+     * This method performs a query to find all {@link Team} entities where the owner matches the provided
+     * {@link User} and the team is not yet registered in the specified {@link Tournament}. The resulting list is
+     * ordered by the team's name in ascending order.
+     * </p>
+     *
+     * @param tournament the {@link Tournament} for which team registration is checked (must not be null)
+     * @param user       the {@link User} who owns the teams to be retrieved (must not be null)
+     * @return a list of {@link Team} entities owned by the user and not registered in the tournament, sorted by team
+     * name in ascending order
+     */
+    @Override
+    public List<Team> findTeamsOwnedByUserNotRegisteredInTournamentOrderByName(Tournament tournament, User user) {
+        return teamRepository.findTeamsOwnedByUserNotRegisteredInTournamentOrderByName(tournament, user);
     }
 
     @Override
@@ -75,7 +97,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team regenerateSecretCodeWithAuthorization(Long teamId, String currentUserName) {
-        Team team =  findById(teamId).orElseThrow(NotFoundException::new);
+        Team team = findById(teamId).orElseThrow(NotFoundException::new);
         checkAuthorization(team, currentUserName);
 
         team.setSecretCode(SecretCodeGenerator.generateSecretCode());

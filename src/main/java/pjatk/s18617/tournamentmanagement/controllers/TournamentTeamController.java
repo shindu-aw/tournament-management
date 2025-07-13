@@ -12,12 +12,12 @@ import pjatk.s18617.tournamentmanagement.dtos.TournamentTeamCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.User;
+import pjatk.s18617.tournamentmanagement.services.TeamService;
 import pjatk.s18617.tournamentmanagement.services.TournamentService;
 import pjatk.s18617.tournamentmanagement.services.TournamentTeamService;
 import pjatk.s18617.tournamentmanagement.services.UserService;
 
 import java.security.Principal;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -27,10 +27,11 @@ public class TournamentTeamController {
     private final TournamentService tournamentService;
     private final TournamentTeamService tournamentTeamService;
     private final UserService userService;
+    private final TeamService teamService;
 
     @PostMapping("/tournament/{tournamentId}/team/remove/{tournamentTeamId}")
     public String removeTeamFromTournament(@PathVariable Long tournamentId, @PathVariable Long tournamentTeamId,
-                                         Principal principal) {
+                                           Principal principal) {
         String currentUsername = principal.getName();
         tournamentTeamService.deleteWithAuthorization(tournamentTeamId, currentUsername);
         return "redirect:/tournament/" + tournamentId;
@@ -51,8 +52,7 @@ public class TournamentTeamController {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
 
         // filters out already registered teams and sorts them alphabetically by name
-        List<Team> teamsOwned = user.getTeamsOwned().stream().filter(tournament::doesNotHaveTeamRegistered)
-                .sorted(Comparator.comparing(Team::getName)).toList();
+        List<Team> teamsOwned = teamService.findTeamsOwnedByUserNotRegisteredInTournamentOrderByName(tournament, user);
 
         model.addAttribute("tournamentTeamCreationDto", new TournamentTeamCreationDto());
         model.addAttribute("tournament", tournament);
@@ -74,8 +74,9 @@ public class TournamentTeamController {
 
         if (result.hasErrors()) {
             // filters out already registered teams and sorts them alphabetically by name
-            List<Team> teamsOwned = user.getTeamsOwned().stream().filter(tournament::doesNotHaveTeamRegistered)
-                    .sorted(Comparator.comparing(Team::getName)).toList();
+            List<Team> teamsOwned = teamService.findTeamsOwnedByUserNotRegisteredInTournamentOrderByName(
+                    tournament, user
+            );
             model.addAttribute("tournament", tournament);
             model.addAttribute("teamsOwned", teamsOwned);
             return "tournament/tournament-team-add";
