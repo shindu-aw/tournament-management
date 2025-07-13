@@ -56,14 +56,10 @@ public class TournamentController {
     @GetMapping("/tournament/{tournamentId}")
     public String showTournament(@PathVariable Long tournamentId, Model model) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
-        // in-memory sort instead of DB call because they're small data sets
-        List<Match> sortedMatches = tournament.getMatches().stream()
-                .sorted(Comparator.comparing(Match::getDate)).toList().reversed();
-        List<TournamentTeam> sortedTeamRegistrations = tournament.getTeamRegistrations().stream()
-                .sorted(Comparator.comparingInt(TournamentTeam::getScoreSum)).toList().reversed();
+
         model.addAttribute("tournament", tournament);
-        model.addAttribute("sortedMatches", sortedMatches);
-        model.addAttribute("sortedTeamRegistrations", sortedTeamRegistrations);
+        model.addAttribute("sortedMatches", tournament.getMatches());
+        model.addAttribute("sortedTeamRegistrations", tournament.getTeamRegistrations());
         return "tournament/tournament";
     }
 
