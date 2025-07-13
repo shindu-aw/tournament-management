@@ -51,7 +51,11 @@ canEdit=${isAdmin or #authentication.name == user.username}
             <thead>
             <tr>
                 <th>Nazwa</th>
-                <th>Opis</th>
+                <th>Gra</th>
+                <th>Data dołączenia</th>
+                <th th:if="${canEdit}">
+                    Akcje
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -59,7 +63,14 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 <td>
                     <a th:text="${{teamReg.team.name}}" th:href="@{'/team/' + ${teamReg.team.id}}" ></a>
                 </td>
-                <td th:text="${{teamReg.team.description}}"></td>
+                <td th:text="${{teamReg.game.name}}" ></td>
+                <td th:text="${{teamReg.joinDate}}"></td>
+                <td th:if="${canEdit}">
+                    <form th:action="@{'/user/'+${user.id}+'/team/leave/'+${teamReg.id}}"
+                          method="post" class="m-0">
+                        <input type="submit" value="Odejdź" class="btn btn-danger btn-sm"/>
+                    </form>
+                </td>
             </tr>
             </tbody>
 
