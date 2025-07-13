@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="url">Opis</label>
+                        <label for="url">Link</label>
                         <input type="url" th:field="*{url}" id="url" class="form-control"/>
                         <ul class="text-danger">
                             <li th:each="err: ${#fields.errors('url')}" th:text="${err}"></li>
