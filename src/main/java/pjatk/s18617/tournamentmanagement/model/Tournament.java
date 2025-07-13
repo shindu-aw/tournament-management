@@ -5,7 +5,9 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -58,7 +60,8 @@ public class Tournament {
     @JoinTable(name = "tournament_user",
             joinColumns = @JoinColumn(name = "tournament_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> usersManaging = new LinkedHashSet<>();
+    @OrderBy("username ASC")
+    private List<User> usersManaging = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id")
@@ -68,15 +71,20 @@ public class Tournament {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    @Builder.Default
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TournamentTeam> teamRegistrations = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Match> matches = new LinkedHashSet<>();
+    @OrderBy("team ASC, id ASC")
+    private List<TournamentTeam> teamRegistrations = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Announcement> announcements = new LinkedHashSet<>();
+    @OrderBy("date DESC, id DESC")
+    private List<Match> matches = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("creationDate DESC")
+    private List<Announcement> announcements = new ArrayList<>();
 
     public boolean isManagedByUser(String username) {
         return usersManaging.stream().anyMatch(user -> user.getUsername().equals(username));
