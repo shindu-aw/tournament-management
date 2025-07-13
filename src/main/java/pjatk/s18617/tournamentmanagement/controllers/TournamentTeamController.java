@@ -29,11 +29,18 @@ public class TournamentTeamController {
     private final UserService userService;
 
     @PostMapping("/tournament/{tournamentId}/team/remove/{tournamentTeamId}")
-    public String removeTeamRegistration(@PathVariable Long tournamentId, @PathVariable Long tournamentTeamId,
+    public String removeTeamFromTournament(@PathVariable Long tournamentId, @PathVariable Long tournamentTeamId,
                                          Principal principal) {
         String currentUsername = principal.getName();
         tournamentTeamService.deleteWithAuthorization(tournamentTeamId, currentUsername);
         return "redirect:/tournament/" + tournamentId;
+    }
+
+    @PostMapping("/team/{teamId}/tournament/leave/{tournamentTeamId}")
+    public String leaveTournament(@PathVariable Long teamId, @PathVariable Long tournamentTeamId, Principal principal) {
+        String currentUsername = principal.getName();
+        tournamentTeamService.deleteWithAuthorization(tournamentTeamId, currentUsername);
+        return "redirect:/team/" + teamId;
     }
 
     @GetMapping("/tournament/{tournamentId}/team/add")
