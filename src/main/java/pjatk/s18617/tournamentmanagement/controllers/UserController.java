@@ -60,21 +60,11 @@ public class UserController {
     public String showUser(@PathVariable Long userId, Model model) {
         User viewedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
 
-        // in-memory sort instead of DB call because they're small data sets
-        List<Team> teamsOwned = viewedUser.getTeamsOwned().stream()
-                .sorted(Comparator.comparing(Team::getName)).toList();
-        List<TeamUser> teamRegistrations = viewedUser.getTeamRegistrations().stream()
-                .sorted(Comparator.comparing(TeamUser::getTeamName)).toList();
-        List<Tournament> tournamentsOwned = viewedUser.getTournamentsOwned().stream()
-                .sorted(Comparator.comparing(Tournament::getStartDate)).toList().reversed();
-        List<Tournament> tournamentsManaged = viewedUser.getTournamentsManaged().stream()
-                .sorted(Comparator.comparing(Tournament::getStartDate)).toList().reversed();
-
         model.addAttribute("user", viewedUser);
-        model.addAttribute("teamsOwned", teamsOwned);
-        model.addAttribute("teamRegistrations", teamRegistrations);
-        model.addAttribute("tournamentsOwned", tournamentsOwned);
-        model.addAttribute("tournamentsManaged", tournamentsManaged);
+        model.addAttribute("teamsOwned", viewedUser.getTeamsOwned());
+        model.addAttribute("teamRegistrations", viewedUser.getTeamRegistrations());
+        model.addAttribute("tournamentsOwned", viewedUser.getTournamentsOwned());
+        model.addAttribute("tournamentsManaged", viewedUser.getTournamentsManaged());
 
         return "user";
     }
