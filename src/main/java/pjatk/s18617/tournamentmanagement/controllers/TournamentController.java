@@ -57,9 +57,13 @@ public class TournamentController {
     public String showTournament(@PathVariable Long tournamentId, Model model) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
 
+        // in-memory because it's a small data set, as well as already sorted alphabetically beforehand
+        List<TournamentTeam> teamRegistrationsSortedByScoreSum = tournament.getTeamRegistrations().stream()
+                .sorted(Comparator.comparing(TournamentTeam::getScoreSum, Comparator.reverseOrder())).toList();
+
         model.addAttribute("tournament", tournament);
         model.addAttribute("sortedMatches", tournament.getMatches());
-        model.addAttribute("sortedTeamRegistrations", tournament.getTeamRegistrations());
+        model.addAttribute("sortedTeamRegistrations", teamRegistrationsSortedByScoreSum);
         return "tournament/tournament";
     }
 
