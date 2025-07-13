@@ -64,6 +64,9 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
+                    <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a class="dropdown-item" th:href="@{'/game/new'}">[ADMIN] Nowa gra...</a>
+                    </li>
                     <li><a class="dropdown-item" th:href="@{'/team/new'}">Nowa drużyna...</a></li>
                     <li><a class="dropdown-item" th:href="@{'/tournament/new'}">Nowy turniej...</a></li>
                     <li>

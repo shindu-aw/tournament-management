@@ -20,10 +20,6 @@
             </ol>
         </nav>
 
-        <div th:if="${isAdmin}" >
-            <a th:href="@{'/game/new'}" >Dodaj grę</a>
-        </div>
-
         <h1>Lista gier</h1>
 
         <p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
