@@ -24,12 +24,28 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
     private final TeamService teamService;
     private final MatchService matchService;
 
+    @Override
+    public void checkDeleteAuthorization(TournamentTeam tournamentTeam, User user) {
+        boolean userIsNotAdmin = !user.isAdmin();
+        boolean userIsNotTournamentOwner = !user.equals(tournamentTeam.getTournament().getUserOwner());
+        boolean userIsNotTeamOwner = !user.equals(tournamentTeam.getTeam().getUserOwner());
+        boolean cannotDeleteTournamentRegistration = userIsNotAdmin && userIsNotTournamentOwner && userIsNotTeamOwner;
+        if (cannotDeleteTournamentRegistration)
+            throw new AccessDeniedException("Nie masz praw do usunięcia tego członkostwa.");
+    }
+
+    @Override
+    public void checkDeleteAuthorization(TournamentTeam tournamentTeam, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        checkDeleteAuthorization(tournamentTeam, user);
+    }
+
     @Transactional
     @Override
     public void deleteWithAuthorization(Long tournamentTeamId, String username) {
         TournamentTeam tournamentTeam = tournamentTeamRepository.findById(tournamentTeamId)
                 .orElseThrow(NotFoundException::new);
-        tournamentService.checkAuthorization(tournamentTeam.getTournament(), username);
+        checkDeleteAuthorization(tournamentTeam, username);
 
         // all matches connected to this TournamentTeam entity are automatically deleted thanks to CascadeType.DELETE
 
