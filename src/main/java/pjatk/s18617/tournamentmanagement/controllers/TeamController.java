@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
-import pjatk.s18617.tournamentmanagement.model.Link;
-import pjatk.s18617.tournamentmanagement.model.Team;
-import pjatk.s18617.tournamentmanagement.model.TeamUser;
-import pjatk.s18617.tournamentmanagement.model.TournamentTeam;
+import pjatk.s18617.tournamentmanagement.model.*;
 import pjatk.s18617.tournamentmanagement.services.TeamService;
+import pjatk.s18617.tournamentmanagement.services.UserService;
 
 import java.security.Principal;
 import java.util.Comparator;
@@ -26,6 +24,7 @@ import java.util.List;
 public class TeamController {
 
     private final TeamService teamService;
+    private final UserService userService;
 
     @GetMapping("/team/{teamId}")
     public String showTeam(@PathVariable Long teamId, Model model) {
@@ -50,12 +49,13 @@ public class TeamController {
     public String deleteTeam(@PathVariable Long teamId, Principal principal, RedirectAttributes redirectAttributes) {
         Team teamToDelete = teamService.findById(teamId).orElseThrow(NotFoundException::new);
         String username = principal.getName();
+        User userOwner = teamToDelete.getUserOwner();
 
         String message = "Drużyna '" + teamToDelete.getName() + "' usunięta.";
         redirectAttributes.addAttribute("message", message);
 
         teamService.deleteWithAuthorization(teamToDelete, username);
-        return "redirect:/";
+        return "redirect:/user/" + userOwner.getId();
     }
 
     @GetMapping("/team/new")
