@@ -53,13 +53,13 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                         </form>
                     </div>
 
-                    <table>
+                    <table class="table">
                         <tr>
-                            <td>Kod dla zarządzających turniejem:</td>
+                            <th>Kod dla zarządzających turniejem:</th>
                             <td><code th:text="${{tournament.manageSecretCode}}"></code></td>
                         </tr>
                         <tr>
-                            <td>Kod dla dołączających drużyn:</td>
+                            <th>Kod dla dołączających drużyn:</th>
                             <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
                         </tr>
                     </table>
@@ -73,7 +73,7 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
                     <h3>Moderatorzy turnieju</h3>
 
-                    <table>
+                    <table class="table">
                         <tr th:each="moderator: ${tournament.usersManaging}">
                             <td th:text="${{moderator.username}}"/>
                             <td>
@@ -96,17 +96,20 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
             <div class="col-md-4">
                 <h2>Podstawowe dane</h2>
 
-                <table>
+                <table class="table">
                     <tr>
-                        <td>Właściciel:</td>
-                        <td th:text="${{tournament.userOwner.username}}"/>
+                        <th>Właściciel:</th>
+                        <td>
+                            <a th:text="${{tournament.userOwner.username}}"
+                               th:href="@{'/user/' + ${tournament.userOwner.id}}"></a>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Data rozpoczęcia:</td>
+                        <th>Data rozpoczęcia:</th>
                         <td th:text="${{tournament.startDate}}"/>
                     </tr>
                     <tr>
-                        <td>Data zakończenia:</td>
+                        <th>Data zakończenia:</th>
                         <td th:if="${tournament.endDate} != null" th:text="${{tournament.endDate}}"/>
                     </tr>
                 </table>
@@ -123,25 +126,25 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                 <h2>Lokalizacja</h2>
 
                 <div th:if="${tournament.location != null}">
-                    <table th:if="${tournament.location} != null">
+                    <table th:if="${tournament.location} != null" class="table">
                         <tr>
-                            <td>Kraj:</td>
+                            <th>Kraj:</th>
                             <td th:text="${{tournament.location.country}}"/>
                         </tr>
                         <tr>
-                            <td>Kod pocztowy:</td>
+                            <th>Kod pocztowy:</th>
                             <td th:text="${{tournament.location.postalCode}}"/>
                         </tr>
                         <tr>
-                            <td>Miasto:</td>
+                            <th>Miasto:</th>
                             <td th:text="${{tournament.location.city}}"/>
                         </tr>
                         <tr>
-                            <td>Ulica:</td>
+                            <th>Ulica:</th>
                             <td th:text="${{tournament.location.street}}"/>
                         </tr>
                         <tr>
-                            <td>Numer domu:</td>
+                            <th>Numer domu:</th>
                             <td th:text="${{tournament.location.houseNumber}}"/>
                         </tr>
                     </table>
