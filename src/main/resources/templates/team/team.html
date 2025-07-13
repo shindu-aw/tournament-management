@@ -148,7 +148,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                 <td th:if="${isAdminOrOwner}">
                     <form th:action="@{'/team/'+${team.id}+'/tournament/leave/'+${tournamentRegistration.id}}"
                           method="post" class="m-0">
-                        <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                        <input type="submit" value="Opuść" class="btn btn-danger btn-sm"/>
                     </form>
                 </td>
             </tr>
