@@ -83,7 +83,9 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 </td>
                 <td th:text="${{tournament.description}}"></td>
                 <td th:text="${{tournament.startDate}}"></td>
-                <td th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></td>
+                <td>
+                    <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
+                </td>
             </tr>
             </tbody>
 
@@ -107,7 +109,9 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 </td>
                 <td th:text="${{tournament.description}}"></td>
                 <td th:text="${{tournament.startDate}}"></td>
-                <td th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></td>
+                <td>
+                    <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
+                </td>
             </tr>
             </tbody>
         </table>
