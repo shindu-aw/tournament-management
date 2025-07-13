@@ -35,7 +35,7 @@ public class TournamentController {
         return "tournament/tournament-add";
     }
 
-    
+
     @PostMapping("/tournament/new/{gameId}")
     public String processTournamentCreationForm(@PathVariable Long gameId, Principal principal,
                                                 @Valid TournamentCreationDto tournamentCreationDto,
@@ -107,12 +107,13 @@ public class TournamentController {
                                    RedirectAttributes redirectAttributes) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
         String currentUserName = principal.getName();
+        User userOwner = tournament.getUserOwner();
 
         String message = "Turniej '" + tournament.getName() + "' usunięty.";
         redirectAttributes.addAttribute("message", message);
 
         tournamentService.deleteWithAuthorization(tournament, currentUserName);
-        return "redirect:/";
+        return "redirect:/user/" + userOwner.getId();
     }
 
     @PostMapping("/tournament/{tournamentId}/regenerate-secret-codes")

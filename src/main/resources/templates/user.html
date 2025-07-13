@@ -96,6 +96,9 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 <th>Opis</th>
                 <th>Data rozpoczęcia</th>
                 <th>Data zakończenia</th>
+                <th th:if="${canEdit}">
+                    Akcje
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -107,6 +110,18 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 <td th:text="${{tournament.startDate}}"></td>
                 <td>
                     <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
+                </td>
+                <td class="d-flex gap-2">
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
+                        <input type="submit" value="Edytuj" class="btn btn-secondary btn-sm"/>
+                    </form>
+                    <form class="m-0">
+                        <input type="submit" value="Zakończ" class="btn btn-success btn-sm"/>
+                        <!-- TODO implement (on user.html and tournament.html) -->
+                    </form>
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
+                        <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                    </form>
                 </td>
             </tr>
             </tbody>
