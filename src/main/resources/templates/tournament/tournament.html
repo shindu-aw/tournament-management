@@ -117,7 +117,8 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                 </table>
 
                 <div sec:authorize="isAuthenticated()" th:unless="${isOwnerOrAdminOrModerator}">
-                    <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}">
+                    <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}"
+                       class="btn btn-primary btn-sm">
                         Aplikuj jako moderator do tego turnieju.
                     </a>
                 </div>
@@ -185,6 +186,31 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
             </div>
         </div>
+
+
+        <h2>Ogłoszenia</h2>
+
+        <p>
+            <a th:if="${isOwnerOrAdmin}" th:href="@{'/tournament/' + ${tournament.id} + '/announcement/new'}"
+               class="btn btn-primary btn-sm">Dodaj ogłoszenie</a>
+        </p>
+
+
+        <ul class="list-group">
+            <li class="list-group-item" th:each="announcement : ${tournament.announcements}">
+                <h5 th:text="${{announcement.title}}"></h5>
+                <h6 th:text="${{announcement.creationDate}}"></h6>
+
+                <div th:if="${isOwnerOrAdmin}">
+                    <form th:action="@{'/tournament/' + ${tournamentId} + '/announcement/delete/' + ${announcement.id}}"
+                          method="post" class="m-0">
+                        <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm "/>
+                    </form>
+                </div>
+
+                <p th:text="${{announcement.description}}"></p>
+            </li>
+        </ul>
 
 
         <h2>Drużyny</h2>
