@@ -64,15 +64,17 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                 <a th:if="${isAdminOrOwner}" th:href="@{'/team/' + ${team.id} + '/link/new'}"
                    class="btn btn-primary btn-sm">Dodaj link</a>
 
-                <ul th:each="link: ${links}" class="list-group">
-                    <li class="list-group-item d-flex gap-2">
-                        <form th:action="@{'/team/' + ${team.id} + '/link/delete/' + ${link.id}}"
-                              method="post" class="m-0">
-                            <input type="submit" value="Usuń" class="btn btn-danger btn-sm "/>
-                        </form>
-                        <a th:href="${link.url}" th:text="${{link.name}}"></a>
-                    </li>
-                </ul>
+                <table class="table">
+                    <tr th:each="link : ${links}">
+                        <td class="d-flex gap-2">
+                            <form th:if="${isAdminOrOwner}" method="post" class="m-0"
+                                  th:action="@{'/team/' + ${team.id} + '/link/delete/' + ${link.id}}">
+                                <input type="submit" value="Usuń" class="btn btn-danger btn-sm "/>
+                            </form>
+                            <a th:href="${link.url}" th:text="${{link.name}}"></a>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
         </div>
