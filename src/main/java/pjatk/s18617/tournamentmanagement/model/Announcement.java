@@ -21,11 +21,11 @@ public class Announcement {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "description", length = 1000)
+    @Column(name = "description", nullable = false, length = 1000)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "tournament_id")
+    @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
     @CreationTimestamp
