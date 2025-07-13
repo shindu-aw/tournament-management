@@ -16,8 +16,6 @@ import pjatk.s18617.tournamentmanagement.services.TeamService;
 import pjatk.s18617.tournamentmanagement.services.UserService;
 
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,18 +28,10 @@ public class TeamController {
     public String showTeam(@PathVariable Long teamId, Model model) {
         Team viewedTeam = teamService.findById(teamId).orElseThrow(NotFoundException::new);
 
-        // in-memory sort instead of DB call because they're small data sets
-        List<TeamUser> userRegistrations = viewedTeam.getUserRegistrations().stream()
-                .sorted(Comparator.comparing(TeamUser::getUserName)).toList();
-        List<TournamentTeam> tournamentRegistrations = viewedTeam.getTournamentRegistrations().stream()
-                .sorted(Comparator.comparing(TournamentTeam::getTournamentName)).toList();
-        List<Link> links = viewedTeam.getLinks().stream()
-                .sorted(Comparator.comparing(Link::getName)).toList();
-
         model.addAttribute("team", viewedTeam);
-        model.addAttribute("userRegistrations", userRegistrations);
-        model.addAttribute("tournamentRegistrations", tournamentRegistrations);
-        model.addAttribute("links", links);
+        model.addAttribute("userRegistrations", viewedTeam.getUserRegistrations());
+        model.addAttribute("tournamentRegistrations", viewedTeam.getTournamentRegistrations());
+        model.addAttribute("links", viewedTeam.getLinks());
         return "team/team";
     }
 
