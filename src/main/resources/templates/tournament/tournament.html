@@ -56,11 +56,11 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                     <table>
                         <tr>
                             <td>Kod dla zarządzających turniejem:</td>
-                            <td th:text="${{tournament.manageSecretCode}}"></td>
+                            <td><code th:text="${{tournament.manageSecretCode}}"></code></td>
                         </tr>
                         <tr>
                             <td>Kod dla dołączających drużyn:</td>
-                            <td th:text="${{tournament.joinSecretCode}}"></td>
+                            <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
                         </tr>
                     </table>
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post"
