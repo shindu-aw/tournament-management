@@ -93,6 +93,9 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                 <th>Nazwa</th>
                 <th>Gra</th>
                 <th>Data dołączenia</th>
+                <th th:if="${isAdminOrOwner}">
+                    Akcje
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -106,6 +109,12 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                        th:text="${{userRegistration.game.name}}"></a>
                 </td>
                 <td th:text="${{userRegistration.joinDate}}"></td>
+                <td th:if="${isAdminOrOwner}">
+                    <form th:action="@{'/team/'+${team.id}+'/member/remove/'+${userRegistration.id}}"
+                          method="post" class="m-0">
+                        <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                    </form>
+                </td>
             </tr>
             </tbody>
 
@@ -120,6 +129,9 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                 <th>Nazwa</th>
                 <th>Data rozpoczęcia</th>
                 <th>Data zakończenia</th>
+                <th th:if="${isAdminOrOwner}">
+                    Akcje
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -129,8 +141,16 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                        th:text="${{tournamentRegistration.tournament.name}}"></a>
                 </td>
                 <td th:text="${{tournamentRegistration.tournament.startDate}}"></td>
-                <td th:if="${tournamentRegistration.tournament.endDate != null}"
-                    th:text="${{tournamentRegistration.tournament.endDate}}"></td>
+                <td>
+                    <span th:if="${tournamentRegistration.tournament.endDate != null}"
+                          th:text="${{tournamentRegistration.tournament.endDate}}"></span>
+                </td>
+                <td th:if="${isAdminOrOwner}">
+                    <form th:action="@{'/team/'+${team.id}+'/tournament/leave/'+${tournamentRegistration.id}}"
+                          method="post" class="m-0">
+                        <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                    </form>
+                </td>
             </tr>
             </tbody>
 

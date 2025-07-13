@@ -71,4 +71,12 @@ public class TeamUserController {
         return "redirect:/team/" + teamId;
     }
 
+    @PostMapping("/team/{teamId}/member/remove/{teamUserId}")
+    public String removeMemberTeamSide(@PathVariable Long teamId, @PathVariable Long teamUserId,
+                                       Principal principal) {
+        String username = principal.getName();
+        teamUserService.deleteWithAuthorization(teamUserId, username);
+        return "redirect:/team/" + teamId;
+    }
+
 }

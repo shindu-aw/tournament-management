@@ -11,17 +11,32 @@ import pjatk.s18617.tournamentmanagement.model.Game;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.TeamUser;
 import pjatk.s18617.tournamentmanagement.model.User;
-import pjatk.s18617.tournamentmanagement.repositories.TeamRepository;
 import pjatk.s18617.tournamentmanagement.repositories.TeamUserRepository;
 
 @RequiredArgsConstructor
 @Service
 public class TeamUserServiceImpl implements TeamUserService {
 
-    private final TeamRepository teamRepository;
     private final TeamUserRepository teamUserRepository;
     private final UserService userService;
     private final GameService gameService;
+    private final TeamService teamService;
+
+    @Override
+    public void checkDeleteAuthorization(TeamUser teamUser, User user) {
+        boolean userIsNotAdmin = !user.isAdmin();
+        boolean userIsNotTeamOwner = !user.equals(teamUser.getTeam().getUserOwner());
+        boolean userIsNotMember = !user.equals(teamUser.getUser());
+        boolean cannotDeleteMembership = userIsNotAdmin && userIsNotTeamOwner && userIsNotMember;
+        if (cannotDeleteMembership)
+            throw new AccessDeniedException("Nie masz praw do usunięcia tego członkostwa.");
+    }
+
+    @Override
+    public void checkDeleteAuthorization(TeamUser teamUser, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        checkDeleteAuthorization(teamUser, user);
+    }
 
     @Override
     public TeamUser save(TeamUserCreationDto dto, Team team, String username) {
@@ -45,6 +60,14 @@ public class TeamUserServiceImpl implements TeamUserService {
                 .build();
 
         return teamUserRepository.save(teamUser);
+    }
+
+    @Override
+    public void deleteWithAuthorization(Long teamUserId, String username) {
+        TeamUser teamUser = teamUserRepository.findById(teamUserId).orElseThrow(NotFoundException::new);
+        checkDeleteAuthorization(teamUser, username);
+
+        teamUserRepository.delete(teamUser);
     }
 
 }
