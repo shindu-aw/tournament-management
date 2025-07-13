@@ -22,18 +22,26 @@
                         <li class="breadcrumb-item">
                             <a th:href="@{'/game'}" class="link-body-emphasis fw-semibold text-decoration-none">Gry</a>
                         </li>
-                        <li class="breadcrumb-item">
-                            <a th:href="@{'/game/' + ${game.id}}" th:text="${game.name}"
-                               class="link-body-emphasis fw-semibold text-decoration-none"></a>
-                        </li>
                         <li th:text="'Dodawanie turnieju'" class="breadcrumb-item active" aria-current="page"></li>
                     </ol>
                 </nav>
 
-                <form action="#" th:action="@{'/tournament/new/' + ${game.id} }" th:object="${tournamentCreationDto}" method="post"
+                <form action="#" th:action="@{'/tournament/new' }" th:object="${tournamentCreationDto}" method="post"
                       autocomplete="off">
 
                     <h1 class="h3 mb-3 fw-normal text-center">Dodaj turniej</h1>
+
+                    <div class="form-group mb-3">
+                        <label for="gameId">Gra</label>
+                        <select th:field="*{gameId}" id="gameId" class="form-control">
+                            <option th:each="game: ${games}"
+                                    th:value="${game.id}"
+                                    th:text="${{game.name}}">
+                        </select>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('gameId')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
 
                     <div class="form-group mb-3">
                         <label for="name">Nazwa</label>

@@ -26,28 +26,29 @@ public class TournamentController {
     private final GameService gameService;
     private final UserService userService;
 
-    @GetMapping("/tournament/new/{gameId}")
-    public String showTournamentCreationForm(@PathVariable Long gameId, Model model) {
+    @GetMapping("/tournament/new")
+    public String showTournamentCreationForm(Model model) {
+        List<Game> games = gameService.getGamesListSortedByName();
+
+        model.addAttribute("games", games);
         model.addAttribute("tournamentCreationDto", new TournamentCreationDto());
 
-        Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
-        model.addAttribute("game", game);
         return "tournament/tournament-add";
     }
 
 
-    @PostMapping("/tournament/new/{gameId}")
-    public String processTournamentCreationForm(@PathVariable Long gameId, Principal principal,
+    @PostMapping("/tournament/new")
+    public String processTournamentCreationForm(Principal principal, Model model,
                                                 @Valid TournamentCreationDto tournamentCreationDto,
-                                                BindingResult result, Model model) {
+                                                BindingResult result) {
         if (result.hasErrors()) {
-            Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
-            model.addAttribute("game", game);
+            List<Game> games = gameService.getGamesListSortedByName();
+            model.addAttribute("games", games);
             return "tournament/tournament-add";
         }
 
         String currentUserName = principal.getName();
-        Tournament newTournament = tournamentService.save(tournamentCreationDto, gameId, currentUserName);
+        Tournament newTournament = tournamentService.save(tournamentCreationDto, currentUserName);
 
         return "redirect:/tournament/" + newTournament.getId();
     }

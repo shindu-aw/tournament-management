@@ -42,7 +42,9 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Tournament save(TournamentCreationDto tournamentCreationDto, Game game, User userOwner) {
+    public Tournament save(TournamentCreationDto tournamentCreationDto, String userOwnerUsername) {
+        Game game = gameRepository.findById(tournamentCreationDto.getGameId()).orElseThrow(NotFoundException::new);
+        User userOwner = userService.findByUsername(userOwnerUsername).orElseThrow(NotFoundException::new);
         Tournament newTournament = Tournament.builder()
                 .name(tournamentCreationDto.getName())
                 .description(tournamentCreationDto.getDescription())
@@ -54,13 +56,6 @@ public class TournamentServiceImpl implements TournamentService {
                 .manageSecretCode(SecretCodeGenerator.generateSecretCode())
                 .build();
         return tournamentRepository.save(newTournament);
-    }
-
-    @Override
-    public Tournament save(TournamentCreationDto tournamentCreationDto, Long gameId, String username) {
-        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
-        Game game = gameRepository.findById(gameId).orElseThrow(NotFoundException::new);
-        return save(tournamentCreationDto, game, user);
     }
 
     @Override

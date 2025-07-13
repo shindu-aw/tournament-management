@@ -15,9 +15,7 @@ public interface TournamentService {
 
     void checkAuthorization(Tournament tournament, String username);
 
-    Tournament save(TournamentCreationDto tournamentCreationDto, Game game, User userOwner);
-
-    Tournament save(TournamentCreationDto tournamentCreationDto, Long gameId, String username);
+    Tournament save(TournamentCreationDto tournamentCreationDto, String userOwnerUsername);
 
     List<Tournament> listByGame(Game game);
 
