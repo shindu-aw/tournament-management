@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class MatchEditDto implements Serializable {
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long id;
 
     @PositiveOrZero
@@ -33,13 +33,13 @@ public class MatchEditDto implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long tournamentId;
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long tournamentTeam1Id;
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long tournamentTeam2Id;
 
 }

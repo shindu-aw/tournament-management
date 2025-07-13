@@ -16,10 +16,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class TeamUserCreationDto implements Serializable {
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long gameId;
 
-    @NotNull
-    @Size(min = 8, max = 8)
+    @NotNull(message = "nie może być puste")
+    @Size(min = 8, max = 8, message = "musi mieć długość dokładnie 8 znaków")
     private String secretCode;
 }

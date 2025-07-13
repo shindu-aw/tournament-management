@@ -19,15 +19,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TournamentEditDto implements Serializable {
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 50)
-    @NotEmpty
+    @NotNull(message = "nie może być puste")
+    @Size(min = 1, max = 50, message = "nie może być krótsze od 1 i dłuższe od 50 znaków")
+    @NotEmpty(message = "nie może być puste")
     private String name;
 
-    @Size(max = 1000)
+    @Size(max = 1000, message = "nie może być dłuższe od 1000 znaków")
     private String description;
 
     @NotNull(message = "nie może być puste")

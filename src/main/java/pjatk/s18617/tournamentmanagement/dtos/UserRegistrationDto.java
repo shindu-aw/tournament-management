@@ -18,15 +18,15 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class UserRegistrationDto implements Serializable {
 
-    @NotNull
-    @Size(min = 1, max = 20)
-    @NotEmpty
+    @NotNull(message = "nie może być puste")
+    @Size(min = 1, max = 20, message = "nie może być krótsze od 1 i dłuższe od 20 znaków")
+    @NotEmpty(message = "nie może być puste")
     @UniqueUsername
     private String username;
 
-    @NotNull
-    @Size(min = 8, max = 30)
-    @NotEmpty
+    @NotNull(message = "nie może być puste")
+    @Size(min = 8, max = 30, message = "nie może być krótsze od 8 i dłuższe od 30 znaków")
+    @NotEmpty(message = "nie może być puste")
     private String password;
 
 }

@@ -18,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class TeamEditDto implements Serializable {
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long id;
 
     @NotNull(message = "nie może być puste")

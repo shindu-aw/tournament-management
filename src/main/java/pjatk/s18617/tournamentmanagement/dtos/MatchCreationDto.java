@@ -28,13 +28,13 @@ public class MatchCreationDto implements Serializable {
     @NotNull(message = "nie może być puste")
     private LocalDate date;
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long tournamentId;
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long tournamentTeam1Id;
 
-    @NotNull
+    @NotNull(message = "nie może być puste")
     private Long tournamentTeam2Id;
 
 }

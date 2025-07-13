@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SecretCodeDto {
 
-    @NotNull
-    @Size(min = 8, max = 8)
+    @NotNull(message = "nie może być puste")
+    @Size(min = 8, max = 8, message = "musi mieć długość dokładne 8 znaków")
     private String secretCode;
 
 }
