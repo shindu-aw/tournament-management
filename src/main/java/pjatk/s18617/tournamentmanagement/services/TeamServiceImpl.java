@@ -73,4 +73,14 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.save(updatedTeam);
     }
 
+    @Override
+    public Team regenerateSecretCodeWithAuthorization(Long teamId, String currentUserName) {
+        Team team =  findById(teamId).orElseThrow(NotFoundException::new);
+        checkAuthorization(team, currentUserName);
+
+        team.setSecretCode(SecretCodeGenerator.generateSecretCode());
+
+        return teamRepository.save(team);
+    }
+
 }

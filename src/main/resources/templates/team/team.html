@@ -29,14 +29,27 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
 
         <h1 th:text="'[' + ${{team.id}} + '] ' + ${{team.name}}"></h1>
 
-        <div th:if="${isAdminOrOwner}" class="d-flex gap-2">
-            <form th:action="@{'/team/' + ${team.id} + '/edit'}" method="get" class="m-0">
-                <input type="submit" value="Edytuj drużynę" class="btn btn-secondary btn-sm"/>
+        <div th:if="${isAdminOrOwner}">
+
+            <div class="d-flex gap-2">
+                <form th:action="@{'/team/' + ${team.id} + '/edit'}" method="get" class="m-0">
+                    <input type="submit" value="Edytuj drużynę" class="btn btn-secondary btn-sm"/>
+                </form>
+                <form th:action="@{'/team/' + ${team.id} + '/delete'}" method="post" class="m-0">
+                    <input type="submit" value="Usuń drużynę" class="btn btn-danger btn-sm"/>
+                </form>
+            </div>
+
+
+            <p>Kod dla dołączających użytkowników: <code th:text="${{team.secretCode}}"></code></p>
+
+            <form th:action="@{'/team/' + ${team.id} + '/regenerate-secret-code'}" method="post"
+                  class="m-0">
+                <input type="submit" value="Wygeneruj ponownie tajny kod" class="btn btn-warning btn-sm"/>
             </form>
-            <form th:action="@{'/team/' + ${team.id} + '/delete'}" method="post" class="m-0">
-                <input type="submit" value="Usuń drużynę" class="btn btn-danger btn-sm"/>
-            </form>
+
         </div>
+
 
         <div class="row">
 

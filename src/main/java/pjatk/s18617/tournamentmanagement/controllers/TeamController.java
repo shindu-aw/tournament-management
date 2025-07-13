@@ -106,4 +106,13 @@ public class TeamController {
         return "redirect:/team/" + editedTeam.getId();
     }
 
+    @PostMapping("/team/{teamId}/regenerate-secret-code")
+    public String regenerateSecretCode(@PathVariable Long teamId, Principal principal) {
+        String currentUserName = principal.getName();
+
+        teamService.regenerateSecretCodeWithAuthorization(teamId, currentUserName);
+
+        return "redirect:/team/" + teamId;
+    }
+
 }

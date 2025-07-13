@@ -22,4 +22,6 @@ public interface TeamService {
     Team save(TeamCreationDto dto, String currentUserName);
 
     Team updateWithAuthorization(Team updatedTeam, TeamEditDto dto, String currentUserName);
+
+    Team regenerateSecretCodeWithAuthorization(Long teamId, String currentUserName);
 }
