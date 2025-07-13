@@ -2,6 +2,9 @@ package pjatk.s18617.tournamentmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -24,5 +27,9 @@ public class Announcement {
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", nullable = false)
+    private LocalDate creationDate;
 
 }
