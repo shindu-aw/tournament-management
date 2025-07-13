@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,15 +41,18 @@ public class Team {
 
     @Builder.Default
     @OneToMany(mappedBy = "team", orphanRemoval = true)
-    private Set<TeamUser> userRegistrations = new LinkedHashSet<>();
+    @OrderBy("game ASC, team ASC, user ASC")
+    private List<TeamUser> userRegistrations = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "team", orphanRemoval = true)
-    private Set<TournamentTeam> tournamentRegistrations = new LinkedHashSet<>();
+    @OrderBy("tournament DESC")
+    private List<TournamentTeam> tournamentRegistrations = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Link> links = new LinkedHashSet<>();
+    @OrderBy("name")
+    private List<Link> links = new ArrayList<>();
 
     // checks whether the user is already a member of this team assigned to this game
     public boolean doesNotHaveUserRegisteredOnGame(User user, Game game) {
