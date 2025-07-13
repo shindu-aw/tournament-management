@@ -6,9 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -88,10 +86,6 @@ public class Tournament {
 
     public boolean isManagedByUser(String username) {
         return usersManaging.stream().anyMatch(user -> user.getUsername().equals(username));
-    }
-
-    public boolean doesNotHaveTeamRegistered(Team team) {
-        return teamRegistrations.stream().noneMatch(teamRegistration -> teamRegistration.getTeam().equals(team));
     }
 
 }
