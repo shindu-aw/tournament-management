@@ -37,12 +37,4 @@ public class TeamUser {
     @Column(name = "join_date", nullable = false)
     private LocalDate joinDate;
 
-    public String getTeamName() {
-        return team.getName();
-    }
-
-    public String getUserName() {
-        return user.getUsername();
-    }
-
 }
