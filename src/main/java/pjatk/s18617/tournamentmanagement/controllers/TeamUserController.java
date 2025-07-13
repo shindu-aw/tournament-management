@@ -18,7 +18,6 @@ import pjatk.s18617.tournamentmanagement.services.TeamUserService;
 import pjatk.s18617.tournamentmanagement.services.UserService;
 
 import java.security.Principal;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -36,10 +35,7 @@ public class TeamUserController {
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
 
-        // filters out games which this user is already registered with in this team
-        List<Game> games = gameService.getGamesList().stream()
-                .filter(game -> team.doesNotHaveUserRegisteredOnGame(user, game))
-                .sorted(Comparator.comparing(Game::getName)).toList();
+        List<Game> games = gameService.getGamesUserNotRegisteredForTeam(team, user);
 
         model.addAttribute("team", team);
         model.addAttribute("games", games);
@@ -59,9 +55,7 @@ public class TeamUserController {
             result.rejectValue("secretCode", "error.secretCode", "zły kod");
 
         if (result.hasErrors()) {
-            List<Game> games = gameService.getGamesList().stream()
-                    .filter(game -> team.doesNotHaveUserRegisteredOnGame(user, game))
-                    .sorted(Comparator.comparing(Game::getName)).toList();
+            List<Game> games = gameService.getGamesUserNotRegisteredForTeam(team, user);
             model.addAttribute("team", team);
             model.addAttribute("games", games);
             return "team/team-member-apply";

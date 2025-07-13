@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pjatk.s18617.tournamentmanagement.model.Game;
 import pjatk.s18617.tournamentmanagement.model.GameCreationDto;
+import pjatk.s18617.tournamentmanagement.model.Team;
+import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.GameRepository;
 
 import java.util.List;
@@ -24,6 +26,16 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> getGamesList() {
         return gameRepository.findAll();
+    }
+
+    @Override
+    public List<Game> getGamesListSortedByName() {
+        return gameRepository.findAllByOrderByNameAsc();
+    }
+
+    @Override
+    public List<Game> getGamesUserNotRegisteredForTeam(Team team, User user) {
+        return gameRepository.findGamesUserNotRegisteredForTeam(team, user);
     }
 
     @Override
