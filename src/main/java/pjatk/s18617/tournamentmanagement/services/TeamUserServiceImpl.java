@@ -47,6 +47,7 @@ public class TeamUserServiceImpl implements TeamUserService {
         Game game = gameService.getById(dto.getGameId()).orElseThrow(NotFoundException::new);
 
         // checks whether the user is already a member of this team assigned to this game
+        // TODO create an additional DB entry creation trigger checking for this
         if (!team.doesNotHaveUserRegisteredOnGame(user, game))
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
