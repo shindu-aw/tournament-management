@@ -35,62 +35,58 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
         <div th:if="${isOwnerOrAdmin}">
 
-            <h2>Zarządzaj turniejem</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Zarządzaj turniejem</h5>
+                </div>
+                <div class="card-body">
 
-            <div class="row">
-                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
 
-                    <div class="d-flex gap-2">
-                        <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
-                            <input type="submit" value="Edytuj turniej" class="btn btn-secondary btn-sm"/>
-                        </form>
-                        <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
-                            <input type="submit" value="Usuń turniej" class="btn btn-danger btn-sm"/>
-                        </form>
-                        <form class="m-0">
-                            <input type="submit" value="Zakończ turniej" class="btn btn-success btn-sm"/>
-                            <!-- TODO implement (on user.html and tournament.html) -->
-                        </form>
+                            <h3>Kody turnieju</h3>
+
+                            <table class="table">
+                                <tr>
+                                    <th>Kod dla zarządzających turniejem:</th>
+                                    <td><code th:text="${{tournament.manageSecretCode}}"></code></td>
+                                </tr>
+                                <tr>
+                                    <th>Kod dla dołączających drużyn:</th>
+                                    <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
+                                </tr>
+                            </table>
+                            <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post"
+                                  class="m-0">
+                                <input type="submit" value="Wygeneruj ponownie tajne kody" class="btn btn-warning btn-sm"/>
+                            </form>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <h3>Moderatorzy turnieju</h3>
+
+                            <table class="table">
+                                <tr th:each="moderator: ${tournament.usersManaging}">
+                                    <td th:text="${{moderator.username}}"/>
+                                    <td>
+                                        <form th:action="@{'/tournament/' + ${tournamentId} + '/moderator/remove/' + ${moderator.id}}"
+                                              method="post">
+                                            <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm"/>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
                     </div>
 
-                    <table class="table">
-                        <tr>
-                            <th>Kod dla zarządzających turniejem:</th>
-                            <td><code th:text="${{tournament.manageSecretCode}}"></code></td>
-                        </tr>
-                        <tr>
-                            <th>Kod dla dołączających drużyn:</th>
-                            <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
-                        </tr>
-                    </table>
-                    <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post"
-                          class="m-0">
-                        <input type="submit" value="Wygeneruj ponownie tajne kody" class="btn btn-warning btn-sm"/>
-                    </form>
-
                 </div>
-                <div class="col-md-6">
-
-                    <h3>Moderatorzy turnieju</h3>
-
-                    <table class="table">
-                        <tr th:each="moderator: ${tournament.usersManaging}">
-                            <td th:text="${{moderator.username}}"/>
-                            <td>
-                                <form th:action="@{'/tournament/' + ${tournamentId} + '/moderator/remove/' + ${moderator.id}}"
-                                      method="post">
-                                    <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm"/>
-                                </form>
-                            </td>
-                        </tr>
-                    </table>
 
                 </div>
             </div>
 
-            <hr>
 
-        </div>
 
         <div class="row">
             <div class="col-md-4">
@@ -115,6 +111,19 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                         </td>
                     </tr>
                 </table>
+
+                <div th:if="${isOwnerOrAdminOrModerator}" class="d-flex gap-2">
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
+                        <input type="submit" value="Edytuj turniej" class="btn btn-secondary btn-sm"/>
+                    </form>
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
+                        <input type="submit" value="Usuń turniej" class="btn btn-danger btn-sm"/>
+                    </form>
+                    <form class="m-0">
+                        <input type="submit" value="Zakończ turniej" class="btn btn-success btn-sm"/>
+                        <!-- TODO implement (on user.html and tournament.html) -->
+                    </form>
+                </div>
 
                 <div sec:authorize="isAuthenticated()" th:unless="${isOwnerOrAdminOrModerator}">
                     <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}"
