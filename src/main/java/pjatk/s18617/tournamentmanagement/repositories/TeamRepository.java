@@ -15,14 +15,8 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
      * Retrieves a list of teams owned by the specified user that are not registered in the given tournament, sorted
      * alphabetically by team name.
      *
-     * <p>
-     * This method performs a query to find all {@link Team} entities where the owner matches the provided
-     * {@link User} and the team is not yet registered in the specified {@link Tournament}. The resulting list is
-     * ordered by the team's name in ascending order.
-     * </p>
-     *
-     * @param tournament the {@link Tournament} for which team registration is checked (must not be null)
-     * @param user       the {@link User} who owns the teams to be retrieved (must not be null)
+     * @param tournament the {@link Tournament} for which team registration is checked
+     * @param user       the {@link User} who owns the teams to be retrieved
      * @return a list of {@link Team} entities owned by the user and not registered in the tournament, sorted by team
      * name in ascending order
      */
