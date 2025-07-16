@@ -2,6 +2,8 @@ package pjatk.s18617.tournamentmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,13 +12,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentEditDto;
 import pjatk.s18617.tournamentmanagement.model.*;
+import pjatk.s18617.tournamentmanagement.repositories.TournamentRepository;
 import pjatk.s18617.tournamentmanagement.services.GameService;
 import pjatk.s18617.tournamentmanagement.services.TournamentService;
 import pjatk.s18617.tournamentmanagement.services.UserService;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +31,31 @@ public class TournamentController {
     private final TournamentService tournamentService;
     private final GameService gameService;
     private final UserService userService;
+
+
+    @GetMapping("/game/{gameId}/tournaments")
+    public String showTournamentsList(@PathVariable Long gameId, Model model,
+                                      @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+                                      @RequestParam(value = "tournamentName", required = false) String tournamentName,
+                                      @RequestParam(value = "ownerUsername", required = false) String ownerUsername,
+                                      @RequestParam(value = "beforeDate", required = false) LocalDate beforeDate,
+                                      @RequestParam(value = "afterDate", required = false) LocalDate afterDate) {
+        Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
+
+        Page<Tournament> tournamentsPage = tournamentService.searchPage(
+                gameId, tournamentName, beforeDate, afterDate, ownerUsername, currentPage, 10
+        );
+
+        // page-related
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", tournamentsPage.getTotalPages());
+
+        // content
+        model.addAttribute("tournaments", tournamentsPage.getContent());
+        model.addAttribute("game", game);
+
+        return "tournaments-list";
+    }
 
     @GetMapping("/tournament/new")
     public String showTournamentCreationForm(Model model) {

@@ -22,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GameController {
 
-    private final TournamentService tournamentService;
     private final GameService gameService;
     private final UserService userService;
 
@@ -31,16 +30,6 @@ public class GameController {
         List<Game> games = gameService.getGamesList();
         model.addAttribute("games", games);
         return "games";
-    }
-
-    @GetMapping("/game/{gameId}/tournaments")
-    public String showTournaments(@PathVariable Long gameId, Model model) {
-        Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
-        List<Tournament> tournaments = tournamentService.listByGame(game);
-
-        model.addAttribute("tournaments", tournaments);
-        model.addAttribute("game", game);
-        return "tournaments-list";
     }
 
     @GetMapping("/game/new")

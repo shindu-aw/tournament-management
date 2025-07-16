@@ -1,9 +1,15 @@
 package pjatk.s18617.tournamentmanagement.services;
 
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentCreationDto;
@@ -17,6 +23,7 @@ import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +72,33 @@ public class TournamentServiceImpl implements TournamentService {
                 .manageSecretCode(SecretCodeGenerator.generateSecretCode())
                 .build();
         return tournamentRepository.save(newTournament);
+    }
+
+    @Override
+    public Page<Tournament> searchPage(Long gameId, String name, LocalDate beforeDate, LocalDate afterDate,
+                                       String ownerUsername, Integer pageNumber, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber - 1,
+                pageSize,
+                Sort.by(Sort.Direction.DESC, "startDate")
+        );
+
+        Specification<Tournament> specification = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (gameId != null)
+                predicates.add(criteriaBuilder.equal(root.get("game").get("id"), gameId));
+            if (StringUtils.hasText(name))
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
+            if (beforeDate != null)
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("startDate"), beforeDate));
+            if (afterDate != null)
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), afterDate));
+            if (StringUtils.hasText(ownerUsername))
+                predicates.add(criteriaBuilder.like(root.get("userOwner").get("username"), "%" + ownerUsername + "%"));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return tournamentRepository.findAll(specification, pageRequest);
     }
 
     @Override
