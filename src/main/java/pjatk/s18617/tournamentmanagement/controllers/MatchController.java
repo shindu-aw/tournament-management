@@ -40,6 +40,7 @@ public class MatchController {
 
         String username = principal.getName();
         matchService.checkAuthorization(tournament, username);
+        tournamentService.throwBadRequestIfFinished(tournament);
 
         MatchCreationDto matchCreationDto = new MatchCreationDto();
         matchCreationDto.setTournamentId(tournamentId);
@@ -71,6 +72,7 @@ public class MatchController {
 
         String username = principal.getName();
         matchService.checkAuthorization(match.getTournament(), username);
+        tournamentService.throwBadRequestIfFinished(match.getTournament());
 
         MatchEditDto matchEditDto = new MatchEditDto(
                 match.getId(),

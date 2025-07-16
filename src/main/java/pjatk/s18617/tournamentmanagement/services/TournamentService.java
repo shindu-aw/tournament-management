@@ -15,6 +15,8 @@ public interface TournamentService {
 
     void checkAuthorization(Tournament tournament, String username);
 
+    void throwBadRequestIfFinished(Tournament tournament);
+
     Tournament save(TournamentCreationDto tournamentCreationDto, String userOwnerUsername);
 
     List<Tournament> listByGame(Game game);
@@ -37,4 +39,5 @@ public interface TournamentService {
 
     void removeUserModeratorWithAuthorization(Long tournamentId, Long managingUserId, String currentUserName);
 
+    void setAsFinishedWithAuthorization(Long tournamentId, String currentUserName);
 }

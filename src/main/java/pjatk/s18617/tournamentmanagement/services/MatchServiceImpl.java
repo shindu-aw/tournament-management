@@ -24,6 +24,7 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
     private final UserService userService;
     private final TournamentTeamRepository tournamentTeamRepository;
+    private final TournamentService tournamentService;
 
     @Override
     public void checkAuthorization(Tournament tournament, String username) {
@@ -50,6 +51,7 @@ public class MatchServiceImpl implements MatchService {
     public void deleteWithAuthorization(Match match, String username) {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         checkAuthorization(match.getTournament(), user);
+        tournamentService.throwBadRequestIfFinished(match.getTournament());
 
         // each TournamentTeam's scoreSum is updated in Match entity's JPA lifecycle methods TODO change to DB trigger
 
@@ -61,6 +63,7 @@ public class MatchServiceImpl implements MatchService {
     public Match saveWithAuthorization(MatchCreationDto matchCreationDto, Tournament tournament, String username) {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         checkAuthorization(tournament, user);
+        tournamentService.throwBadRequestIfFinished(tournament);
 
         TournamentTeam tournamentTeam1 = tournamentTeamRepository.findById(matchCreationDto.getTournamentTeam1Id())
                 .orElseThrow(NotFoundException::new);
@@ -85,6 +88,7 @@ public class MatchServiceImpl implements MatchService {
     public Match updateWithAuthorization(Match match, MatchEditDto matchEditDto, String username) {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         checkAuthorization(match.getTournament(), user);
+        tournamentService.throwBadRequestIfFinished(match.getTournament());
 
         TournamentTeam newTournamentTeam1 = tournamentTeamRepository.findById(matchEditDto.getTournamentTeam1Id())
                 .orElseThrow(NotFoundException::new);

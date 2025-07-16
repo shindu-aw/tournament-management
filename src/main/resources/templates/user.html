@@ -115,9 +115,9 @@ canEdit=${isAdmin or #authentication.name == user.username}
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
                         <input type="submit" value="Edytuj" class="btn btn-secondary btn-sm"/>
                     </form>
-                    <form class="m-0">
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}"
+                          method="post" class="m-0">
                         <input type="submit" value="Zakończ" class="btn btn-success btn-sm"/>
-                        <!-- TODO implement (on user.html and tournament.html) -->
                     </form>
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
                         <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>

@@ -11,7 +11,8 @@
 <section layout:fragment="content" th:with="
 isAdmin=${#authorization.expression('hasRole(''ADMIN'')')},
 isOwnerOrAdmin=${isAdmin or #authentication.name == tournament.userOwner.username},
-isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authentication.name)}
+isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authentication.name)},
+isNotFinished=${not tournament.finished}
 ">
     <div class="container">
 
@@ -32,6 +33,14 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
         </nav>
 
         <h1><span th:text="${tournament.name}"/></h1>
+
+
+        <div th:unless="${isNotFinished}" class="alert alert-warning" role="alert">
+            Ten turniej jest zakończony.
+            <br>
+            Funkcje dodawania meczów i drużyn, a także usuwania meczów są wyłączone.
+        </div>
+
 
         <div th:if="${isOwnerOrAdmin}">
 
@@ -56,9 +65,11 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                                     <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
                                 </tr>
                             </table>
-                            <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}" method="post"
+                            <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}"
+                                  method="post"
                                   class="m-0">
-                                <input type="submit" value="Wygeneruj ponownie tajne kody" class="btn btn-warning btn-sm"/>
+                                <input type="submit" value="Wygeneruj ponownie tajne kody"
+                                       class="btn btn-warning btn-sm"/>
                             </form>
 
                         </div>
@@ -83,9 +94,8 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
                 </div>
 
-                </div>
             </div>
-
+        </div>
 
 
         <div class="row">
@@ -119,9 +129,9 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
                         <input type="submit" value="Usuń turniej" class="btn btn-danger btn-sm"/>
                     </form>
-                    <form class="m-0">
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}"
+                          method="post" class="m-0">
                         <input type="submit" value="Zakończ turniej" class="btn btn-success btn-sm"/>
-                        <!-- TODO implement (on user.html and tournament.html) -->
                     </form>
                 </div>
 
@@ -224,7 +234,8 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
         <h2>Drużyny</h2>
 
-        <form sec:authorize="isAuthenticated()" th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
+        <form sec:authorize="isAuthenticated()" th:if="${isNotFinished}"
+              th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
               method="get">
             <input type="submit" value="Aplikuj drużyną" class="btn btn-primary"/>
         </form>
@@ -261,7 +272,7 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
 
         <h2>Mecze</h2>
 
-        <div th:if="${isOwnerOrAdminOrModerator}">
+        <div th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
             <form th:action="@{'/tournament/' + ${tournament.id} + '/new/match'}" method="get">
                 <input type="submit" value="Dodaj nowy mecz" class="btn btn-primary"/>
             </form>
@@ -276,7 +287,7 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                 <th>Wynik drużyny 1</th>
                 <th>Drużyna 2</th>
                 <th>Wynik drużyny 2</th>
-                <th th:if="${isOwnerOrAdminOrModerator}">
+                <th th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
                     Akcje
                 </th>
             </tr>
@@ -298,7 +309,7 @@ isOwnerOrAdminOrModerator=${isOwnerOrAdmin or tournament.isManagedByUser(#authen
                 </td>
                 <td th:text="${{match.team2Score}}"/>
 
-                <td th:if="${isOwnerOrAdminOrModerator}">
+                <td th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
                     <!--
                     d-flex makes the container flex (horizontal)
                     gap-2 adds spacing between buttons

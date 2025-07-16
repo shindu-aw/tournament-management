@@ -1,8 +1,10 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentEditDto;
@@ -39,6 +41,12 @@ public class TournamentServiceImpl implements TournamentService {
     public void checkAuthorization(Tournament tournament, String username) {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         checkAuthorization(tournament, user);
+    }
+
+    @Override
+    public void throwBadRequestIfFinished(Tournament tournament) {
+        if (tournament.getFinished()) // if the tournament is finished
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ten turniej jest już zakończony.");
     }
 
     @Override
@@ -131,6 +139,19 @@ public class TournamentServiceImpl implements TournamentService {
 
         User userManager = userService.findById(managingUserId).orElseThrow(NotFoundException::new);
         tournament.getUsersManaging().remove(userManager);
+        tournamentRepository.save(tournament);
+    }
+
+    @Override
+    public void setAsFinishedWithAuthorization(Long tournamentId, String currentUserName) {
+        Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(NotFoundException::new);
+        checkAuthorization(tournament, currentUserName);
+
+        // check if it's already finished in case any logic is implemented in the future that would be executed
+        // when the tournament is set as finished, to avoid running it multiple times
+        throwBadRequestIfFinished(tournament);
+
+        tournament.setFinished(true);
         tournamentRepository.save(tournament);
     }
 

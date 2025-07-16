@@ -127,5 +127,13 @@ public class TournamentController {
         return "redirect:/tournament/" + tournamentId;
     }
 
+    @PostMapping("/tournament/{tournamentId}/set-as-finished")
+    public String setAsFinished(@PathVariable Long tournamentId, Principal principal) {
+        String currentUserName = principal.getName();
+        tournamentService.setAsFinishedWithAuthorization(tournamentId, currentUserName);
+
+        return "redirect:/tournament/" + tournamentId;
+    }
+
 
 }

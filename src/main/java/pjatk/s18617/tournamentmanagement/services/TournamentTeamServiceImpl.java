@@ -60,6 +60,7 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
         Team team = teamRepository.findById(dto.getTeamId()).orElseThrow(NotFoundException::new);
 
         teamService.checkAuthorization(team, user);
+        tournamentService.throwBadRequestIfFinished(tournament);
 
         TournamentTeam tournamentTeam = TournamentTeam.builder()
                 .team(team)

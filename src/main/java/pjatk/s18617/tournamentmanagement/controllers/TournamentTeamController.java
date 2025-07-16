@@ -47,6 +47,7 @@ public class TournamentTeamController {
     @GetMapping("/tournament/{tournamentId}/team/add")
     public String showTeamAdditionForm(@PathVariable Long tournamentId, Model model, Principal principal) {
         Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        tournamentService.throwBadRequestIfFinished(tournament);
 
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
