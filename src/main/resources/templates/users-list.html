@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title th:text="'Lista graczy'"></title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+
+        <h1 th:text="'Lista graczy'"></h1>
+
+        <form th:action="@{'/user/list'}" method="get" autocomplete="off">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <label for="username" class="form-label">Nazwa użytkownika</label>
+                    <input type="text" th:name="username" name="username" id="username"
+                           class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="teamName" class="form-label">Nazwa drużyny, w której się znajduje</label>
+                    <input type="text" th:name="teamName" name="teamName" id="teamName"
+                           class="form-control">
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+        </form>
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nazwa</th>
+                <th>Opis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${users}" th:classappend="${user.isAdmin()} ? 'table-primary'">
+                <td th:text="${user.id}"></td>
+                <td>
+                    <a th:text="${{user.username}}" th:href="@{'/user/' + ${user.id}}"></a>
+                </td>
+                <td th:text="${user.description}"/>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <!-- * Requires totalPages and currentPage model attributes to be passed * -->
+        <nav th:replace="~{fragments/pagination::pagination}"></nav>
+
+    </div>
+</section>
+</body>
+</html>

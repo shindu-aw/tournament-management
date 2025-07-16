@@ -1,15 +1,25 @@
 package pjatk.s18617.tournamentmanagement.services;
 
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -17,6 +27,35 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Override
+    public Page<User> searchPage(String username, String teamName, Integer pageNumber, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber - 1,
+                pageSize,
+                Sort.by(Sort.Direction.ASC, "username")
+        );
+
+        Specification<User> specification = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(username))
+                predicates.add(criteriaBuilder.like(root.get("username"), "%" + username + "%"));
+            if (StringUtils.hasText(teamName)) {
+                Join<Object, Object> teamRegistrationsJoin = root.join("teamRegistrations", JoinType.LEFT);
+                Predicate registrationPredicate = criteriaBuilder.like(
+                        teamRegistrationsJoin.get("team").get("name"),
+                        "%" + teamName + "%"
+                );
+                query.distinct(true); // to avoid duplicates because of join operation
+                predicates.add(registrationPredicate);
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return userRepository.findAll(specification, pageRequest);
+    }
 
     @Override
     public void checkAdminAuthorization(User user) {

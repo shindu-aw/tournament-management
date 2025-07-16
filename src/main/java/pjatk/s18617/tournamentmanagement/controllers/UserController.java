@@ -2,12 +2,14 @@ package pjatk.s18617.tournamentmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
@@ -99,6 +101,24 @@ public class UserController {
         userService.updateUserWithAuthorization(editedUser, userEditDto, currentUserName);
 
         return "redirect:/user/" + userId;
+    }
+
+    @GetMapping("/user/list")
+    public String showUserList(Model model,
+                               @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+                               @RequestParam(value = "username", required = false) String username,
+                               @RequestParam(value = "teamName", required = false) String teamName
+    ) {
+        Page<User> usersPage = userService.searchPage(username, teamName, currentPage, 10);
+
+        // page-related
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", usersPage.getTotalPages());
+
+        // content
+        model.addAttribute("users", usersPage.getContent());
+
+        return "users-list";
     }
 
 }
