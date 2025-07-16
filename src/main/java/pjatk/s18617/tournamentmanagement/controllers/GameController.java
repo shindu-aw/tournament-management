@@ -40,7 +40,7 @@ public class GameController {
 
         model.addAttribute("tournaments", tournaments);
         model.addAttribute("game", game);
-        return "game";
+        return "tournaments-list";
     }
 
     @GetMapping("/game/new")
