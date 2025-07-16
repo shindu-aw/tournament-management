@@ -16,6 +16,7 @@ import pjatk.s18617.tournamentmanagement.repositories.TournamentRepository;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -151,6 +152,8 @@ public class TournamentServiceImpl implements TournamentService {
         // when the tournament is set as finished, to avoid running it multiple times
         throwBadRequestIfFinished(tournament);
 
+        if (tournament.getEndDate() == null)
+            tournament.setEndDate(LocalDate.now());
         tournament.setFinished(true);
         tournamentRepository.save(tournament);
     }
