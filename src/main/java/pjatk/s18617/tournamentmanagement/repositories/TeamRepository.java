@@ -1,6 +1,7 @@
 package pjatk.s18617.tournamentmanagement.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pjatk.s18617.tournamentmanagement.model.Team;
@@ -9,7 +10,7 @@ import pjatk.s18617.tournamentmanagement.model.User;
 
 import java.util.List;
 
-public interface TeamRepository extends JpaRepository<Team, Long> {
+public interface TeamRepository extends JpaRepository<Team, Long>, JpaSpecificationExecutor<Team> {
 
     /**
      * Retrieves a list of teams owned by the specified user that are not registered in the given tournament, sorted

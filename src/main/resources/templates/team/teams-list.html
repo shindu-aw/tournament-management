@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title th:text="'Lista drużyn'"></title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+
+        <h1 th:text="'Lista drużyn'"></h1>
+
+        <form th:action="@{'/team/list'}" method="get" autocomplete="off">
+            <div class="mb-3">
+                <label for="teamName" class="form-label">Nazwa drużyny</label>
+                <input type="text" th:name="teamName" name="teamName" id="teamName"
+                       class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
+                <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
+                       class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="registeredUsername" class="form-label">Nazwa gracza</label>
+                <input type="text" th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
+                       class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Szukaj</button>
+        </form>
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Właściciel</th>
+                <th>Opis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="team: ${teams}">
+                <td>
+                    <a th:text="${{team.name}}" th:href="@{'/team/' + ${team.id}}"></a>
+                </td>
+
+                <td>
+                    <a th:href="@{'/user/' + ${team.userOwner.id}}"
+                       th:text="${{team.userOwner.username}}"></a>
+                </td>
+
+                <td th:text="${team.description}"/>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <!-- * Requires totalPages and currentPage model attributes to be passed * -->
+        <nav th:replace="~{fragments/pagination::pagination}"></nav>
+
+    </div>
+</section>
+</body>
+</html>

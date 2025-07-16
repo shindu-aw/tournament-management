@@ -1,8 +1,16 @@
 package pjatk.s18617.tournamentmanagement.services;
 
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
@@ -12,6 +20,7 @@ import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.TeamRepository;
 import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +30,39 @@ public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
     private final UserService userService;
+
+    @Override
+    public Page<Team> searchPage(String name, String ownerUsername, String registeredUsername, Integer pageNumber,
+                                 Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber - 1,
+                pageSize,
+                Sort.by(Sort.Direction.ASC, "name")
+        );
+
+        Specification<Team> specification = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.hasText(name))
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
+            if (StringUtils.hasText(ownerUsername))
+                predicates.add(
+                        criteriaBuilder.like(root.get("userOwner").get("username"), "%" + ownerUsername + "%")
+                );
+            if (StringUtils.hasText(registeredUsername)) {
+                Join<Object, Object> userRegistrationsJoin = root.join("userRegistrations", JoinType.LEFT);
+                Predicate registrationPredicate = criteriaBuilder.like(
+                        userRegistrationsJoin.get("user").get("username"),
+                        "%" + registeredUsername + "%"
+                );
+                query.distinct(true); // to avoid duplicates because of join operation
+                predicates.add(registrationPredicate);
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return teamRepository.findAll(specification, pageRequest);
+    }
 
     @Override
     public void checkAuthorization(Team team, User user) {

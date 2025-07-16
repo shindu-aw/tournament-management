@@ -2,12 +2,14 @@ package pjatk.s18617.tournamentmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
@@ -23,6 +25,24 @@ public class TeamController {
 
     private final TeamService teamService;
     private final UserService userService;
+
+    @GetMapping("/team/list")
+    public String showTeamList(Model model,
+                               @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+                               @RequestParam(value = "teamName", required = false) String teamName,
+                               @RequestParam(value = "ownerUsername", required = false) String ownerUsername,
+                               @RequestParam(value = "registeredUsername", required = false) String registeredUsername) {
+        Page<Team> teamsPage = teamService.searchPage(teamName, ownerUsername, registeredUsername, currentPage, 10);
+
+        // page-related
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", teamsPage.getTotalPages());
+
+        // content
+        model.addAttribute("teams", teamsPage.getContent());
+
+        return "team/teams-list";
+    }
 
     @GetMapping("/team/{teamId}")
     public String showTeam(@PathVariable Long teamId, Model model) {

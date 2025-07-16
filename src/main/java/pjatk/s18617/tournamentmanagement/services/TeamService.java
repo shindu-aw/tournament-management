@@ -1,5 +1,6 @@
 package pjatk.s18617.tournamentmanagement.services;
 
+import org.springframework.data.domain.Page;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TeamService {
+
+    Page<Team> searchPage(String name, String ownerUsername, String registeredUsername, Integer pageNumber,
+                          Integer pageSize);
 
     void checkAuthorization(Team team, User user);
 

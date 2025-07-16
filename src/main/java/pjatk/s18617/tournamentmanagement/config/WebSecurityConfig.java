@@ -41,7 +41,8 @@ public class WebSecurityConfig {
                                 "/home",
                                 "/register",
                                 "/game",
-                                "/game/*/tournaments**"
+                                "/game/*/tournaments**",
+                                "/team/list**"
                         ).permitAll()
                         .requestMatchers(
                                 new RegexRequestMatcher("/game/\\d+", null), // /game/{id}
