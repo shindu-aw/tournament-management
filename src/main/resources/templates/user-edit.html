@@ -4,17 +4,36 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title th:text="'Edycja użytkownika ' + ${editedUser.username}" ></title>
+    <title th:text="'Edycja użytkownika ' + ${editedUser.username}"></title>
 </head>
 <body>
 
 <section layout:fragment="content">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{/user/list}"
+                       class="link-body-emphasis fw-semibold text-decoration-none">Użytkownicy</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/user/' + ${editedUser.id}}" th:text="${{editedUser.username}}"
+                       class="link-body-emphasis fw-semibold text-decoration-none">
+                    </a>
+                </li>
+                <li th:text="'Edycja użytkownika'" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
 
-        <h1 th:text="'Edytuj użytkownika ' + ${editedUser.username}" ></h1>
 
-        <form action="#" th:action="@{'/user/' + ${userId} + '/edit'}" th:object="${userEditDto}" method="post" autocomplete="off">
+        <h1 th:text="'Edytuj użytkownika ' + ${editedUser.username}"></h1>
+
+        <form action="#" th:action="@{'/user/' + ${userId} + '/edit'}" th:object="${userEditDto}" method="post"
+              autocomplete="off">
             <table>
                 <tr>
                     <td>Hasło:</td>

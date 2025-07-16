@@ -14,6 +14,18 @@ canEdit=${isAdmin or #authentication.name == user.username}
 ">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{/user/list}" class="link-body-emphasis fw-semibold text-decoration-none">Użytkownicy</a>
+                </li>
+                <li th:text="${user.username}" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
+
         <h1 th:text="'[' + ${user.id} + '] ' + ${user.username}"></h1>
 
         <h2>Opis</h2>
