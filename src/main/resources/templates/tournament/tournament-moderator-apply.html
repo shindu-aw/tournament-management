@@ -19,7 +19,7 @@
                     <a th:href="@{'/game'}" class="link-body-emphasis fw-semibold text-decoration-none">Gry</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a th:href="@{'/game/' + ${tournament.game.id}}" th:text="${tournament.game.name}"
+                    <a th:href="@{'/game/' + ${tournament.game.id} + '/tournaments'}" th:text="${tournament.game.name}"
                        class="link-body-emphasis fw-semibold text-decoration-none"></a>
                 </li>
                 <li class="breadcrumb-item">

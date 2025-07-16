@@ -33,7 +33,7 @@ public class GameController {
         return "games";
     }
 
-    @GetMapping("/game/{gameId}")
+    @GetMapping("/game/{gameId}/tournaments")
     public String showTournaments(@PathVariable Long gameId, Model model) {
         Game game = gameService.getById(gameId).orElseThrow(NotFoundException::new);
         List<Tournament> tournaments = tournamentService.listByGame(game);

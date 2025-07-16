@@ -40,7 +40,8 @@ public class WebSecurityConfig {
                                 "/",
                                 "/home",
                                 "/register",
-                                "/game"
+                                "/game",
+                                "/game/*/tournaments**"
                         ).permitAll()
                         .requestMatchers(
                                 new RegexRequestMatcher("/game/\\d+", null), // /game/{id}
