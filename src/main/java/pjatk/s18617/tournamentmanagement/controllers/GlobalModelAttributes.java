@@ -18,4 +18,9 @@ public class GlobalModelAttributes {
         return UrlUtils.currentUrlWithoutMessage(request);
     }
 
+    @ModelAttribute("currentPathWithoutCurrentPage")
+    public String currentPathWithoutCurrentPage(HttpServletRequest request) {
+        return UrlUtils.currentUrlWithoutCurrentPage(request);
+    }
+
 }

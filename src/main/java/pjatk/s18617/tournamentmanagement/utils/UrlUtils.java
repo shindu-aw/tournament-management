@@ -18,8 +18,20 @@ public final class UrlUtils {
         params.remove("message");
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
-        params.forEach(builder::queryParam); // readd the query params
+        params.forEach(builder::queryParam); // read the query params
         return builder.toUriString();
     }
+
+    public static String currentUrlWithoutCurrentPage(HttpServletRequest request) {
+        String uri =  request.getRequestURI();
+        Map<String, String[]> params = new HashMap<>(request.getParameterMap());
+        params.remove("currentPage");
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
+        params.forEach(builder::queryParam); // read the query params
+        return builder.toUriString();
+    }
+
+
 
 }
