@@ -14,22 +14,28 @@
         <h1 th:text="'Lista drużyn'"></h1>
 
         <form th:action="@{'/team/list'}" method="get" autocomplete="off">
-            <div class="mb-3">
-                <label for="teamName" class="form-label">Nazwa drużyny</label>
-                <input type="text" th:name="teamName" name="teamName" id="teamName"
-                       class="form-control">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label for="teamName" class="form-label">Nazwa drużyny</label>
+                    <input type="text" th:name="teamName" name="teamName" id="teamName"
+                           class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
+                    <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
+                           class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="registeredUsername" class="form-label">Nazwa gracza</label>
+                    <input type="text" th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
+                           class="form-control">
+                </div>
+
             </div>
-            <div class="mb-3">
-                <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
-                <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
-                       class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="registeredUsername" class="form-label">Nazwa gracza</label>
-                <input type="text" th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
-                       class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Szukaj</button>
+
+            <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
         </form>
 
 

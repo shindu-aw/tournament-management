@@ -28,27 +28,32 @@
         <p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
 
         <form th:action="@{'/game/' + ${gameId} + '/tournaments'}" method="get" autocomplete="off">
-            <div class="mb-3">
-                <label for="tournamentName" class="form-label">Nazwa turnieju</label>
-                <input type="text" th:name="tournamentName" name="tournamentName" id="tournamentName"
-                       class="form-control">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="tournamentName" class="form-label">Nazwa turnieju</label>
+                    <input type="text" th:name="tournamentName" name="tournamentName" id="tournamentName"
+                           class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
+                    <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
+                           class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="afterDate" class="form-label">Rozpoczęty po dacie (włącznie)</label>
+                    <input type="date" th:name="afterDate" name="afterDate" id="afterDate"
+                           class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="beforeDate" class="form-label">Rozpoczęty przed datą (włącznie)</label>
+                    <input type="date" th:name="beforeDate" name="beforeDate" id="beforeDate"
+                           class="form-control">
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
-                <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
-                       class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="afterDate" class="form-label">Rozpoczęty po dacie (włącznie)</label>
-                <input type="date" th:name="afterDate" name="afterDate" id="afterDate"
-                       class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="beforeDate" class="form-label">Rozpoczęty przed datą (włącznie)</label>
-                <input type="date" th:name="beforeDate" name="beforeDate" id="beforeDate"
-                       class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Szukaj</button>
+
+
+            <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
         </form>
 
         <table class="table">
