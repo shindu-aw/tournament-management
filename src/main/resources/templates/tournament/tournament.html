@@ -129,8 +129,8 @@ isNotFinished=${not tournament.finished}
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
                         <input type="submit" value="Usuń turniej" class="btn btn-danger btn-sm"/>
                     </form>
-                    <form th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}"
-                          method="post" class="m-0">
+                    <form th:if="${isNotFinished}" method="post" class="m-0"
+                            th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}">
                         <input type="submit" value="Zakończ turniej" class="btn btn-success btn-sm"/>
                     </form>
                 </div>

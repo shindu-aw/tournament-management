@@ -103,7 +103,7 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </tr>
             </thead>
             <tbody>
-            <tr th:each="tournament: ${tournamentsOwned}" th:classappend="${tournament.finished} ? 'table-secondary'" >
+            <tr th:each="tournament: ${tournamentsOwned}" th:classappend="${tournament.finished} ? 'table-secondary'">
                 <td>
                     <a th:text="${{tournament.name}}" th:href="@{'/tournament/' + ${tournament.id}}"></a>
                 </td>
@@ -112,13 +112,13 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 <td>
                     <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
                 </td>
-                <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'" ></td>
+                <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
                 <td th:if="${canEdit}" class="d-flex gap-2">
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
                         <input type="submit" value="Edytuj" class="btn btn-secondary btn-sm"/>
                     </form>
-                    <form th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}"
-                          method="post" class="m-0">
+                    <form th:unless="${tournament.finished}" method="post" class="m-0"
+                          th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}">
                         <input type="submit" value="Zakończ" class="btn btn-success btn-sm"/>
                     </form>
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
@@ -152,7 +152,7 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 <td>
                     <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
                 </td>
-                <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'" ></td>
+                <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
             </tr>
             </tbody>
         </table>
