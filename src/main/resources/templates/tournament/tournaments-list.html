@@ -67,7 +67,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="tournament: ${tournaments}">
+            <tr th:each="tournament: ${tournaments}" th:classappend="${tournament.finished} ? 'table-secondary'">
                 <td>
                     <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}"></a>
                 </td>
