@@ -94,7 +94,6 @@ public class User implements UserDetails {
         return role.equals(Role.ADMIN);
     }
 
-    // TODO: add proper boolean checks
     @Override
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();
