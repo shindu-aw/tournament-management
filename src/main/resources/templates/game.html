@@ -27,6 +27,7 @@
 
         <p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
 
+
         <table class="table">
             <thead>
             <tr>
@@ -34,6 +35,7 @@
                 <th>Właściciel</th>
                 <th>Data rozpoczęcia</th>
                 <th>Data zakończenia</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
@@ -41,9 +43,12 @@
                 <td>
                     <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}" ></a>
                 </td>
-                <td th:text="${{tournament.userOwner.username}}"/>
+                <td>
+                    <a th:href="@{'/user/' + ${tournament.userOwner.id}}" th:text="${{tournament.userOwner.username}}" ></a>
+                </td>
                 <td th:text="${{tournament.startDate}}"/>
                 <td th:text="${{tournament.endDate}}"/>
+                <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
             </tr>
             </tbody>
 
