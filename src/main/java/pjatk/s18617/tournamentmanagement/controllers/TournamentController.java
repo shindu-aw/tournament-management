@@ -54,7 +54,7 @@ public class TournamentController {
         model.addAttribute("tournaments", tournamentsPage.getContent());
         model.addAttribute("game", game);
 
-        return "tournaments-list";
+        return "tournament/tournaments-list";
     }
 
     @GetMapping("/tournament/new")
