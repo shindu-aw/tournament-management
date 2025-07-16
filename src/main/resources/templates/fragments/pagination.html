@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="pl">
+<body>
+
+<!-- * Requires totalPages and currentPage model attributes to be passed * -->
+
+<nav th:fragment="pagination" aria-label="Strony" th:if="${totalPages > 0}">
+    <ul class="pagination">
+        <li class="page-item">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=1)}" aria-label="Pierwsza strona"
+               th:classappend="${currentPage == 1} ? 'disabled'"
+               class="page-link">&laquo;</a>
+        </li>
+        <!-- -->
+        <li class="page-item" th:if="${currentPage > 2}">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=${currentPage}-2)}"
+               th:text="${currentPage - 2}"
+               class="page-link"></a>
+        </li>
+        <li class="page-item" th:if="${currentPage > 1}">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=${currentPage}-1)}"
+               th:text="${currentPage - 1}"
+               class="page-link"></a>
+        </li>
+        <li class="page-item">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=${currentPage})}"
+               th:text="${currentPage}"
+               class="page-link disabled"></a>
+        </li>
+        <li class="page-item" th:if="${currentPage < totalPages}">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=${currentPage}+1)}"
+               th:text="${currentPage + 1}"
+               class="page-link"></a>
+        </li>
+        <li class="page-item" th:if="${currentPage < (totalPages - 1)}">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=${currentPage}+2)}"
+               th:text="${currentPage + 2}"
+               class="page-link"></a>
+        </li>
+        <!-- -->
+        <li class="page-item">
+            <a th:href="@{${currentPathWithoutCurrentPage}(currentPage=${totalPages})}"
+               aria-label="Ostatnia strona"
+               th:classappend="${currentPage == totalPages} ? 'disabled'"
+               class="page-link">&raquo;</a>
+        </li>
+    </ul>
+</nav>
+
+
+</body>
+</html>
