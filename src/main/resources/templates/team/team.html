@@ -21,7 +21,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                     <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a th:href="@{/team}" class="link-body-emphasis fw-semibold text-decoration-none">Drużyny</a>
+                    <a th:href="@{/team/list}" class="link-body-emphasis fw-semibold text-decoration-none">Drużyny</a>
                 </li>
                 <li th:text="${team.name}" class="breadcrumb-item active" aria-current="page"></li>
             </ol>
