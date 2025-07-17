@@ -49,7 +49,7 @@ public class GameController {
         String currentUserName = principal.getName();
         Game createdGame = gameService.saveWithAuthorization(gameCreationDto, currentUserName);
 
-        return "redirect:/game/" + createdGame.getId();
+        return "redirect:/game/" + createdGame.getId() + "/tournaments";
     }
 
 }
