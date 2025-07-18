@@ -8,13 +8,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
@@ -60,16 +59,19 @@ public class WebSecurityConfig {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successHandler(customSuccessHandler())
+                        .successHandler(customAuthenticationSuccessHandler())
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll); // same as .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout
+                    .logoutSuccessHandler(customLogoutSuccessHandler())
+                    .permitAll()
+                );
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationSuccessHandler customSuccessHandler() {
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
             // check for the saved request in the session (default behavior of the success handler)
             // this handles redirects from pages that automatically require authentication
@@ -85,6 +87,17 @@ public class WebSecurityConfig {
                 else
                     response.sendRedirect("/"); // fallback
             }
+        };
+    }
+
+    @Bean
+    public LogoutSuccessHandler customLogoutSuccessHandler() {
+        return (request, response, authentication) -> {
+            String returnTo = request.getParameter("returnTo");
+            if (StringUtils.hasText(returnTo))
+                response.sendRedirect(returnTo);
+            else
+                response.sendRedirect("/"); // fallback
         };
     }
 

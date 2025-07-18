@@ -61,6 +61,8 @@
                     </li>
                     <li>
                         <form th:action="@{/logout}" method="post">
+                            <!-- * the `currentPathAllParameters` variable is passed from the GlobalModelAttributes ControllerAdvice * -->
+                            <input type="hidden" name="returnTo" th:value="${currentPathAllParameters}">
                             <button type="submit" class="dropdown-item">Wyloguj się</button>
                         </form>
                     </li>
