@@ -19,6 +19,7 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.util.StringUtils;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
+import pjatk.s18617.tournamentmanagement.utils.UrlUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -82,7 +83,7 @@ public class WebSecurityConfig {
             } else {
                 // otherwise, continue to the custom returnTo parameter (from navbar login)
                 String returnTo = request.getParameter("returnTo");
-                if (StringUtils.hasText(returnTo))
+                if (StringUtils.hasText(returnTo) && UrlUtils.isSafeRedirect(returnTo))
                     response.sendRedirect(returnTo);
                 else
                     response.sendRedirect("/"); // fallback
@@ -94,7 +95,7 @@ public class WebSecurityConfig {
     public LogoutSuccessHandler customLogoutSuccessHandler() {
         return (request, response, authentication) -> {
             String returnTo = request.getParameter("returnTo");
-            if (StringUtils.hasText(returnTo))
+            if (StringUtils.hasText(returnTo) && UrlUtils.isSafeRedirect(returnTo))
                 response.sendRedirect(returnTo);
             else
                 response.sendRedirect("/"); // fallback
