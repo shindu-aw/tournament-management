@@ -19,23 +19,25 @@
 
                 <div class="col-md-4">
                     <label for="teamName" class="form-label">Nazwa drużyny</label>
-                    <input type="text" th:name="teamName" name="teamName" id="teamName"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="teamName" name="teamName" id="teamName" th:value="${teamName}">
                 </div>
                 <div class="col-md-4">
                     <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
-                    <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
                 </div>
                 <div class="col-md-4">
                     <label for="registeredUsername" class="form-label">Nazwa gracza</label>
-                    <input type="text" th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
+                           th:value="${registeredUsername}">
                 </div>
 
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+            <a th:href="@{'/team/list'}" class="btn btn-danger mt-3">Reset</a>
         </form>
 
 

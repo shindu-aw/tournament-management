@@ -118,6 +118,10 @@ public class UserController {
         // content
         model.addAttribute("users", usersPage.getContent());
 
+        // search form values
+        model.addAttribute("username", username);
+        model.addAttribute("teamName", teamName);
+
         return "users-list";
     }
 

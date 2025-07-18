@@ -54,6 +54,12 @@ public class TournamentController {
         model.addAttribute("tournaments", tournamentsPage.getContent());
         model.addAttribute("game", game);
 
+        // search form values
+        model.addAttribute("tournamentName", tournamentName);
+        model.addAttribute("ownerUsername", ownerUsername);
+        model.addAttribute("beforeDate", beforeDate);
+        model.addAttribute("afterDate", afterDate);
+
         return "tournament/tournaments-list";
     }
 

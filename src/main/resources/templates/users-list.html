@@ -19,18 +19,19 @@
 
                 <div class="col-md-6">
                     <label for="username" class="form-label">Nazwa użytkownika</label>
-                    <input type="text" th:name="username" name="username" id="username"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="username" name="username" id="username" th:value="${username}">
                 </div>
                 <div class="col-md-6">
                     <label for="teamName" class="form-label">Nazwa drużyny, w której się znajduje</label>
-                    <input type="text" th:name="teamName" name="teamName" id="teamName"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="teamName" name="teamName" id="teamName" th:value="${teamName}">
                 </div>
 
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+            <a th:href="@{'/user/list'}" class="btn btn-danger mt-3">Reset</a>
         </form>
 
 

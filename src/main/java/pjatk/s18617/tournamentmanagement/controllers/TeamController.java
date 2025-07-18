@@ -41,6 +41,11 @@ public class TeamController {
         // content
         model.addAttribute("teams", teamsPage.getContent());
 
+        // search form values
+        model.addAttribute("teamName", teamName);
+        model.addAttribute("ownerUsername", ownerUsername);
+        model.addAttribute("registeredUsername", registeredUsername);
+
         return "team/teams-list";
     }
 

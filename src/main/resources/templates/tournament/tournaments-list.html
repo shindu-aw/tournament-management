@@ -32,28 +32,30 @@
             <div class="row">
                 <div class="col-md-3">
                     <label for="tournamentName" class="form-label">Nazwa turnieju</label>
-                    <input type="text" th:name="tournamentName" name="tournamentName" id="tournamentName"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="tournamentName" name="tournamentName" id="tournamentName"
+                           th:value="${tournamentName}">
                 </div>
                 <div class="col-md-3">
                     <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
-                    <input type="text" th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
-                           class="form-control">
+                    <input type="text" class="form-control"
+                           th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
                 </div>
                 <div class="col-md-3">
                     <label for="afterDate" class="form-label">Rozpoczęty po dacie (włącznie)</label>
-                    <input type="date" th:name="afterDate" name="afterDate" id="afterDate"
-                           class="form-control">
+                    <input type="date" class="form-control"
+                           th:name="afterDate" name="afterDate" id="afterDate" th:value="${afterDate}">
                 </div>
                 <div class="col-md-3">
                     <label for="beforeDate" class="form-label">Rozpoczęty przed datą (włącznie)</label>
-                    <input type="date" th:name="beforeDate" name="beforeDate" id="beforeDate"
-                           class="form-control">
+                    <input type="date" class="form-control"
+                           th:name="beforeDate" name="beforeDate" id="beforeDate" th:value="${beforeDate}">
                 </div>
             </div>
 
 
             <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+            <a th:href="@{'/game/' + ${gameId} + '/tournaments'}" class="btn btn-danger mt-3">Reset</a>
         </form>
 
         <table class="table">
@@ -84,7 +86,7 @@
         </table>
 
         <!-- * Requires totalPages and currentPage model attributes to be passed * -->
-        <nav th:replace="~{fragments/pagination::pagination}" ></nav>
+        <nav th:replace="~{fragments/pagination::pagination}"></nav>
 
     </div>
 </section>
