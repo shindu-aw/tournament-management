@@ -12,6 +12,15 @@ public final class UrlUtils {
         throw new UnsupportedOperationException("Instantiating utility class...");
     }
 
+    public static String currentUrlAllParameters(HttpServletRequest request) {
+        String uri =  request.getRequestURI();
+        Map<String, String[]> params = new HashMap<>(request.getParameterMap());
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
+        params.forEach(builder::queryParam); // read the query params
+        return builder.toUriString();
+    }
+
     public static String currentUrlWithoutMessage(HttpServletRequest request) {
         String uri =  request.getRequestURI();
         Map<String, String[]> params = new HashMap<>(request.getParameterMap());

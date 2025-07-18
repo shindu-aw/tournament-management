@@ -14,7 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.util.StringUtils;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 
 @Configuration
@@ -36,6 +40,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/webjars/**",
                                 "/images/**",
+                                "/login**",
                                 "/error",
                                 "/",
                                 "/home",
@@ -55,11 +60,32 @@ public class WebSecurityConfig {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
+                        .successHandler(customSuccessHandler())
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll); // same as .logout((logout) -> logout.permitAll());
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customSuccessHandler() {
+        return (request, response, authentication) -> {
+            // check for the saved request in the session (default behavior of the success handler)
+            // this handles redirects from pages that automatically require authentication
+            SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+            if (savedRequest != null) {
+                // if present, redirect to the originally requested URL
+                response.sendRedirect(savedRequest.getRedirectUrl());
+            } else {
+                // otherwise, continue to the custom returnTo parameter (from navbar login)
+                String returnTo = request.getParameter("returnTo");
+                if (StringUtils.hasText(returnTo))
+                    response.sendRedirect(returnTo);
+                else
+                    response.sendRedirect("/"); // fallback
+            }
+        };
     }
 
     @Bean

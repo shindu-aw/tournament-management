@@ -29,7 +29,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(value = "returnTo", required = false) String returnTo, Model model) {
+        model.addAttribute("returnTo", returnTo);
         return "login";
     }
 

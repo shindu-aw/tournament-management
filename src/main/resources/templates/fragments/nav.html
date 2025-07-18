@@ -27,7 +27,8 @@
             </ul>
 
             <div sec:authorize="isAnonymous()" class="col-md-3 text-end">
-                <a th:href="@{/login}" class="btn btn-primary me-2">Logowanie</a>
+                <!-- * the `currentPathAllParameters` variable is passed from the GlobalModelAttributes ControllerAdvice * -->
+                <a th:href="@{/login(returnTo=${currentPathAllParameters})}" class="btn btn-primary me-2">Logowanie</a>
                 <a th:href="@{/register}" class="btn btn-secondary">Rejestracja</a>
             </div>
 
@@ -43,8 +44,8 @@
                          width="32" height="32" role="img" data-bs-theme="dark">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small">
-                    <li th:with="prefix=${#authorization.expression('hasRole(''ADMIN'')') ? '[ADMIN] @' : '@' }" >
-                        <h4 th:text="${{prefix + #authentication.name}}" class="dropdown-header" ></h4>
+                    <li th:with="prefix=${#authorization.expression('hasRole(''ADMIN'')') ? '[ADMIN] @' : '@' }">
+                        <h4 th:text="${{prefix + #authentication.name}}" class="dropdown-header"></h4>
                     </li>
                     <li><a class="dropdown-item" th:href="@{'/user/' + ${#authentication.principal.id}}">Profil</a></li>
                     <li>
