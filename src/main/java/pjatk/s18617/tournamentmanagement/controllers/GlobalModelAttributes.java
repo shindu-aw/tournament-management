@@ -9,7 +9,7 @@ import pjatk.s18617.tournamentmanagement.utils.UrlUtils;
 public class GlobalModelAttributes {
 
     @ModelAttribute("currentBarePath")
-    public String currentPath(HttpServletRequest request) {
+    public String currentBarePath(HttpServletRequest request) {
         return request.getRequestURI();
     }
 
