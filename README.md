@@ -14,3 +14,5 @@ DB_USERNAME=root
 DB_PASSWORD=password
 DB_NAME=tournaments
 ```
+
+Alternatively, those variables can be passed as system environment variables or command-line arguments.
