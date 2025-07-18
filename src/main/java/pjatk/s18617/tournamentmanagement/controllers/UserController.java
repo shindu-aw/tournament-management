@@ -28,16 +28,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(value = {"/", "/home"})
-    public String home() {
-        return "home";
-    }
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login";

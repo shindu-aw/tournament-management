@@ -25,7 +25,7 @@ public class GameController {
     private final GameService gameService;
     private final UserService userService;
 
-    @GetMapping("/game")
+    @GetMapping(value = {"/","/game"})
     public String showGames(Model model) {
         List<Game> games = gameService.getGamesList();
         model.addAttribute("games", games);
