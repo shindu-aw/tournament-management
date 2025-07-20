@@ -45,18 +45,4 @@ public class Match {
     @JoinColumn(name = "tournament_team_2_id")
     private TournamentTeam tournamentTeam2;
 
-    @PrePersist
-    private void beforePersist() {
-        // TODO change to database trigger
-        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() + team1Score);
-        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() + team2Score);
-    }
-
-    @PreRemove
-    private void beforeRemove() {
-        // TODO change to database trigger
-        tournamentTeam1.setScoreSum(tournamentTeam1.getScoreSum() - team1Score);
-        tournamentTeam2.setScoreSum(tournamentTeam2.getScoreSum() - team2Score);
-    }
-
 }

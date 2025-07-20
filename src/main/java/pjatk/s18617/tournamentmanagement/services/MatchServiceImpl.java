@@ -53,7 +53,7 @@ public class MatchServiceImpl implements MatchService {
         checkAuthorization(match.getTournament(), user);
         tournamentService.throwBadRequestIfFinished(match.getTournament());
 
-        // each TournamentTeam's scoreSum is updated in Match entity's JPA lifecycle methods TODO change to DB trigger
+        // TournamentTeam score sums are updated through database triggers (added in migration V2)
 
         matchRepository.delete(match);
     }
@@ -70,7 +70,7 @@ public class MatchServiceImpl implements MatchService {
         TournamentTeam tournamentTeam2 = tournamentTeamRepository.findById(matchCreationDto.getTournamentTeam2Id())
                 .orElseThrow(NotFoundException::new);
 
-        // each TournamentTeam's scoreSum is updated in Match entity's JPA lifecycle methods TODO change to DB trigger
+        // TournamentTeam score sums are updated through database triggers (added in migration V2)
 
         Match match = Match.builder()
                 .tournament(tournament)
@@ -95,22 +95,7 @@ public class MatchServiceImpl implements MatchService {
         TournamentTeam newTournamentTeam2 = tournamentTeamRepository.findById(matchEditDto.getTournamentTeam2Id())
                 .orElseThrow(NotFoundException::new);
 
-        // update score sums TODO change to DB trigger
-        TournamentTeam oldTournamentTeam1 = tournamentTeamRepository.findById(match.getTournamentTeam1().getId())
-                .orElseThrow(NotFoundException::new);
-        TournamentTeam oldTournamentTeam2 = tournamentTeamRepository.findById(match.getTournamentTeam2().getId())
-                .orElseThrow(NotFoundException::new);
-        int oldTeam1Score = match.getTeam1Score();
-        int oldTeam2Score = match.getTeam2Score();
-        int newTeam1Score = matchEditDto.getTeam1Score();
-        int newTeam2Score = matchEditDto.getTeam2Score();
-        oldTournamentTeam1.setScoreSum(oldTournamentTeam1.getScoreSum() - oldTeam1Score);
-        oldTournamentTeam2.setScoreSum(oldTournamentTeam2.getScoreSum() - oldTeam2Score);
-        newTournamentTeam1.setScoreSum(newTournamentTeam1.getScoreSum() + newTeam1Score);
-        newTournamentTeam2.setScoreSum(newTournamentTeam2.getScoreSum() + newTeam2Score);
-        tournamentTeamRepository.saveAll(Arrays.asList(
-                oldTournamentTeam1, oldTournamentTeam2, newTournamentTeam1, newTournamentTeam2
-        ));
+        // TournamentTeam score sums are updated through database triggers (added in migration V2)
 
         // update match
         match.setTeam1Score(matchEditDto.getTeam1Score());
