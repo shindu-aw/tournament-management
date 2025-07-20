@@ -18,28 +18,55 @@ public class CustomErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        Object errorException = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+        Object errorMessageAttribute = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
 
         String messageH1 = "Coś poszło nie tak!";
-        String messageH2 = "Drużyna specjalnie wytrenowanych małp już się tym zajmuje!";
+        String messageH3 = "Nieznany błąd.";
 
         if (status != null) {
             String statusCodeString = status.toString();
             int statusCode = Integer.parseInt(statusCodeString);
 
-            String errorMessage = "Kod błędu: " + statusCodeString;
-            model.addAttribute("errorMessage", errorMessage);
+            String detailedErrorMessage = getDetailedErrorMessage(statusCodeString, errorMessageAttribute,
+                    errorException);
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 messageH1 = "Strona nie została odnaleziona";
-                messageH2 = "";
+                messageH3 = "";
+            } else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+                messageH1 = "Nieprawidłowe żądanie";
+                messageH3 = detailedErrorMessage;
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                messageH1 = "Wystąpił wewnętrzny błąd serwera";
+                messageH3 = detailedErrorMessage;
+            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+                messageH1 = "Brak uprawnień";
+                messageH3 = detailedErrorMessage;
+            } else {
+                messageH3 = detailedErrorMessage;
             }
 
         }
 
         model.addAttribute("messageH1", messageH1);
-        model.addAttribute("messageH2", messageH2);
+        model.addAttribute("messageH3", messageH3);
 
         return "error";
+    }
+
+    private static String getDetailedErrorMessage(String statusCodeString, Object errorMessageAttribute,
+                                                  Object errorException) {
+        String detailedErrorMessage = "Kod błędu: " + statusCodeString;
+
+        if (errorMessageAttribute != null) {
+            // if there's a specific error message attribute, use it
+            detailedErrorMessage += " - " + errorMessageAttribute;
+        } else if (errorException instanceof Throwable throwable) {
+            // if no specific error message, but exception is present, get its message
+            detailedErrorMessage += " - " + throwable.getMessage();
+        }
+        return detailedErrorMessage;
     }
 
 }
