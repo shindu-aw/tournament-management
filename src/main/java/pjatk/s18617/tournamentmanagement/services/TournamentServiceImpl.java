@@ -80,7 +80,7 @@ public class TournamentServiceImpl implements TournamentService {
         PageRequest pageRequest = PageRequest.of(
                 pageNumber - 1,
                 pageSize,
-                Sort.by(Sort.Direction.DESC, "startDate")
+                Sort.by(Sort.Order.desc("startDate"), Sort.Order.asc("name"))
         );
 
         Specification<Tournament> specification = (root, query, criteriaBuilder) -> {
