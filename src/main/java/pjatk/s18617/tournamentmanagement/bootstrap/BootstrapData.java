@@ -39,38 +39,38 @@ public class BootstrapData implements CommandLineRunner {
             User admin = User.builder()
                     .username("admin")
                     .password(encoder.encode("admin"))
-                    .description("Test admin account description.")
+                    .description("Test admin opis.")
                     .role(Role.ADMIN)
                     .build();
             User user1 = User.builder()
                     .username("test1")
                     .password(encoder.encode("test1"))
-                    .description("Test description.")
+                    .description("Test opis.")
                     .build();
             User user2 = User.builder()
                     .username("test2")
                     .password(encoder.encode("test2"))
-                    .description("Test description 2.")
+                    .description("Test opis 2.")
                     .build();
             User user3 = User.builder()
                     .username("test3")
                     .password(encoder.encode("test3"))
-                    .description("Test description 3.")
+                    .description("Test opis 3.")
                     .build();
             userRepository.saveAllAndFlush(Arrays.asList(admin, user1, user2, user3));
 
 
             Game cs2 = Game.builder()
                     .name("Counter Strike 2")
-                    .description("Counter Strike 2 description.")
+                    .description("Counter Strike 2 opis.")
                     .build();
             Game dota2 = Game.builder()
                     .name("Dota 2")
-                    .description("Dota 2 description.")
+                    .description("Dota 2 opis.")
                     .build();
             Game r6 = Game.builder()
                     .name("Rainbow 6 Siege")
-                    .description("Rainbow 6 Siege description.")
+                    .description("Rainbow 6 Siege opis.")
                     .build();
             gameRepository.saveAllAndFlush(Arrays.asList(cs2, dota2, r6));
 
@@ -123,7 +123,14 @@ public class BootstrapData implements CommandLineRunner {
                     .secretCode("12345678")
                     .userOwner(user2)
                     .build();
-            teamRepository.saveAllAndFlush(Arrays.asList(team1, team2, team3, team4, team5, team6, team7, team8));
+            Team teamAdmin = Team.builder()
+                    .name("TEAM ADMIN")
+                    .description("Opis drużyny TEAM ADMIN.")
+                    .secretCode("12345678")
+                    .userOwner(admin)
+                    .build();
+            teamRepository.saveAllAndFlush(Arrays.asList(team1, team2, team3, team4, team5, team6, team7, team8,
+                    teamAdmin));
 
             Location location1 = Location.builder()
                     .country("Polska")
@@ -142,7 +149,7 @@ public class BootstrapData implements CommandLineRunner {
             locationRepository.saveAllAndFlush(Arrays.asList(location1, location2));
 
             Tournament tournament1 = Tournament.builder()
-                    .name("Turniej 1")
+                    .name("Turniej 1 - Turniejowanie")
                     .description("Opis pierwszego turnieju. ĄąŻżŁł")
                     .startDate(LocalDate.now())
                     .endDate(LocalDate.now())
@@ -175,7 +182,130 @@ public class BootstrapData implements CommandLineRunner {
                     .game(dota2)
                     // without location
                     .build();
-            tournamentRepository.saveAllAndFlush(Arrays.asList(tournament1, tournament2, tournament3));
+            Tournament fillerTournament1 = Tournament.builder()
+                    .name("Test Turniej 1")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-07-01", formatter))
+                    .endDate(LocalDate.parse("2025-07-02", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament2 = Tournament.builder()
+                    .name("Test Turniej 2")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-07-01", formatter))
+                    .endDate(LocalDate.parse("2025-07-02", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament3 = Tournament.builder()
+                    .name("Test Turniej 3")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-07-02", formatter))
+                    .endDate(LocalDate.parse("2025-07-03", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament4 = Tournament.builder()
+                    .name("Test Turniej 4")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-11-01", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament5 = Tournament.builder()
+                    .name("Test Turniej 5")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-11-02", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament6 = Tournament.builder()
+                    .name("Test Turniej 6")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-11-02", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament7 = Tournament.builder()
+                    .name("Test Turniej 7")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-01-02", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament8 = Tournament.builder()
+                    .name("Test Turniej 8")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-01-02", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament9 = Tournament.builder()
+                    .name("Test Turniej 9")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-04-22", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament10 = Tournament.builder()
+                    .name("Test Turniej 10")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-04-22", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament11 = Tournament.builder()
+                    .name("Test Turniej 11")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-04-22", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user1)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament12 = Tournament.builder()
+                    .name("Test Turniej 12")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-10-11", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user2)
+                    .game(cs2)
+                    .build();
+            Tournament fillerTournament13 = Tournament.builder()
+                    .name("Test Turniej 13")
+                    .description("Opis test turnieju.")
+                    .startDate(LocalDate.parse("2025-05-11", formatter))
+                    .joinSecretCode("12345678")
+                    .manageSecretCode("87654321")
+                    .userOwner(user2)
+                    .game(cs2)
+                    .build();
+            tournamentRepository.saveAllAndFlush(Arrays.asList(tournament1, tournament2, tournament3,
+                    fillerTournament1, fillerTournament2, fillerTournament3, fillerTournament4, fillerTournament5,
+                    fillerTournament6, fillerTournament7, fillerTournament8, fillerTournament9, fillerTournament10,
+                    fillerTournament11, fillerTournament12, fillerTournament13));
 
             TournamentTeam tournamentTeam1 = TournamentTeam.builder()
                     .tournament(tournament1)
