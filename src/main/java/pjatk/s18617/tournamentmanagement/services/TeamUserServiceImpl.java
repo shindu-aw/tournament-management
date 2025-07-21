@@ -1,6 +1,7 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -46,21 +47,33 @@ public class TeamUserServiceImpl implements TeamUserService {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         Game game = gameService.getById(dto.getGameId()).orElseThrow(NotFoundException::new);
 
-        // checks whether the user is already a member of this team assigned to this game
-        // TODO create an additional DB entry creation trigger checking for this
-        if (!team.doesNotHaveUserRegisteredOnGame(user, game))
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Już jesteś członkiem tej drużyny przypisanym do tej gry."
-            );
-
         TeamUser teamUser = TeamUser.builder()
                 .team(team)
                 .user(user)
                 .game(game)
                 .build();
 
-        return teamUserRepository.save(teamUser);
+        try {
+            return teamUserRepository.save(teamUser);
+        } catch (DataAccessException ex) {
+            // is cause the database trigger?
+            // (the trigger checks whether the user is already a member of this team assigned to this game)
+            final String TRIGGER_MESSAGE = "User is already a member of this team assigned to this game.";
+            if (ex.getMessage() != null && ex.getMessage().contains(TRIGGER_MESSAGE)) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "Już jesteś członkiem tej drużyny przypisanym do tej gry.",
+                        ex
+                );
+            }
+
+            // if the database trigger is not the cause, then something's wrong
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Niespodziewany error nastąpił w bazie danych.",
+                    ex
+            );
+        }
     }
 
     @Override
