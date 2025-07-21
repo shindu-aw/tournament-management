@@ -8,10 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
@@ -61,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public void checkAdminAuthorization(User user) {
         boolean userIsNotAdmin = !user.isAdmin();
         if (userIsNotAdmin)
-            throw new AccessDeniedException("Nie masz praw administratora.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz praw administratora.");
     }
 
     @Override
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("is not admin: " + currentUserIsNotAdmin);
         System.out.println("is not edit user: " + currentUserIsNotEditedUser);
         if (currentUserIsNotAdmin && currentUserIsNotEditedUser)
-            throw new AccessDeniedException("Nie masz do zarządzania tym użytkownikiem.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz do zarządzania tym użytkownikiem.");
     }
 
     @Override

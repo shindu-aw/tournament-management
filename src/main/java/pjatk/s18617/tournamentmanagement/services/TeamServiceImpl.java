@@ -8,9 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TeamCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.TeamEditDto;
@@ -30,6 +31,21 @@ public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
     private final UserService userService;
+
+    @Override
+    public void checkAuthorization(Team team, User user) {
+        boolean userIsNotAdmin = !user.isAdmin();
+        boolean userIsNotOwner = !user.equals(team.getUserOwner());
+        boolean cannotManageTeam = userIsNotAdmin && userIsNotOwner;
+        if (cannotManageTeam)
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz praw do zarządzania tą drużyną.");
+    }
+
+    @Override
+    public void checkAuthorization(Team team, String username) {
+        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
+        checkAuthorization(team, user);
+    }
 
     @Override
     public Page<Team> searchPage(String name, String ownerUsername, String registeredUsername, Integer pageNumber,
@@ -62,21 +78,6 @@ public class TeamServiceImpl implements TeamService {
         };
 
         return teamRepository.findAll(specification, pageRequest);
-    }
-
-    @Override
-    public void checkAuthorization(Team team, User user) {
-        boolean userIsNotAdmin = !user.isAdmin();
-        boolean userIsNotOwner = !user.equals(team.getUserOwner());
-        boolean cannotManageTeam = userIsNotAdmin && userIsNotOwner;
-        if (cannotManageTeam)
-            throw new AccessDeniedException("Nie masz praw do zarządzania tą drużyną.");
-    }
-
-    @Override
-    public void checkAuthorization(Team team, String username) {
-        User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
-        checkAuthorization(team, user);
     }
 
     @Override

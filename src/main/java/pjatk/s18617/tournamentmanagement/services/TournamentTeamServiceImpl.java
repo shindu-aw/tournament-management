@@ -1,9 +1,11 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.TournamentTeamCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
@@ -31,7 +33,7 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
         boolean userIsNotTeamOwner = !user.equals(tournamentTeam.getTeam().getUserOwner());
         boolean cannotDeleteTournamentRegistration = userIsNotAdmin && userIsNotTournamentOwner && userIsNotTeamOwner;
         if (cannotDeleteTournamentRegistration)
-            throw new AccessDeniedException("Nie masz praw do usunięcia tego członkostwa.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz praw do usunięcia tego członkostwa.");
     }
 
     @Override
@@ -55,7 +57,7 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
     @Override
     public TournamentTeam saveWithAuthorization(TournamentTeamCreationDto dto, Tournament tournament, User user) {
         if (!dto.getSecretCode().equals(tournament.getJoinSecretCode()))
-            throw new AccessDeniedException("Zły tajny kod do dodania drużyny.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Zły tajny kod do dodania drużyny.");
 
         Team team = teamRepository.findById(dto.getTeamId()).orElseThrow(NotFoundException::new);
 

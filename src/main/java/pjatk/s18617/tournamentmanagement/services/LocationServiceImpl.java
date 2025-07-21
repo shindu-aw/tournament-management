@@ -1,8 +1,10 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.LocationCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Location;
@@ -31,7 +33,8 @@ public class LocationServiceImpl implements LocationService {
         boolean userIsNotOwner = !user.equals(tournament.getUserOwner());
         boolean cannotManageLocation = userIsNotAdmin && userIsNotOwner;
         if (cannotManageLocation)
-            throw new AccessDeniedException("Nie masz praw do zarządzania lokalizacją tego turnieju.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "Nie masz praw do zarządzania lokalizacją tego turnieju.");
     }
 
     @Override

@@ -42,7 +42,7 @@ public class TournamentServiceImpl implements TournamentService {
         boolean userIsNotOwner = !user.equals(tournament.getUserOwner());
         boolean cannotManageTournament = userIsNotAdmin && userIsNotOwner;
         if (cannotManageTournament)
-            throw new AccessDeniedException("Nie masz praw do zarządzania tym turniejem.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz praw do zarządzania tym turniejem.");
     }
 
     @Override

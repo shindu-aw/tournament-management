@@ -1,9 +1,11 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.dtos.MatchCreationDto;
 import pjatk.s18617.tournamentmanagement.dtos.MatchEditDto;
@@ -39,7 +41,9 @@ public class MatchServiceImpl implements MatchService {
         boolean userIsNotManager = !tournament.isManagedByUser(user.getUsername());
         boolean cannotManageMatches = userIsNotAdmin && userIsNotOwner && userIsNotManager;
         if (cannotManageMatches)
-            throw new AccessDeniedException("Nie masz praw do zarządzania meczami w tym turnieju.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "Nie masz praw do zarządzania meczami w tym turnieju.");
+
     }
 
     @Override

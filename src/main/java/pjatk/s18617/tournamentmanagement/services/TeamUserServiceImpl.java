@@ -30,7 +30,7 @@ public class TeamUserServiceImpl implements TeamUserService {
         boolean userIsNotMember = !user.equals(teamUser.getUser());
         boolean cannotDeleteMembership = userIsNotAdmin && userIsNotTeamOwner && userIsNotMember;
         if (cannotDeleteMembership)
-            throw new AccessDeniedException("Nie masz praw do usunięcia tego członkostwa.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz praw do usunięcia tego członkostwa.");
     }
 
     @Override
@@ -42,7 +42,8 @@ public class TeamUserServiceImpl implements TeamUserService {
     @Override
     public TeamUser save(TeamUserCreationDto dto, Team team, String username) {
         if (!dto.getSecretCode().equals(team.getSecretCode()))
-            throw new AccessDeniedException("Zły tajny kod do dołączenia do drużyny.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Zły tajny kod do dołączenia do drużyny.");
+
 
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         Game game = gameService.getById(dto.getGameId()).orElseThrow(NotFoundException::new);
