@@ -6,6 +6,7 @@ spring:
   profiles:
     active:
       - dev
+      - flyway-clean
   config:
     import: optional:file:.env[.properties]
   application:
@@ -40,6 +41,20 @@ logging:
     org.springframework: debug
     org.hibernate: debug
     org.hibernate.orm.jdbc.bind: trace
+
+---
+
+# FLYWAY-CLEAN profile
+# drops all objects in configured schema (see FlywayCleanupOnShutdown class in config package)
+# used mainly for experimenting with migrations
+
+spring:
+  config:
+    activate:
+      # disabled when "prod" profile is enabled regardless of the other profiles
+      on-profile: flyway-clean & !prod
+  flyway:
+    clean-disabled: false
 
 ---
 
