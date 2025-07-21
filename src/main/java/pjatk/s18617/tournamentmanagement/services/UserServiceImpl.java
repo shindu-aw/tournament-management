@@ -77,11 +77,6 @@ public class UserServiceImpl implements UserService {
         User currentUser = userRepository.findByUsernameIgnoreCase(currentUserName).orElseThrow(NotFoundException::new);
         boolean currentUserIsNotAdmin = !currentUser.isAdmin();
         boolean currentUserIsNotEditedUser = !currentUserName.equals(user.getUsername());
-        System.out.println("sigiemka");
-        System.out.println("currentUsername: " + currentUserName);
-        System.out.println("user name: " + user.getUsername());
-        System.out.println("is not admin: " + currentUserIsNotAdmin);
-        System.out.println("is not edit user: " + currentUserIsNotEditedUser);
         if (currentUserIsNotAdmin && currentUserIsNotEditedUser)
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz do zarządzania tym użytkownikiem.");
     }
