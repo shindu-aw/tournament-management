@@ -12,7 +12,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "team_user")
+@Table(name = "team_user", indexes = {
+        @Index(name = "uc_team_user_game", columnList = "team_id, user_id, game_id", unique = true)
+})
 public class TeamUser {
 
     @Id

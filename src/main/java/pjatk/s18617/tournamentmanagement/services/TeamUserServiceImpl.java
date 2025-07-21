@@ -57,10 +57,8 @@ public class TeamUserServiceImpl implements TeamUserService {
         try {
             return teamUserRepository.save(teamUser);
         } catch (DataAccessException ex) {
-            // is cause the database trigger?
-            // (the trigger checks whether the user is already a member of this team assigned to this game)
-            final String TRIGGER_MESSAGE = "User is already a member of this team assigned to this game.";
-            if (ex.getMessage() != null && ex.getMessage().contains(TRIGGER_MESSAGE)) {
+            // is the error caused by a duplicate entry?
+            if (ex.getMessage() != null && ex.getMessage().contains("Duplicate entry")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         "Już jesteś członkiem tej drużyny przypisanym do tej gry.",
@@ -68,7 +66,7 @@ public class TeamUserServiceImpl implements TeamUserService {
                 );
             }
 
-            // if the database trigger is not the cause, then something's wrong
+            // if the duplicate entry is not the cause, then something's wrong
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "Niespodziewany error nastąpił w bazie danych.",

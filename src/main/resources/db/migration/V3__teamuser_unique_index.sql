@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX uc_team_user_game ON team_user (team_id, user_id, game_id);
