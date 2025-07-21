@@ -122,7 +122,7 @@ isNotFinished=${not tournament.finished}
                     </tr>
                 </table>
 
-                <div th:if="${isOwnerOrAdminOrModerator}" class="d-flex gap-2">
+                <div th:if="${isOwnerOrAdmin}" class="d-flex gap-2">
                     <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
                         <input type="submit" value="Edytuj turniej" class="btn btn-secondary btn-sm"/>
                     </form>
@@ -130,7 +130,7 @@ isNotFinished=${not tournament.finished}
                         <input type="submit" value="Usuń turniej" class="btn btn-danger btn-sm"/>
                     </form>
                     <form th:if="${isNotFinished}" method="post" class="m-0"
-                            th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}">
+                          th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}">
                         <input type="submit" value="Zakończ turniej" class="btn btn-success btn-sm"/>
                     </form>
                 </div>
@@ -234,11 +234,18 @@ isNotFinished=${not tournament.finished}
 
         <h2>Drużyny</h2>
 
-        <form sec:authorize="isAuthenticated()" th:if="${isNotFinished}"
-              th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
-              method="get">
-            <input type="submit" value="Aplikuj drużyną" class="btn btn-primary"/>
-        </form>
+        <div th:if="${isOwnerOrAdminOrModerator}" class="d-flex gap-2">
+            <form sec:authorize="isAuthenticated()" th:if="${isNotFinished}"
+                  th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
+                  method="get" class="m-0">
+                <input type="submit" value="Aplikuj drużyną" class="btn btn-primary"/>
+            </form>
+            <form th:if="${isOwnerOrAdminOrModerator and isNotFinished}"
+                  th:action="'/tournament/' + ${tournamentId} + '/recount-team-scores'"
+                  method="post" class="m-0">
+                <input type="submit" value="Przelicz punkty" class="btn btn-primary"/>
+            </form>
+        </div>
 
         <table class="table">
             <thead>

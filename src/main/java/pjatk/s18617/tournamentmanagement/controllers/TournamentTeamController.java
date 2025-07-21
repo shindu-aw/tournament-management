@@ -87,4 +87,12 @@ public class TournamentTeamController {
         return "redirect:/tournament/" + tournamentId;
     }
 
+    @PostMapping("/tournament/{tournamentId}/recount-team-scores")
+    public String recountTeamScores(@PathVariable Long tournamentId, Principal principal) {
+        String currentUserName = principal.getName();
+        tournamentTeamService.recountTournamentTeamScoresWithAuthorization(tournamentId, currentUserName);
+
+        return "redirect:/tournament/" + tournamentId;
+    }
+
 }

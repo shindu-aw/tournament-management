@@ -7,8 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
@@ -19,6 +19,7 @@ import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.model.User;
 import pjatk.s18617.tournamentmanagement.repositories.GameRepository;
 import pjatk.s18617.tournamentmanagement.repositories.TournamentRepository;
+import pjatk.s18617.tournamentmanagement.repositories.TournamentTeamRepository;
 import pjatk.s18617.tournamentmanagement.repositories.UserRepository;
 import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 
@@ -35,6 +36,7 @@ public class TournamentServiceImpl implements TournamentService {
     private final TournamentRepository tournamentRepository;
     private final GameRepository gameRepository;
     private final UserService userService;
+    private final TournamentTeamRepository tournamentTeamRepository;
 
     @Override
     public void checkAuthorization(Tournament tournament, User user) {
@@ -177,6 +179,7 @@ public class TournamentServiceImpl implements TournamentService {
         tournamentRepository.save(tournament);
     }
 
+    @Transactional
     @Override
     public void setAsFinishedWithAuthorization(Long tournamentId, String currentUserName) {
         Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(NotFoundException::new);
@@ -185,6 +188,8 @@ public class TournamentServiceImpl implements TournamentService {
         // check if it's already finished in case any logic is implemented in the future that would be executed
         // when the tournament is set as finished, to avoid running it multiple times
         throwBadRequestIfFinished(tournament);
+
+        tournamentTeamRepository.recountTournamentTeamScores(tournamentId);
 
         if (tournament.getEndDate() == null)
             tournament.setEndDate(LocalDate.now());

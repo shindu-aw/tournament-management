@@ -2,7 +2,6 @@ package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -70,6 +69,14 @@ public class TournamentTeamServiceImpl implements TournamentTeamService {
                 .build();
 
         return tournamentTeamRepository.save(tournamentTeam);
+    }
+
+    @Override
+    public void recountTournamentTeamScoresWithAuthorization(Long tournamentId, String currentUserName) {
+        Tournament tournament = tournamentService.getById(tournamentId).orElseThrow(NotFoundException::new);
+        matchService.checkAuthorization(tournament, currentUserName);
+
+        tournamentTeamRepository.recountTournamentTeamScores(tournamentId);
     }
 
 }

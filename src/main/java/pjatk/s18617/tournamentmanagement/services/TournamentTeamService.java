@@ -15,4 +15,5 @@ public interface TournamentTeamService {
 
     TournamentTeam saveWithAuthorization(TournamentTeamCreationDto dto, Tournament tournament, User user);
 
+    void recountTournamentTeamScoresWithAuthorization(Long tournamentId, String currentUserName);
 }
