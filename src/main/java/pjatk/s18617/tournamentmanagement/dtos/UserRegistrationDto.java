@@ -29,4 +29,9 @@ public class UserRegistrationDto implements Serializable {
     @NotEmpty(message = "nie może być puste")
     private String password;
 
+    @NotNull(message = "nie może być puste")
+    @Size(min = 8, max = 30, message = "nie może być krótsze od 8 i dłuższe od 30 znaków")
+    @NotEmpty(message = "nie może być puste")
+    private String passwordRepeat;
+
 }
