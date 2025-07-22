@@ -1,6 +1,7 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import org.springframework.data.domain.Page;
+import pjatk.s18617.tournamentmanagement.dtos.PasswordDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.User;
@@ -26,4 +27,6 @@ public interface UserService {
     Optional<User> findById(Long userId);
 
     User updateUserWithAuthorization(User user, UserEditDto userEditDto, String currentUserName);
+
+    User updateUserPasswordWithAuthorization(User user, PasswordDto passwordDto, String currentUserName);
 }

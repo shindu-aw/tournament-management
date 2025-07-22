@@ -9,12 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
+import pjatk.s18617.tournamentmanagement.dtos.PasswordDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.User;
@@ -112,6 +112,16 @@ public class UserServiceImpl implements UserService {
         checkEditUserAuthorization(user, currentUserName);
 
         user.setDescription(userEditDto.getDescription());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUserPasswordWithAuthorization(User user, PasswordDto passwordDto, String currentUserName) {
+        checkEditUserAuthorization(user, currentUserName);
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(passwordDto.getPassword()));
 
         return userRepository.save(user);
     }

@@ -31,9 +31,12 @@ canEdit=${isAdmin or #authentication.name == user.username}
         <h2>Opis</h2>
         <p th:text="${{user.description}}"></p>
 
-        <div th:if="${canEdit}">
-            <form th:action="@{'/user/' + ${userId} + '/edit'}" method="get">
+        <div th:if="${canEdit}" class="d-flex gap-2">
+            <form th:action="@{'/user/' + ${userId} + '/edit'}" method="get" class="m-0">
                 <input type="submit" value="Edytuj profil" class="btn btn-secondary"/>
+            </form>
+            <form th:action="@{'/user/' + ${userId} + '/edit-password'}" method="get" class="m-0">
+                <input type="submit" value="Edytuj hasło" class="btn btn-secondary"/>
             </form>
         </div>
 

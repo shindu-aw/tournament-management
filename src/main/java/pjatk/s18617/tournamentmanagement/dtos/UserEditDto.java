@@ -15,9 +15,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEditDto implements Serializable {
-
-    @Size(max = 30, message = "nie może być dłuższe od 30 znaków")
-    private String password;
     
     @Size(max = 1000, message = "nie może być dłuższe od 1000 znaków")
     private String description;

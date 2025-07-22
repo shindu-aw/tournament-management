@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pjatk.s18617.tournamentmanagement.dtos.PasswordDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserEditDto;
 import pjatk.s18617.tournamentmanagement.dtos.UserRegistrationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
@@ -79,7 +80,7 @@ public class UserController {
     }
 
     @PostMapping("/user/{userId}/edit")
-    public String processEditUserForm(@PathVariable Long userId, Principal principal, Model model,
+    public String processEditUserPasswordForm(@PathVariable Long userId, Principal principal, Model model,
                                       @Valid UserEditDto userEditDto, BindingResult result) {
         User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
 
@@ -90,6 +91,35 @@ public class UserController {
 
         String currentUserName = principal.getName();
         userService.updateUserWithAuthorization(editedUser, userEditDto, currentUserName);
+
+        return "redirect:/user/" + userId;
+    }
+
+    @GetMapping("/user/{userId}/edit-password")
+    public String showEditUserPasswordForm(@PathVariable Long userId, Principal principal, Model model) {
+        User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
+
+        String currentUserName = principal.getName();
+        userService.checkEditUserAuthorization(editedUser, currentUserName);
+
+        model.addAttribute("passwordDto", new PasswordDto());
+        model.addAttribute("editedUser", editedUser);
+
+        return "user-edit-password";
+    }
+
+    @PostMapping("/user/{userId}/edit-password")
+    public String processEditUserForm(@PathVariable Long userId, Principal principal, Model model,
+                                      @Valid PasswordDto passwordDto, BindingResult result) {
+        User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
+
+        if (result.hasErrors()) {
+            model.addAttribute("editedUser", editedUser);
+            return "user-edit-password";
+        }
+
+        String currentUserName = principal.getName();
+        userService.updateUserPasswordWithAuthorization(editedUser, passwordDto, currentUserName);
 
         return "redirect:/user/" + userId;
     }
