@@ -113,10 +113,7 @@ public class UserServiceImpl implements UserService {
 
         user.setDescription(userEditDto.getDescription());
 
-        if (!userEditDto.getPassword().isEmpty())
-            user.setPassword(userEditDto.getPassword());
-
-        return save(user);
+        return userRepository.save(user);
     }
 
 }
