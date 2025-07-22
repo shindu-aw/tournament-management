@@ -81,7 +81,7 @@ public class UserController {
 
     @PostMapping("/user/{userId}/edit")
     public String processEditUserPasswordForm(@PathVariable Long userId, Principal principal, Model model,
-                                      @Valid UserEditDto userEditDto, BindingResult result) {
+                                              @Valid UserEditDto userEditDto, BindingResult result) {
         User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
 
         if (result.hasErrors()) {
@@ -112,6 +112,9 @@ public class UserController {
     public String processEditUserForm(@PathVariable Long userId, Principal principal, Model model,
                                       @Valid PasswordDto passwordDto, BindingResult result) {
         User editedUser = userService.findById(userId).orElseThrow(NotFoundException::new);
+
+        if (!passwordDto.getPassword().equals(passwordDto.getPasswordRepeat()))
+            result.rejectValue("passwordRepeat", "error.passwordRepeat", "hasła muszą być takie same");
 
         if (result.hasErrors()) {
             model.addAttribute("editedUser", editedUser);
