@@ -27,7 +27,11 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
             </ol>
         </nav>
 
-        <h1 th:text="'[' + ${{team.id}} + '] ' + ${{team.name}}"></h1>
+        <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
+            <div class="lh-1">
+                <h1 th:text="${team.name}"></h1>
+            </div>
+        </div>
 
         <div th:if="${isAdminOrOwner}">
 
@@ -53,27 +57,34 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
         <div class="row">
 
             <div class="col-md-8">
-                <h2>Opis</h2>
-                <p th:text="${{team.description}}"></p>
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <h5 class="border-bottom pb-2 mb-0">Opis</h5>
+                    <p th:text="${{team.description}}"/>
+                </div>
             </div>
 
             <div class="col-md-4">
-                <h2>Linki</h2>
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <h5 class="border-bottom pb-2 mb-0">Linki</h5>
 
-                <a th:if="${isAdminOrOwner}" th:href="@{'/team/' + ${team.id} + '/link/new'}"
-                   class="btn btn-primary btn-sm">Dodaj link</a>
+                    <table class="table">
+                        <tr th:each="link : ${links}">
+                            <td>
+                                <a th:href="${link.url}" th:text="${{link.name}}"></a>
+                            </td>
+                            <td th:if="${isAdminOrOwner}" class="text-end">
+                                <form method="post" class="m-0"
+                                      th:action="@{'/team/' + ${team.id} + '/link/delete/' + ${link.id}}">
+                                    <input type="submit" value="Usuń" class="btn btn-danger btn-sm "/>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
 
-                <table class="table">
-                    <tr th:each="link : ${links}">
-                        <td class="d-flex gap-2">
-                            <form th:if="${isAdminOrOwner}" method="post" class="m-0"
-                                  th:action="@{'/team/' + ${team.id} + '/link/delete/' + ${link.id}}">
-                                <input type="submit" value="Usuń" class="btn btn-danger btn-sm "/>
-                            </form>
-                            <a th:href="${link.url}" th:text="${{link.name}}"></a>
-                        </td>
-                    </tr>
-                </table>
+                    <a th:if="${isAdminOrOwner}" th:href="@{'/team/' + ${team.id} + '/link/new'}"
+                       class="btn btn-link">Dodaj link</a>
+                </div>
+
             </div>
 
         </div>
@@ -83,7 +94,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
 
         <div sec:authorize="isAuthenticated()">
             <a th:text="'Dołącz do drużyny'" th:href="@{'/team/' + ${teamId} + '/member/apply'}"
-               class="btn btn-primary"></a>
+               class="btn btn-link"></a>
         </div>
 
         <table class="table">

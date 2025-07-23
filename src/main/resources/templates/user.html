@@ -26,10 +26,16 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </ol>
         </nav>
 
-        <h1 th:text="'[' + ${user.id} + '] ' + ${user.username}"></h1>
+        <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
+            <div class="lh-1">
+                <h1 th:text="${user.username}"></h1>
+            </div>
+        </div>
 
-        <h2>Opis</h2>
-        <p th:text="${{user.description}}"></p>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h5 class="border-bottom pb-2 mb-0">Opis</h5>
+            <p th:text="${{user.description}}"/>
+        </div>
 
         <div th:if="${canEdit}" class="d-flex gap-2">
             <form th:action="@{'/user/' + ${userId} + '/edit'}" method="get" class="m-0">
