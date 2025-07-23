@@ -270,7 +270,10 @@ isNotFinished=${not tournament.finished}
                         </tr>
                         <tr>
                             <th>Gra:</th>
-                            <td th:text="${{tournament.game.name}}"/>
+                            <td>
+                                <a th:text="${{tournament.game.name}}"
+                                th:href="@{'/game/' + ${tournament.game.id} + '/tournaments'}"></a>
+                            </td>
                         </tr>
                         <tr>
                             <th>Data:</th>
