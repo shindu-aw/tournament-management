@@ -10,26 +10,26 @@
 <section layout:fragment="content">
     <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna
+                        strona</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{/team/list}"
+                       class="link-body-emphasis fw-semibold text-decoration-none">Drużyny</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a th:href="@{'/team/' + ${team.id}}" th:text="${{team.name}}"
+                       class="link-body-emphasis fw-semibold text-decoration-none"></a>
+                </li>
+                <li th:text="'Dodawanie linku'" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
 
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
-                        <li class="breadcrumb-item">
-                            <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna
-                                strona</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a th:href="@{/team/list}"
-                               class="link-body-emphasis fw-semibold text-decoration-none">Drużyny</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a th:href="@{'/team/' + ${team.id}}" th:text="${{team.name}}"
-                               class="link-body-emphasis fw-semibold text-decoration-none"></a>
-                        </li>
-                        <li th:text="'Dodawanie linku'" class="breadcrumb-item active" aria-current="page"></li>
-                    </ol>
-                </nav>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3 p-3 bg-body rounded shadow-sm">
 
                 <form action="#" th:action="@{'/team/' + ${teamId} + '/member/apply'}"
                       th:object="${teamUserCreationDto}"
