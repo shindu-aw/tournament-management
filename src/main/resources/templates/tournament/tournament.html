@@ -32,7 +32,11 @@ isNotFinished=${not tournament.finished}
             </ol>
         </nav>
 
-        <h1><span th:text="${tournament.name}"/></h1>
+        <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
+            <div class="lh-1">
+                <h1 th:text="${tournament.name}"></h1>
+            </div>
+        </div>
 
 
         <div th:unless="${isNotFinished}" class="alert alert-warning" role="alert">
@@ -42,298 +46,363 @@ isNotFinished=${not tournament.finished}
         </div>
 
 
-        <div th:if="${isOwnerOrAdmin}">
+        <div th:if="${isOwnerOrAdmin}" class="my-3 p-3 bg-body rounded shadow">
 
-            <div class="card">
-                <div class="card-header">
-                    <h5>Zarządzaj turniejem</h5>
+            <h3 class="border-bottom pb-1">
+                Panel zarządzania turniejem
+            </h3>
+
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <table class="table caption-top">
+
+                        <caption class="text-center">
+                            <h6>Akcje</h6>
+                        </caption>
+
+                        <tr>
+                            <td>Turniej</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get"
+                                          class="m-0">
+                                        <input type="submit" value="Edytuj" class="btn btn-secondary btn-sm"/>
+                                    </form>
+                                    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post"
+                                          class="m-0">
+                                        <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                                    </form>
+                                    <form th:if="${isNotFinished}" method="post" class="m-0"
+                                          th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}">
+                                        <input type="submit" value="Zakończ" class="btn btn-success btn-sm"/>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lokalizacja</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <form th:if="${tournament.location == null}"
+                                          th:action="@{'/tournament/' + ${tournament.id} + '/new/location'}"
+                                          method="get">
+                                        <input type="submit" value="Dodaj"
+                                               class="btn btn-primary btn-sm"/>
+                                    </form>
+                                    <form th:if="${tournament.location != null}"
+                                          th:action="@{'/tournament/' + ${tournament.id} + '/edit/location'}"
+                                          method="get" class="m-0">
+                                        <input type="submit" value="Edytuj"
+                                               class="btn btn-secondary btn-sm"/>
+                                    </form>
+                                    <form th:if="${tournament.location != null}"
+                                          th:action="@{'/tournament/' + ${tournament.id} + '/delete/location'}"
+                                          method="post" class="m-0">
+                                        <input type="submit" value="Usuń"
+                                               class="btn btn-danger btn-sm"/>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${isNotFinished}">
+                            <td>Drużyny</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <form th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
+                                          method="get" class="m-0">
+                                        <input type="submit" value="Aplikuj"
+                                               class="btn btn-primary btn-sm"/>
+                                    </form>
+                                    <form th:if="${isOwnerOrAdminOrModerator}"
+                                          th:action="'/tournament/' + ${tournamentId} + '/recount-team-scores'"
+                                          method="post" class="m-0">
+                                        <input type="submit" value="Przelicz punkty"
+                                               class="btn btn-primary btn-sm"/>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${isNotFinished}">
+                            <td>Mecze</td>
+                            <td>
+                                <form th:action="@{'/tournament/' + ${tournament.id} + '/new/match'}" method="get">
+                                    <input type="submit" value="Dodaj" class="btn btn-primary btn-sm"/>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ogłoszenia</td>
+                            <td>
+                                <a th:if="${isOwnerOrAdmin}"
+                                   th:href="@{'/tournament/' + ${tournament.id} + '/announcement/new'}"
+                                   class="btn btn-primary btn-sm">Dodaj</a>
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
-                <div class="card-body">
 
-                    <div class="row">
-                        <div class="col-md-6">
+                <div class="col-md-4">
 
-                            <h3>Kody turnieju</h3>
+                    <table class="table caption-top">
 
-                            <table class="table">
-                                <tr>
-                                    <th>Kod dla zarządzających turniejem:</th>
-                                    <td><code th:text="${{tournament.manageSecretCode}}"></code></td>
-                                </tr>
-                                <tr>
-                                    <th>Kod dla dołączających drużyn:</th>
-                                    <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
-                                </tr>
-                            </table>
-                            <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}"
-                                  method="post"
-                                  class="m-0">
-                                <input type="submit" value="Wygeneruj ponownie tajne kody"
-                                       class="btn btn-warning btn-sm"/>
-                            </form>
+                        <caption class="text-center">
+                            <h6>Tajne kody</h6>
+                        </caption>
 
-                        </div>
-                        <div class="col-md-6">
+                        <tr>
+                            <td>Kod dla zarządzających turniejem:</td>
+                            <td><code th:text="${{tournament.manageSecretCode}}"></code></td>
+                        </tr>
+                        <tr>
+                            <td>Kod dla dołączających drużyn:</td>
+                            <td><code th:text="${{tournament.joinSecretCode}}"></code></td>
+                        </tr>
 
-                            <h3>Moderatorzy turnieju</h3>
-
-                            <table class="table">
-                                <tr th:each="moderator: ${tournament.usersManaging}">
-                                    <td th:text="${{moderator.username}}"/>
-                                    <td>
-                                        <form th:action="@{'/tournament/' + ${tournamentId} + '/moderator/remove/' + ${moderator.id}}"
-                                              method="post">
-                                            <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm"/>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </div>
-                    </div>
+                    </table>
+                    <form th:action="@{'/tournament/' + ${tournament.id} + '/regenerate-secret-codes'}"
+                          method="post" class="m-0">
+                        <input type="submit" value="Wygeneruj ponownie tajne kody" class="btn btn-link"/>
+                    </form>
 
                 </div>
 
+                <div class="col-md-4">
+
+                    <table class="table caption-top">
+
+                        <caption class="text-center">
+                            <h6>Moderatorzy</h6>
+                        </caption>
+
+                        <tr th:each="moderator: ${tournament.usersManaging}">
+                            <td th:text="${{moderator.username}}"/>
+                            <td class="text-end">
+                                <form th:action="@{'/tournament/' + ${tournamentId} + '/moderator/remove/' + ${moderator.id}}"
+                                      method="post">
+                                    <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
             </div>
+
+        </div>
+
+
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h5 class="border-bottom pb-2 mb-0">Opis</h5>
+            <p th:text="${{tournament.description}}"/>
         </div>
 
 
         <div class="row">
-            <div class="col-md-4">
-                <h2>Podstawowe dane</h2>
 
-                <table class="table">
-                    <tr>
-                        <th>Właściciel:</th>
-                        <td>
-                            <a th:text="${{tournament.userOwner.username}}"
-                               th:href="@{'/user/' + ${tournament.userOwner.id}}"></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Data rozpoczęcia:</th>
-                        <td th:text="${{tournament.startDate}}"/>
-                    </tr>
-                    <tr>
-                        <th>Data zakończenia:</th>
-                        <td>
-                            <span th:if="${tournament.endDate} != null" th:text="${{tournament.endDate}}"></span>
-                        </td>
-                    </tr>
-                </table>
+            <div class="col-md-9">
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <h2>Drużyny – tabela wyników</h2>
 
-                <div th:if="${isOwnerOrAdmin}" class="d-flex gap-2">
-                    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get" class="m-0">
-                        <input type="submit" value="Edytuj turniej" class="btn btn-secondary btn-sm"/>
-                    </form>
-                    <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post" class="m-0">
-                        <input type="submit" value="Usuń turniej" class="btn btn-danger btn-sm"/>
-                    </form>
-                    <form th:if="${isNotFinished}" method="post" class="m-0"
-                          th:action="@{'/tournament/' + ${tournament.id} + '/set-as-finished'}">
-                        <input type="submit" value="Zakończ turniej" class="btn btn-success btn-sm"/>
-                    </form>
-                </div>
-
-                <div sec:authorize="isAuthenticated()" th:unless="${isOwnerOrAdminOrModerator}">
-                    <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}"
-                       class="btn btn-primary btn-sm">
-                        Aplikuj jako moderator do tego turnieju.
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <h2>Lokalizacja</h2>
-
-                <div th:if="${tournament.location != null}">
-                    <table th:if="${tournament.location} != null" class="table">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <th>Kraj:</th>
-                            <td th:text="${{tournament.location.country}}"/>
+                            <th>Miejsce</th>
+                            <th>Nazwa</th>
+                            <th>Punkty</th>
+                            <th th:if="${isOwnerOrAdmin}">
+                                Akcje
+                            </th>
                         </tr>
-                        <tr>
-                            <th>Kod pocztowy:</th>
-                            <td th:text="${{tournament.location.postalCode}}"/>
+                        </thead>
+                        <tbody class="table-group-divider">
+                        <tr th:each="teamRegistration, iterStat: ${sortedTeamRegistrations}">
+                            <td th:text="${iterStat.index + 1}"/>
+                            <td>
+                                <a th:href="@{'/team/' + ${teamRegistration.team.id}}"
+                                   th:text="${{teamRegistration.team.name}}"></a>
+                            </td>
+                            <td th:text="${{teamRegistration.scoreSum}}"/>
+
+                            <td th:if="${isOwnerOrAdmin}">
+                                <form th:action="@{'/tournament/' + ${tournamentId} + '/team/remove/' + ${teamRegistration.id}}"
+                                      method="post" class="m-0">
+                                    <input type="submit" value="Usuń" class="btn btn-danger btn-sm "/>
+                                </form>
+                            </td>
                         </tr>
-                        <tr>
-                            <th>Miasto:</th>
-                            <td th:text="${{tournament.location.city}}"/>
-                        </tr>
-                        <tr>
-                            <th>Ulica:</th>
-                            <td th:text="${{tournament.location.street}}"/>
-                        </tr>
-                        <tr>
-                            <th>Numer domu:</th>
-                            <td th:text="${{tournament.location.houseNumber}}"/>
-                        </tr>
+                        </tbody>
                     </table>
 
                     <div class="d-flex gap-2">
-                        <form th:if="${isOwnerOrAdmin}"
-                              th:action="@{'/tournament/' + ${tournament.id} + '/edit/location'}"
+                        <form sec:authorize="isAuthenticated()" th:if="${isNotFinished}"
+                              th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
                               method="get" class="m-0">
-                            <input type="submit" value="Edytuj lokalizacje" class="btn btn-secondary btn-sm"/>
+                            <input type="submit" value="Aplikuj drużyną" class="btn btn-link"/>
                         </form>
-                        <form th:if="${isOwnerOrAdmin}"
-                              th:action="@{'/tournament/' + ${tournament.id} + '/delete/location'}"
+                        <form th:if="${isOwnerOrAdminOrModerator and isNotFinished}"
+                              th:action="'/tournament/' + ${tournamentId} + '/recount-team-scores'"
                               method="post" class="m-0">
-                            <input type="submit" value="Usuń lokalizacje" class="btn btn-danger btn-sm"/>
+                            <input type="submit" value="Przelicz punkty" class="btn btn-link"/>
                         </form>
                     </div>
 
-
-                </div>
-
-                <div th:if="${tournament.location} == null">
-                    Ten turniej nie ma zapisanej lokalizacji.
-
-                    <form th:if="${isOwnerOrAdmin}" th:action="@{'/tournament/' + ${tournament.id} + '/new/location'}"
-                          method="get">
-                        <input type="submit" value="Dodaj lokalizacje" class="btn btn-primary"/>
-                    </form>
                 </div>
             </div>
 
-            <div class="col-md-4">
 
-                <h2>Opis</h2>
+            <div class="col-md-3">
 
-                <p th:text="${{tournament.description}}"/>
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <table class="table table-sm caption-top">
 
-            </div>
-        </div>
+                        <caption><h5>Podstawowe dane</h5></caption>
 
+                        <tr>
+                            <th>Właściciel:</th>
+                            <td>
+                                <a th:text="${{tournament.userOwner.username}}"
+                                   th:href="@{'/user/' + ${tournament.userOwner.id}}"></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Gra:</th>
+                            <td th:text="${{tournament.game.name}}"/>
+                        </tr>
+                        <tr>
+                            <th>Data:</th>
+                            <td th:if="${tournament.endDate} != null"
+                                th:text="${{tournament.startDate}} + ' – ' + ${{tournament.endDate}}"></td>
+                            <td th:if="${tournament.endDate} == null"
+                                th:text="${{tournament.startDate}}"></td>
+                        </tr>
+                    </table>
 
-        <h2>Ogłoszenia</h2>
-
-        <p>
-            <a th:if="${isOwnerOrAdmin}" th:href="@{'/tournament/' + ${tournament.id} + '/announcement/new'}"
-               class="btn btn-primary btn-sm">Dodaj ogłoszenie</a>
-        </p>
-
-
-        <ul class="list-group">
-            <li class="list-group-item" th:each="announcement : ${tournament.announcements}">
-                <h5 th:text="${{announcement.title}}"></h5>
-                <h6 th:text="${{announcement.creationDate}}"></h6>
-
-                <div th:if="${isOwnerOrAdmin}">
-                    <form th:action="@{'/tournament/' + ${tournamentId} + '/announcement/delete/' + ${announcement.id}}"
-                          method="post" class="m-0">
-                        <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm "/>
-                    </form>
+                    <div sec:authorize="isAuthenticated()" th:unless="${isOwnerOrAdminOrModerator}">
+                        <a th:href="@{'/tournament/' + ${tournamentId} + '/moderator/apply'}">
+                            Aplikuj jako moderator
+                        </a>
+                    </div>
                 </div>
 
-                <p th:text="${{announcement.description}}"></p>
-            </li>
-        </ul>
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <div th:if="${tournament.location != null}">
+                        <table th:if="${tournament.location} != null" class="table table-sm caption-top">
+
+                            <caption><h5>Lokalizacja</h5></caption>
+
+                            <tr>
+                                <th>Kraj:</th>
+                                <td th:text="${{tournament.location.country}}"/>
+                            </tr>
+                            <tr>
+                                <th>Kod pocztowy:</th>
+                                <td th:text="${{tournament.location.postalCode}}"/>
+                            </tr>
+                            <tr>
+                                <th>Miasto:</th>
+                                <td th:text="${{tournament.location.city}}"/>
+                            </tr>
+                            <tr>
+                                <th>Ulica:</th>
+                                <td th:text="${{tournament.location.street}}"/>
+                            </tr>
+                            <tr>
+                                <th>Numer domu:</th>
+                                <td th:text="${{tournament.location.houseNumber}}"/>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div th:if="${tournament.location} == null">
+                        Ten turniej nie ma zapisanej lokalizacji.
+                        <br>
+                        <a th:if="${isOwnerOrAdmin}" th:href="@{'/tournament/' + ${tournament.id} + '/new/location'}">
+                            Dodaj lokalizacje
+                        </a>
+                    </div>
+                </div>
+
+            </div>
 
 
-        <h2>Drużyny</h2>
-
-        <div th:if="${isOwnerOrAdminOrModerator}" class="d-flex gap-2">
-            <form sec:authorize="isAuthenticated()" th:if="${isNotFinished}"
-                  th:action="@{'/tournament/' + ${tournament.id} + '/team/add'}"
-                  method="get" class="m-0">
-                <input type="submit" value="Aplikuj drużyną" class="btn btn-primary"/>
-            </form>
-            <form th:if="${isOwnerOrAdminOrModerator and isNotFinished}"
-                  th:action="'/tournament/' + ${tournamentId} + '/recount-team-scores'"
-                  method="post" class="m-0">
-                <input type="submit" value="Przelicz punkty" class="btn btn-primary"/>
-            </form>
         </div>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Punkty</th>
-                <th th:if="${isOwnerOrAdmin}">
-                    Akcje
-                </th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            <tr th:each="teamRegistration: ${sortedTeamRegistrations}">
-                <td>
-                    <a th:href="@{'/team/' + ${teamRegistration.team.id}}"
-                       th:text="${{teamRegistration.team.name}}"></a>
-                </td>
-                <td th:text="${{teamRegistration.scoreSum}}"/>
 
-                <td th:if="${isOwnerOrAdmin}">
-                    <form th:action="@{'/tournament/' + ${tournamentId} + '/team/remove/' + ${teamRegistration.id}}"
-                          method="post" class="m-0">
-                        <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm "/>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
+        <div th:unless="${tournament.announcements.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm">
+            <h2>Ogłoszenia</h2>
 
-        </table>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="announcement : ${tournament.announcements}">
+                    <h5 th:text="${{announcement.title}}"></h5>
+                    <h6 th:text="${{announcement.creationDate}}"></h6>
+                    <p th:text="${{announcement.description}}"></p>
 
-
-        <h2>Mecze</h2>
-
-        <div th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
-            <form th:action="@{'/tournament/' + ${tournament.id} + '/new/match'}" method="get">
-                <input type="submit" value="Dodaj nowy mecz" class="btn btn-primary"/>
-            </form>
-        </div>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Data</th>
-                <th>Drużyna 1</th>
-                <th>Wynik drużyny 1</th>
-                <th>Drużyna 2</th>
-                <th>Wynik drużyny 2</th>
-                <th th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
-                    Akcje
-                </th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            <tr th:each="match: ${sortedMatches}">
-                <td>
-                    <a th:text="'[' + ${{match.id}} + ']'"></a>
-                </td>
-                <td th:text="${{match.date}}"/>
-                <td>
-                    <a th:href="@{'/team/' + ${match.tournamentTeam1.team.id}}"
-                       th:text="${{match.tournamentTeam1.team.name}}"></a>
-                </td>
-                <td th:text="${{match.team1Score}}"/>
-                <td>
-                    <a th:href="@{'/team/' + ${match.tournamentTeam2.team.id}}"
-                       th:text="${{match.tournamentTeam2.team.name}}"></a>
-                </td>
-                <td th:text="${{match.team2Score}}"/>
-
-                <td th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
-                    <!--
-                    d-flex makes the container flex (horizontal)
-                    gap-2 adds spacing between buttons
-                    m-0 removes margins from forms
-                    -->
-                    <div class="d-flex gap-2">
-                        <form th:action="@{'/match/' + ${match.id} + '/edit'}" method="get" class="m-0">
-                            <input type="submit" value="Edytuj" class="btn btn-outline-secondary btn-sm"/>
-                        </form>
-                        <form th:action="@{'/match/' + ${match.id} + '/delete'}" method="post" class="m-0">
-                            <input type="submit" value="Usuń" class="btn btn-outline-danger btn-sm"/>
+                    <div th:if="${isOwnerOrAdmin}">
+                        <form th:action="@{'/tournament/' + ${tournamentId} + '/announcement/delete/' + ${announcement.id}}"
+                              method="post" class="m-0">
+                            <input type="submit" value="Usuń" class="btn btn-link"/>
                         </form>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </li>
+            </ul>
+        </div>
+
+
+        <div th:unless="${sortedMatches.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm">
+            <h2>Mecze</h2>
+
+            <div th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
+                <form th:action="@{'/tournament/' + ${tournament.id} + '/new/match'}" method="get">
+                    <input type="submit" value="Dodaj nowy mecz" class="btn btn-link"/>
+                </form>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Drużyna 1</th>
+                    <th>Wynik drużyny 1</th>
+                    <th>Drużyna 2</th>
+                    <th>Wynik drużyny 2</th>
+                    <th th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
+                        Akcje
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                <tr th:each="match: ${sortedMatches}">
+                    <td th:text="${{match.date}}"/>
+                    <td>
+                        <a th:href="@{'/team/' + ${match.tournamentTeam1.team.id}}"
+                           th:text="${{match.tournamentTeam1.team.name}}"></a>
+                    </td>
+                    <td th:text="${{match.team1Score}}"/>
+                    <td>
+                        <a th:href="@{'/team/' + ${match.tournamentTeam2.team.id}}"
+                           th:text="${{match.tournamentTeam2.team.name}}"></a>
+                    </td>
+                    <td th:text="${{match.team2Score}}"/>
+
+                    <td th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
+                        <div class="d-flex gap-2">
+                            <form th:action="@{'/match/' + ${match.id} + '/edit'}" method="get" class="m-0">
+                                <input type="submit" value="Edytuj" class="btn btn-secondary btn-sm"/>
+                            </form>
+                            <form th:action="@{'/match/' + ${match.id} + '/delete'}" method="post" class="m-0">
+                                <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
 
     </div>
 </section>
