@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html lang="pl" class="h-100"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
@@ -8,19 +9,23 @@
 
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Compete</title>
 </head>
-<body class="bg-body-tertiary">
+<body class="bg-body-tertiary d-flex flex-column h-100">
 
 <nav th:replace="~{/fragments/nav::nav}"></nav>
 
 <p th:if="${param.message}" class="alert alert-info alert-dismissible text-center" role="alert">
     <span th:text="${{param.message}}"></span>
     <!-- * the `currentPathWithoutMessage` variable is passed from the GlobalModelAttributes ControllerAdvice * -->
-    <a th:href="@{${currentPathWithoutMessage}}" type="button" class="btn-close" aria-label="Zamknij" ></a>
+    <a th:href="@{${currentPathWithoutMessage}}" type="button" class="btn-close" aria-label="Zamknij"></a>
 </p>
 
-<section layout:fragment="content">
-    <!-- custom content filled by template here -->
-</section>
+<main class="flex-shrink-0">
+    <section layout:fragment="content">
+        <!-- custom content filled by template here -->
+    </section>
+</main>
+
+<footer th:replace="~{/fragments/footer::footer}"></footer>
 
 </body>
 </html>
