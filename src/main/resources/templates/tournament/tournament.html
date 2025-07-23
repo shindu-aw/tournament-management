@@ -220,7 +220,7 @@ isNotFinished=${not tournament.finished}
                         </thead>
                         <tbody class="table-group-divider">
                         <tr th:each="teamRegistration, iterStat: ${sortedTeamRegistrations}">
-                            <td th:text="${iterStat.index + 1}"/>
+                            <th th:text="${iterStat.index + 1}"/>
                             <td>
                                 <a th:href="@{'/team/' + ${teamRegistration.team.id}}"
                                    th:text="${{teamRegistration.team.name}}"></a>
