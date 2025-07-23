@@ -25,68 +25,72 @@
 
         <h1 th:text="'Lista turniejów ' + ${{game.name}}"></h1>
 
-        <p th:if="${tournaments.isEmpty()}">Ta gra nie ma jeszcze żadnych turniejów.</p>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <form th:action="@{'/game/' + ${gameId} + '/tournaments'}" method="get" autocomplete="off">
 
-        <form th:action="@{'/game/' + ${gameId} + '/tournaments'}" method="get" autocomplete="off">
-
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="tournamentName" class="form-label">Nazwa turnieju</label>
-                    <input type="text" class="form-control"
-                           th:name="tournamentName" name="tournamentName" id="tournamentName"
-                           th:value="${tournamentName}">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="tournamentName" class="form-label">Nazwa turnieju</label>
+                        <input type="text" class="form-control"
+                               th:name="tournamentName" name="tournamentName" id="tournamentName"
+                               th:value="${tournamentName}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
+                        <input type="text" class="form-control"
+                               th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="afterDate" class="form-label">Rozpoczęty po dacie (włącznie)</label>
+                        <input type="date" class="form-control"
+                               th:name="afterDate" name="afterDate" id="afterDate" th:value="${afterDate}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="beforeDate" class="form-label">Rozpoczęty przed datą (włącznie)</label>
+                        <input type="date" class="form-control"
+                               th:name="beforeDate" name="beforeDate" id="beforeDate" th:value="${beforeDate}">
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
-                    <input type="text" class="form-control"
-                           th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
-                </div>
-                <div class="col-md-3">
-                    <label for="afterDate" class="form-label">Rozpoczęty po dacie (włącznie)</label>
-                    <input type="date" class="form-control"
-                           th:name="afterDate" name="afterDate" id="afterDate" th:value="${afterDate}">
-                </div>
-                <div class="col-md-3">
-                    <label for="beforeDate" class="form-label">Rozpoczęty przed datą (włącznie)</label>
-                    <input type="date" class="form-control"
-                           th:name="beforeDate" name="beforeDate" id="beforeDate" th:value="${beforeDate}">
-                </div>
-            </div>
 
 
-            <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
-            <a th:href="@{'/game/' + ${gameId} + '/tournaments'}" class="btn btn-danger mt-3">Reset</a>
-        </form>
+                <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+                <a th:href="@{'/game/' + ${gameId} + '/tournaments'}" class="btn btn-danger mt-3">Reset</a>
+            </form>
+        </div>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Właściciel</th>
-                <th>Data rozpoczęcia</th>
-                <th>Data zakończenia</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="tournament: ${tournaments}" th:classappend="${tournament.finished} ? 'table-secondary'">
-                <td>
-                    <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}"></a>
-                </td>
-                <td>
-                    <a th:href="@{'/user/' + ${tournament.userOwner.id}}"
-                       th:text="${{tournament.userOwner.username}}"></a>
-                </td>
-                <td th:text="${{tournament.startDate}}"/>
-                <td th:text="${{tournament.endDate}}"/>
-                <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
-            </tr>
-            </tbody>
 
-        </table>
 
-        <!-- * Requires totalPages and currentPage model attributes to be passed * -->
-        <nav th:replace="~{fragments/pagination::pagination}"></nav>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Właściciel</th>
+                    <th>Data rozpoczęcia</th>
+                    <th>Data zakończenia</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tournament: ${tournaments}" th:classappend="${tournament.finished} ? 'table-secondary'">
+                    <td>
+                        <a th:href="@{'/tournament/' + ${tournament.id}}" th:text="${{tournament.name}}"></a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/user/' + ${tournament.userOwner.id}}"
+                           th:text="${{tournament.userOwner.username}}"></a>
+                    </td>
+                    <td th:text="${{tournament.startDate}}"/>
+                    <td th:text="${{tournament.endDate}}"/>
+                    <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
+                </tr>
+                </tbody>
+
+            </table>
+
+            <!-- * Requires totalPages and currentPage model attributes to be passed * -->
+            <nav th:replace="~{fragments/pagination::pagination}"></nav>
+        </div>
 
     </div>
 </section>

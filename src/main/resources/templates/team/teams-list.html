@@ -11,63 +11,79 @@
 <section layout:fragment="content">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Drużyny</li>
+            </ol>
+        </nav>
+
         <h1 th:text="'Lista drużyn'"></h1>
 
-        <form th:action="@{'/team/list'}" method="get" autocomplete="off">
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <form th:action="@{'/team/list'}" method="get" autocomplete="off">
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-md-4">
-                    <label for="teamName" class="form-label">Nazwa drużyny</label>
-                    <input type="text" class="form-control"
-                           th:name="teamName" name="teamName" id="teamName" th:value="${teamName}">
+                    <div class="col-md-4">
+                        <label for="teamName" class="form-label">Nazwa drużyny</label>
+                        <input type="text" class="form-control"
+                               th:name="teamName" name="teamName" id="teamName" th:value="${teamName}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
+                        <input type="text" class="form-control"
+                               th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="registeredUsername" class="form-label">Nazwa gracza</label>
+                        <input type="text" class="form-control"
+                               th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
+                               th:value="${registeredUsername}">
+                    </div>
+
                 </div>
-                <div class="col-md-4">
-                    <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
-                    <input type="text" class="form-control"
-                           th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
-                </div>
-                <div class="col-md-4">
-                    <label for="registeredUsername" class="form-label">Nazwa gracza</label>
-                    <input type="text" class="form-control"
-                           th:name="registeredUsername" name="registeredUsername" id="registeredUsername"
-                           th:value="${registeredUsername}">
-                </div>
 
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
-            <a th:href="@{'/team/list'}" class="btn btn-danger mt-3">Reset</a>
-        </form>
+                <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+                <a th:href="@{'/team/list'}" class="btn btn-danger mt-3">Reset</a>
+            </form>
+        </div>
 
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Właściciel</th>
-                <th>Opis</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="team: ${teams}">
-                <td>
-                    <a th:text="${{team.name}}" th:href="@{'/team/' + ${team.id}}"></a>
-                </td>
-
-                <td>
-                    <a th:href="@{'/user/' + ${team.userOwner.id}}"
-                       th:text="${{team.userOwner.username}}"></a>
-                </td>
-
-                <td th:text="${team.description}"/>
-            </tr>
-            </tbody>
-        </table>
 
 
-        <!-- * Requires totalPages and currentPage model attributes to be passed * -->
-        <nav th:replace="~{fragments/pagination::pagination}"></nav>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Właściciel</th>
+                    <th>Opis</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="team: ${teams}">
+                    <td>
+                        <a th:text="${{team.name}}" th:href="@{'/team/' + ${team.id}}"></a>
+                    </td>
+
+                    <td>
+                        <a th:href="@{'/user/' + ${team.userOwner.id}}"
+                           th:text="${{team.userOwner.username}}"></a>
+                    </td>
+
+                    <td th:text="${team.description}"/>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <!-- * Requires totalPages and currentPage model attributes to be passed * -->
+            <nav th:replace="~{fragments/pagination::pagination}"></nav>
+        </div>
+
 
     </div>
 </section>

@@ -11,52 +11,67 @@
 <section layout:fragment="content">
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Gracze</li>
+            </ol>
+        </nav>
+
         <h1 th:text="'Lista graczy'"></h1>
 
-        <form th:action="@{'/user/list'}" method="get" autocomplete="off">
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <form th:action="@{'/user/list'}" method="get" autocomplete="off">
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-md-6">
-                    <label for="username" class="form-label">Nazwa użytkownika</label>
-                    <input type="text" class="form-control"
-                           th:name="username" name="username" id="username" th:value="${username}">
+                    <div class="col-md-6">
+                        <label for="username" class="form-label">Nazwa użytkownika</label>
+                        <input type="text" class="form-control"
+                               th:name="username" name="username" id="username" th:value="${username}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="teamName" class="form-label">Nazwa drużyny, w której się znajduje</label>
+                        <input type="text" class="form-control"
+                               th:name="teamName" name="teamName" id="teamName" th:value="${teamName}">
+                    </div>
+
                 </div>
-                <div class="col-md-6">
-                    <label for="teamName" class="form-label">Nazwa drużyny, w której się znajduje</label>
-                    <input type="text" class="form-control"
-                           th:name="teamName" name="teamName" id="teamName" th:value="${teamName}">
-                </div>
 
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
-            <a th:href="@{'/user/list'}" class="btn btn-danger mt-3">Reset</a>
-        </form>
+                <button type="submit" class="btn btn-primary mt-3">Szukaj</button>
+                <a th:href="@{'/user/list'}" class="btn btn-danger mt-3">Reset</a>
+            </form>
+        </div>
 
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nazwa</th>
-                <th>Opis</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user: ${users}" th:classappend="${user.isAdmin()} ? 'table-primary'">
-                <td th:text="${user.id}"></td>
-                <td>
-                    <a th:text="${{user.username}}" th:href="@{'/user/' + ${user.id}}"></a>
-                </td>
-                <td th:text="${user.description}"/>
-            </tr>
-            </tbody>
-        </table>
 
 
-        <!-- * Requires totalPages and currentPage model attributes to be passed * -->
-        <nav th:replace="~{fragments/pagination::pagination}"></nav>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nazwa</th>
+                    <th>Opis</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user: ${users}" th:classappend="${user.isAdmin()} ? 'table-primary'">
+                    <td th:text="${user.id}"></td>
+                    <td>
+                        <a th:text="${{user.username}}" th:href="@{'/user/' + ${user.id}}"></a>
+                    </td>
+                    <td th:text="${user.description}"/>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <!-- * Requires totalPages and currentPage model attributes to be passed * -->
+            <nav th:replace="~{fragments/pagination::pagination}"></nav>
+        </div>
 
     </div>
 </section>

@@ -89,82 +89,82 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
 
         </div>
 
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h2>Gracze</h2>
 
-        <h2>Gracze</h2>
+            <div sec:authorize="isAuthenticated()">
+                <a th:text="'Dołącz do drużyny'" th:href="@{'/team/' + ${teamId} + '/member/apply'}"
+                   class="btn btn-link"></a>
+            </div>
 
-        <div sec:authorize="isAuthenticated()">
-            <a th:text="'Dołącz do drużyny'" th:href="@{'/team/' + ${teamId} + '/member/apply'}"
-               class="btn btn-link"></a>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Gra</th>
+                    <th>Data dołączenia</th>
+                    <th th:if="${isAdminOrOwner}">
+                        Akcje
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="userRegistration: ${userRegistrations}">
+                    <td>
+                        <a th:href="@{'/user/' + ${userRegistration.user.id}}"
+                           th:text="${{userRegistration.user.username}}"></a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/game/' + ${userRegistration.game.id}}"
+                           th:text="${{userRegistration.game.name}}"></a>
+                    </td>
+                    <td th:text="${{userRegistration.joinDate}}"></td>
+                    <td th:if="${isAdminOrOwner}">
+                        <form th:action="@{'/team/'+${team.id}+'/member/remove/'+${userRegistration.id}}"
+                              method="post" class="m-0">
+                            <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Gra</th>
-                <th>Data dołączenia</th>
-                <th th:if="${isAdminOrOwner}">
-                    Akcje
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="userRegistration: ${userRegistrations}">
-                <td>
-                    <a th:href="@{'/user/' + ${userRegistration.user.id}}"
-                       th:text="${{userRegistration.user.username}}"></a>
-                </td>
-                <td>
-                    <a th:href="@{'/game/' + ${userRegistration.game.id}}"
-                       th:text="${{userRegistration.game.name}}"></a>
-                </td>
-                <td th:text="${{userRegistration.joinDate}}"></td>
-                <td th:if="${isAdminOrOwner}">
-                    <form th:action="@{'/team/'+${team.id}+'/member/remove/'+${userRegistration.id}}"
-                          method="post" class="m-0">
-                        <input type="submit" value="Usuń" class="btn btn-danger btn-sm"/>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h2>Turnieje</h2>
 
-        </table>
-
-
-        <h2>Turnieje</h2>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Data rozpoczęcia</th>
-                <th>Data zakończenia</th>
-                <th th:if="${isAdminOrOwner}">
-                    Akcje
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="tournamentRegistration: ${tournamentRegistrations}">
-                <td>
-                    <a th:href="@{'/tournament/' + ${tournamentRegistration.tournament.id}}"
-                       th:text="${{tournamentRegistration.tournament.name}}"></a>
-                </td>
-                <td th:text="${{tournamentRegistration.tournament.startDate}}"></td>
-                <td>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Data rozpoczęcia</th>
+                    <th>Data zakończenia</th>
+                    <th th:if="${isAdminOrOwner}">
+                        Akcje
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tournamentRegistration: ${tournamentRegistrations}">
+                    <td>
+                        <a th:href="@{'/tournament/' + ${tournamentRegistration.tournament.id}}"
+                           th:text="${{tournamentRegistration.tournament.name}}"></a>
+                    </td>
+                    <td th:text="${{tournamentRegistration.tournament.startDate}}"></td>
+                    <td>
                     <span th:if="${tournamentRegistration.tournament.endDate != null}"
                           th:text="${{tournamentRegistration.tournament.endDate}}"></span>
-                </td>
-                <td th:if="${isAdminOrOwner}">
-                    <form th:action="@{'/team/'+${team.id}+'/tournament/leave/'+${tournamentRegistration.id}}"
-                          method="post" class="m-0">
-                        <input type="submit" value="Opuść" class="btn btn-danger btn-sm"/>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-
-        </table>
+                    </td>
+                    <td th:if="${isAdminOrOwner}">
+                        <form th:action="@{'/team/'+${team.id}+'/tournament/leave/'+${tournamentRegistration.id}}"
+                              method="post" class="m-0">
+                            <input type="submit" value="Opuść" class="btn btn-danger btn-sm"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </section>

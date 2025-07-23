@@ -22,25 +22,28 @@
 
         <h1>Lista gier</h1>
 
-        <p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Opis</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="game: ${games}">
-                <td>
-                    <a th:href="@{'/game/' + ${game.id} + '/tournaments'}" th:text="${{game.name}}" ></a>
-                </td>
-                <td th:text="${{game.description}}"/>
-            </tr>
-            </tbody>
+            <p th:if="${games.isEmpty()}">Nie ma żadnych gier.</p>
 
-        </table>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Opis</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="game: ${games}">
+                    <td>
+                        <a th:href="@{'/game/' + ${game.id} + '/tournaments'}" th:text="${{game.name}}" ></a>
+                    </td>
+                    <td th:text="${{game.description}}"/>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
 
     </div>
 </section>
