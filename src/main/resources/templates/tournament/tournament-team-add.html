@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title th:text="'Dodawanie drużyny do ' + ${{tournament.name}}" ></title>
+    <title th:text="'Dodawanie drużyny do ' + ${{tournament.name}}"></title>
 </head>
 <body>
 <section layout:fragment="content">
@@ -30,35 +30,38 @@
             </ol>
         </nav>
 
-        <h1 th:text="'Dodaj drużynę do turnieju ' + ${{tournament.name}}"></h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3 p-3 bg-body rounded shadow-sm">
 
-        <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/team/add' }"
-              th:object="${tournamentTeamCreationDto}" method="post">
-            <table>
-                <tr>
-                    <td>Tajny kod:</td>
-                    <td><input type="text" th:field="*{secretCode}"/></td>
-                    <td th:if="${#fields.hasErrors('secretCode')}" th:errors="*{secretCode}">Błąd w tajnym kodzie</td>
-                </tr>
-                <tr>
-                    <td>Drużyna:</td>
-                    <td>
-                        <select th:field="*{teamId}" >
-                            <option
-                                    th:each="ownedTeam: ${teamsOwned}"
-                                    th:text="${{ownedTeam.name}}"
+                <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/team/add' }"
+                      th:object="${tournamentTeamCreationDto}" method="post">
+
+                    <div class="form-group mb-3">
+                        <label for="secretCode">Tajny kod</label>
+                        <input type="text" th:field="*{secretCode}" id="secretCode" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('secretCode')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="teamId">Drużyna</label>
+                        <select th:field="*{teamId}" id="teamId" class="form-control">
+                            <option th:each="ownedTeam: ${teamsOwned}"
                                     th:value="${ownedTeam.id}"
-                            ></option>
+                                    th:text="${{ownedTeam.name}}">
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit">Dodaj drużynę do turnieju</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('teamId')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Dodaj drużynę</button>
+
+                </form>
+
+            </div>
+        </div>
 
     </div>
 </section>

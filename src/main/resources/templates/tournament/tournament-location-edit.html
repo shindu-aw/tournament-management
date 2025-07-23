@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title th:text="'Edytowanie lokalizacji turnieju ' + ${tournament.name}" ></title>
+    <title th:text="'Edytowanie lokalizacji turnieju ' + ${tournament.name}"></title>
 </head>
 <body>
 <section layout:fragment="content">
@@ -30,43 +30,66 @@
             </ol>
         </nav>
 
-        <h1 th:text="'Edytuj lokalizację do turnieju ' + ${{tournament.name}}" ></h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3 p-3 bg-body rounded shadow-sm">
 
-        <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/edit/location' }" th:object="${locationCreationDto}"
-              method="post">
-            <table>
-                <tr>
-                    <td>Kraj:</td>
-                    <td><input type="text" th:field="*{country}"/></td>
-                    <td th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Błąd w kraju</td>
-                </tr>
-                <tr>
-                    <td>Kod pocztowy:</td>
-                    <td><input type="text" th:field="*{postalCode}"/></td>
-                    <td th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}">Błąd w kodzie pocztowym</td>
-                </tr>
-                <tr>
-                    <td>Miasto:</td>
-                    <td><input type="text" th:field="*{city}"/></td>
-                    <td th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Błąd w mieście</td>
-                </tr>
-                <tr>
-                    <td>Ulica:</td>
-                    <td><input type="text" th:field="*{street}"/></td>
-                    <td th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Błąd w ulicy</td>
-                </tr>
-                <tr>
-                    <td>Numer domu:</td>
-                    <td><input type="text" th:field="*{houseNumber}"/></td>
-                    <td th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">Błąd w numerze domu</td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit">Dodaj lokalizację</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/edit/location' }"
+                      th:object="${locationCreationDto}"
+                      method="post">
+
+                    <h1 th:text="'Edytuj lokalizację do turnieju ' + ${{tournament.name}}"
+                            class="h3 mb-3 fw-normal text-center"></h1>
+
+                    <div class="form-group mb-3">
+                        <label for="country">Kraj</label>
+                        <input type="text" th:field="*{country}" id="country" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('country')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label for="postalCode">Kod pocztowy</label>
+                        <input type="text" th:field="*{postalCode}" id="postalCode" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('postalCode')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label for="city">Miasto</label>
+                        <input type="text" th:field="*{city}" id="city" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('city')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label for="street">Ulica</label>
+                        <input type="text" th:field="*{street}" id="street" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('street')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label for="houseNumber">Numer domu</label>
+                        <input type="text" th:field="*{houseNumber}" id="houseNumber" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('houseNumber')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Edytuj lokalizację</button>
+
+                </form>
+
+            </div>
+        </div>
 
     </div>
 </section>

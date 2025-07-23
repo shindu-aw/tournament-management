@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title th:text="'Aplikowanie na moderatora do ' + ${{tournament.name}}" ></title>
+    <title th:text="'Aplikowanie na moderatora do ' + ${{tournament.name}}"></title>
 </head>
 <body>
 <section layout:fragment="content">
@@ -30,23 +30,28 @@
             </ol>
         </nav>
 
-        <h1 th:text="'Dołącz jako moderator do turnieju ' + ${{tournament.name}}"></h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3 p-3 bg-body rounded shadow-sm">
 
-        <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/moderator/apply' }"
-              th:object="${secretCodeDto}" method="post">
-            <table>
-                <tr>
-                    <td>Tajny kod:</td>
-                    <td><input type="text" th:field="*{secretCode}"/></td>
-                    <td th:if="${#fields.hasErrors('secretCode')}" th:errors="*{secretCode}">Błąd w tajnym kodzie</td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit">Dołącz jako moderator</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                <form action="#" th:action="@{'/tournament/' + ${tournament.id} + '/moderator/apply' }"
+                      th:object="${secretCodeDto}" method="post">
+
+                    <h1 class="h3 mb-3 fw-normal text-center">Dołącz jako moderator</h1>
+
+                    <div class="form-group mb-3">
+                        <label for="secretCode">Tajny kod</label>
+                        <input type="text" th:field="*{secretCode}" id="secretCode" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('secretCode')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Dołącz jako moderator</button>
+
+                </form>
+
+            </div>
+        </div>
 
     </div>
 </section>

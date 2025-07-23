@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layouts/base-layout}">
 <head>
-    <title th:text="'Edytowanie turnieju ' + ${tournamentEditDto.name}" ></title>
+    <title th:text="'Edytowanie turnieju ' + ${tournamentEditDto.name}"></title>
 </head>
 <body>
 <section layout:fragment="content">
@@ -30,39 +30,57 @@
             </ol>
         </nav>
 
-        <h1>Edytuj turniej</h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3 p-3 bg-body rounded shadow-sm">
 
-        <form action="#" th:action="@{'/tournament/' + ${tournamentEditDto.id} + '/edit' }" th:object="${tournamentEditDto}"
-              method="post">
-            <input type="hidden" th:field="*{id}" /> <!-- ! important, otherwise it isn't passed to validation -->
-            <table>
-                <tr>
-                    <td>Nazwa:</td>
-                    <td><input type="text" th:field="*{name}"/></td>
-                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Błąd w nazwie</td>
-                </tr>
-                <tr>
-                    <td>Data rozpoczęcia:</td>
-                    <td><input type="date" th:field="*{startDate}"/></td>
-                    <td th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">Błąd w dacie rozpoczęcia</td>
-                </tr>
-                <tr>
-                    <td>Data zakończenia:</td>
-                    <td><input type="date" th:field="*{endDate}"/></td>
-                    <td th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Błąd w dacie zakończenia</td>
-                </tr>
-                <tr>
-                    <td>Opis:</td>
-                    <td><input type="text" th:field="*{description}"/></td>
-                    <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Błąd w opisie</td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit">Edytuj turniej</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                <form action="#" th:action="@{'/tournament/' + ${tournamentEditDto.id} + '/edit' }"
+                      th:object="${tournamentEditDto}"
+                      method="post">
+
+                    <h1 class="h3 mb-3 fw-normal text-center">Edytuj turniej</h1>
+
+                    <input type="hidden" th:field="*{id}"/> <!-- ! important, otherwise it isn't passed to validation -->
+
+                    <div class="form-group mb-3">
+                        <label for="name">Nazwa</label>
+                        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="startDate">Data rozpoczęcia</label>
+                        <input type="date" th:field="*{startDate}" id="startDate" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('startDate')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="endDate">Data zakończenia</label>
+                        <input type="date" th:field="*{endDate}" id="endDate"
+                               class="form-control">
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('endDate')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="description">Opis</label>
+                        <textarea type="text" th:field="*{description}" id="description" class="form-control"></textarea>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('description')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Stwórz turniej</button>
+
+                </form>
+
+            </div>
+        </div>
+
 
     </div>
 </section>
