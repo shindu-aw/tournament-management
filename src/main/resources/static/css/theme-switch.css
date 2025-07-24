@@ -13,7 +13,7 @@ Modified to fit the theme-switch.js script
 
 /*------ Settings ------*/
 .theme-switch-container {
-    --color: #a5a5b0;
+    --color: #fff5f3;
     --size: 30px;
     display: flex;
     justify-content: center;
