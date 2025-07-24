@@ -52,14 +52,12 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nazwa</th>
                     <th>Opis</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user: ${users}" th:classappend="${user.isAdmin()} ? 'table-primary'">
-                    <td th:text="${user.id}"></td>
+                <tr th:each="user: ${users}">
                     <td>
                         <a th:text="${{user.username}}" th:href="@{'/user/' + ${user.id}}"></a>
                     </td>
