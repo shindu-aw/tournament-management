@@ -1,0 +1,45 @@
+/*
+Source: https://uiverse.io/catraco/new-dolphin-11
+Modified to fit the theme-switch.js script
+ */
+
+/*------ Settings ------*/
+.theme-switch-container {
+    --color: #a5a5b0;
+    --size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    font-size: var(--size);
+    user-select: none;
+    fill: var(--color);
+}
+
+.theme-switch-container .sun {
+    position: absolute;
+}
+
+.theme-switch-container .moon {
+    position: absolute;
+    display: none;
+}
+
+/* ------ On check event ------ */
+.theme-switch-container input:checked ~ .sun {
+    display: none;
+}
+
+.theme-switch-container input:checked ~ .moon {
+    display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.theme-switch-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
