@@ -40,6 +40,8 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/webjars/**",
                                 "/images/**",
+                                "/js/**",
+                                "/css/**",
                                 "/login**",
                                 "/error",
                                 "/",
