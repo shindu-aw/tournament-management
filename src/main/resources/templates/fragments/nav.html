@@ -44,10 +44,10 @@
                    data-bs-toggle="dropdown" aria-expanded="false">
                     <img th:unless="${#authorization.expression('hasRole(''ADMIN'')')}"
                          th:src="@{/images/circle-user-round-white.svg}" alt="user" aria-label="Użytkownik"
-                         width="32" height="32" role="img" data-bs-theme="dark">
+                         width="40" height="40" role="img" data-bs-theme="dark">
                     <img th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
                          th:src="@{/images/shield-user-white.svg}" alt="user" aria-label="Administrator"
-                         width="32" height="32" role="img" data-bs-theme="dark">
+                         width="40" height="40" role="img" data-bs-theme="dark">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small">
                     <li th:with="prefix=${#authorization.expression('hasRole(''ADMIN'')') ? '[ADMIN] @' : '@' }">
