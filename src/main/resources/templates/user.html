@@ -127,7 +127,7 @@ canEdit=${isAdmin or #authentication.name == user.username}
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="tournament: ${tournamentsOwned}" th:classappend="${tournament.finished} ? 'table-secondary'">
+                <tr th:each="tournament: ${tournamentsOwned}">
                     <td>
                         <a th:text="${{tournament.name}}" th:href="@{'/tournament/' + ${tournament.id}}"></a>
                     </td>
