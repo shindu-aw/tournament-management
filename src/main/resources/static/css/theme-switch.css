@@ -1,5 +1,13 @@
+.bg-body-inverted {
+    background-color: var(--bs-body-color) !important;
+}
+.text-body-inverted {
+    color: var(--bs-body-bg) !important;
+}
+
+
 /*
-Source: https://uiverse.io/catraco/new-dolphin-11
+Source of the theme below: https://uiverse.io/catraco/new-dolphin-11
 Modified to fit the theme-switch.js script
  */
 
