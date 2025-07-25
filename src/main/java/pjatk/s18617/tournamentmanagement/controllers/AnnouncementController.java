@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import pjatk.s18617.tournamentmanagement.model.AnnouncementCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.AnnouncementCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.services.AnnouncementService;
 import pjatk.s18617.tournamentmanagement.services.TournamentService;

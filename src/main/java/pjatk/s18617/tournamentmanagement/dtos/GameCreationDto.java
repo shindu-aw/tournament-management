@@ -1,14 +1,15 @@
-package pjatk.s18617.tournamentmanagement.model;
+package pjatk.s18617.tournamentmanagement.dtos;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pjatk.s18617.tournamentmanagement.model.Game;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link Game}
+ * DTO for {@link pjatk.s18617.tournamentmanagement.model.Game}
  */
 @Data
 @AllArgsConstructor

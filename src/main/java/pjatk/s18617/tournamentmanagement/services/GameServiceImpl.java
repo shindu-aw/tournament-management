@@ -2,6 +2,7 @@ package pjatk.s18617.tournamentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pjatk.s18617.tournamentmanagement.dtos.GameCreationDto;
 import pjatk.s18617.tournamentmanagement.model.*;
 import pjatk.s18617.tournamentmanagement.repositories.GameRepository;
 

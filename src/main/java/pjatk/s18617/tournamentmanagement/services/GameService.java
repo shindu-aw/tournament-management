@@ -1,7 +1,7 @@
 package pjatk.s18617.tournamentmanagement.services;
 
 import pjatk.s18617.tournamentmanagement.model.Game;
-import pjatk.s18617.tournamentmanagement.model.GameCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.GameCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Team;
 import pjatk.s18617.tournamentmanagement.model.User;
 

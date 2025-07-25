@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 import pjatk.s18617.tournamentmanagement.model.Announcement;
-import pjatk.s18617.tournamentmanagement.model.AnnouncementCreationDto;
+import pjatk.s18617.tournamentmanagement.dtos.AnnouncementCreationDto;
 import pjatk.s18617.tournamentmanagement.model.Tournament;
 import pjatk.s18617.tournamentmanagement.repositories.AnnouncementRepository;
 
