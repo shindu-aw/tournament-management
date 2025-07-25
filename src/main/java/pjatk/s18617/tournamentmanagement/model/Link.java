@@ -28,4 +28,20 @@ public class Link {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Link link)) return false;
+
+        return getId().equals(link.getId()) && getName().equals(link.getName()) && getUrl().equals(link.getUrl())
+                && getTeam().equals(link.getTeam());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getUrl().hashCode();
+        result = 31 * result + getTeam().hashCode();
+        return result;
+    }
 }

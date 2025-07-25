@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -51,6 +52,26 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("name")
     private List<Link> links = new ArrayList<>();
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Team team)) return false;
+
+        return getId().equals(team.getId()) && getName().equals(team.getName())
+                && Objects.equals(getDescription(), team.getDescription())
+                && getSecretCode().equals(team.getSecretCode())
+                && getUserOwner().equals(team.getUserOwner());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + Objects.hashCode(getDescription());
+        result = 31 * result + getSecretCode().hashCode();
+        result = 31 * result + getUserOwner().hashCode();
+        return result;
+    }
 
     // checks whether the user is already a member of this team assigned to this game
     public boolean doesNotHaveUserRegisteredOnGame(User user, Game game) {

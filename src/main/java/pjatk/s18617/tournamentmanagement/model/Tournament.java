@@ -7,6 +7,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -86,6 +87,40 @@ public class Tournament {
 
     public boolean isManagedByUser(String username) {
         return usersManaging.stream().anyMatch(user -> user.getUsername().equals(username));
+    }
+
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Tournament that)) return false;
+
+        return getId().equals(that.getId())
+                && getName().equals(that.getName())
+                && Objects.equals(getDescription(), that.getDescription())
+                && getStartDate().equals(that.getStartDate())
+                && Objects.equals(getEndDate(), that.getEndDate())
+                && getFinished().equals(that.getFinished())
+                && getJoinSecretCode().equals(that.getJoinSecretCode())
+                && getManageSecretCode().equals(that.getManageSecretCode())
+                && getUserOwner().equals(that.getUserOwner())
+                && Objects.equals(getLocation(), that.getLocation())
+                && Objects.equals(getGame(), that.getGame());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + Objects.hashCode(getDescription());
+        result = 31 * result + getStartDate().hashCode();
+        result = 31 * result + Objects.hashCode(getEndDate());
+        result = 31 * result + getFinished().hashCode();
+        result = 31 * result + getJoinSecretCode().hashCode();
+        result = 31 * result + getManageSecretCode().hashCode();
+        result = 31 * result + getUserOwner().hashCode();
+        result = 31 * result + Objects.hashCode(getLocation());
+        result = 31 * result + Objects.hashCode(getGame());
+        return result;
     }
 
 }

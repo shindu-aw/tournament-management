@@ -6,6 +6,7 @@ import pjatk.s18617.tournamentmanagement.controllers.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -45,4 +46,26 @@ public class Match {
     @JoinColumn(name = "tournament_team_2_id")
     private TournamentTeam tournamentTeam2;
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Match match)) return false;
+
+        return getId().equals(match.getId()) && Objects.equals(getTeam1Score(), match.getTeam1Score())
+                && Objects.equals(getTeam2Score(), match.getTeam2Score()) && getDate().equals(match.getDate())
+                && getTournament().equals(match.getTournament())
+                && Objects.equals(getTournamentTeam1(), match.getTournamentTeam1())
+                && Objects.equals(getTournamentTeam2(), match.getTournamentTeam2());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + Objects.hashCode(getTeam1Score());
+        result = 31 * result + Objects.hashCode(getTeam2Score());
+        result = 31 * result + getDate().hashCode();
+        result = 31 * result + getTournament().hashCode();
+        result = 31 * result + Objects.hashCode(getTournamentTeam1());
+        result = 31 * result + Objects.hashCode(getTournamentTeam2());
+        return result;
+    }
 }

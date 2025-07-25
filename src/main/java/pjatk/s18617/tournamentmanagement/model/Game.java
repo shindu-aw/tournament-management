@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -34,4 +35,19 @@ public class Game {
     @OneToMany(mappedBy = "game", orphanRemoval = true)
     private Set<Tournament> tournaments = new LinkedHashSet<>();
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Game game)) return false;
+
+        return getId().equals(game.getId()) && getName().equals(game.getName()) && Objects.equals(getDescription(),
+                game.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + Objects.hashCode(getDescription());
+        return result;
+    }
 }

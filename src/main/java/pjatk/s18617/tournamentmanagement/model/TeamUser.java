@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -37,4 +38,23 @@ public class TeamUser {
     @Column(name = "join_date", nullable = false)
     private LocalDate joinDate;
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof TeamUser teamUser)) return false;
+
+        return getId().equals(teamUser.getId()) && Objects.equals(getTeam(), teamUser.getTeam())
+                && Objects.equals(getUser(), teamUser.getUser())
+                && Objects.equals(getGame(), teamUser.getGame())
+                && getJoinDate().equals(teamUser.getJoinDate());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + Objects.hashCode(getTeam());
+        result = 31 * result + Objects.hashCode(getUser());
+        result = 31 * result + Objects.hashCode(getGame());
+        result = 31 * result + getJoinDate().hashCode();
+        return result;
+    }
 }

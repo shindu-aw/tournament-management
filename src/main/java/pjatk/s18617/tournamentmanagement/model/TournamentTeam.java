@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -50,4 +51,22 @@ public class TournamentTeam {
         return tournament.getName();
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof TournamentTeam that)) return false;
+
+        return getId().equals(that.getId())
+                && Objects.equals(getScoreSum(), that.getScoreSum())
+                && Objects.equals(getTournament(), that.getTournament())
+                && Objects.equals(getTeam(), that.getTeam());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + Objects.hashCode(getScoreSum());
+        result = 31 * result + Objects.hashCode(getTournament());
+        result = 31 * result + Objects.hashCode(getTeam());
+        return result;
+    }
 }

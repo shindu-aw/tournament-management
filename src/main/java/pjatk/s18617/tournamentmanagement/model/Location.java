@@ -46,4 +46,23 @@ public class Location {
     @Column(name = "house_number", nullable = false, length = 10)
     private String houseNumber;
 
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Location location)) return false;
+
+        return getId().equals(location.getId()) && getCountry().equals(location.getCountry())
+                && getPostalCode().equals(location.getPostalCode()) && getCity().equals(location.getCity())
+                && getStreet().equals(location.getStreet()) && getHouseNumber().equals(location.getHouseNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getCountry().hashCode();
+        result = 31 * result + getPostalCode().hashCode();
+        result = 31 * result + getCity().hashCode();
+        result = 31 * result + getStreet().hashCode();
+        result = 31 * result + getHouseNumber().hashCode();
+        return result;
+    }
 }
