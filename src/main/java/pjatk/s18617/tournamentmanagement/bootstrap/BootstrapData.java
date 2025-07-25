@@ -39,115 +39,115 @@ public class BootstrapData implements CommandLineRunner {
         if (gameRepository.count() == 0) {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            User admin = User.builder()
+            User user1 = User.builder()
                     .username("admin")
                     .password(encoder.encode("admin"))
                     .description("Test admin opis.")
                     .role(Role.ADMIN)
                     .build();
-            User user1 = User.builder()
+            User user2 = User.builder()
                     .username("test1")
                     .password(encoder.encode("test1"))
                     .description("Test opis.")
                     .build();
-            User user2 = User.builder()
+            User user3 = User.builder()
                     .username("test2")
                     .password(encoder.encode("test2"))
                     .description("Test opis 2.")
                     .build();
-            User user3 = User.builder()
+            User user4 = User.builder()
                     .username("test3")
                     .password(encoder.encode("test3"))
                     .description("Test opis 3.")
                     .build();
-            userRepository.saveAllAndFlush(Arrays.asList(admin, user1, user2, user3));
+            userRepository.saveAllAndFlush(Arrays.asList(user1, user2, user3, user4));
 
 
-            Game cs2 = Game.builder()
+            Game game1 = Game.builder()
                     .name("Counter Strike 2")
                     .description("Counter Strike 2 opis.")
                     .build();
-            Game dota2 = Game.builder()
+            Game game2 = Game.builder()
                     .name("Dota 2")
                     .description("Dota 2 opis.")
                     .build();
-            Game r6 = Game.builder()
+            Game game3 = Game.builder()
                     .name("Rainbow 6 Siege")
                     .description("Rainbow 6 Siege opis.")
                     .build();
-            gameRepository.saveAllAndFlush(Arrays.asList(cs2, dota2, r6));
+            gameRepository.saveAllAndFlush(Arrays.asList(game1, game2, game3));
 
 
             Team team1 = Team.builder()
                     .name("Drużyna 1")
                     .description("Opis drużyny 1.")
                     .secretCode("12345678")
-                    .userOwner(user1)
+                    .userOwner(user2)
                     .build();
             Team team2 = Team.builder()
                     .name("Drużyna 2")
                     .description("Opis drużyny 2.")
                     .secretCode("12345678")
-                    .userOwner(user2)
+                    .userOwner(user3)
                     .build();
             Team team3 = Team.builder()
                     .name("Drużyna 3")
                     .description("Opis drużyny 3.")
                     .secretCode("12345678")
-                    .userOwner(user1)
+                    .userOwner(user2)
                     .build();
             Team team4 = Team.builder()
                     .name("Drużyna 4")
                     .description("Opis drużyny 4.")
                     .secretCode("12345678")
-                    .userOwner(user2)
+                    .userOwner(user3)
                     .build();
             Team team5 = Team.builder()
                     .name("Drużyna 5")
                     .description("Opis drużyny 5.")
                     .secretCode("12345678")
-                    .userOwner(user1)
+                    .userOwner(user2)
                     .build();
             Team team6 = Team.builder()
                     .name("Drużyna 6")
                     .description("Opis drużyny 6.")
                     .secretCode("12345678")
-                    .userOwner(user2)
+                    .userOwner(user3)
                     .build();
             Team team7 = Team.builder()
                     .name("Drużyna 7")
                     .description("Opis drużyny 7.")
                     .secretCode("12345678")
-                    .userOwner(user1)
+                    .userOwner(user2)
                     .build();
             Team team8 = Team.builder()
                     .name("Drużyna 8")
                     .description("Opis drużyny 8.")
                     .secretCode("12345678")
-                    .userOwner(user2)
+                    .userOwner(user3)
                     .build();
             Team teamAdmin = Team.builder()
                     .name("TEAM ADMIN")
                     .description("Opis drużyny TEAM ADMIN.")
                     .secretCode("12345678")
-                    .userOwner(admin)
+                    .userOwner(user1)
                     .build();
             teamRepository.saveAllAndFlush(Arrays.asList(team1, team2, team3, team4, team5, team6, team7, team8,
                     teamAdmin));
 
             TeamUser teamUser = TeamUser.builder()
-                    .game(cs2)
-                    .user(user1)
+                    .game(game1)
+                    .user(user2)
                     .team(team1)
                     .build();
             TeamUser teamUser2 = TeamUser.builder()
-                    .game(dota2)
-                    .user(user1)
+                    .game(game2)
+                    .user(user2)
                     .team(team1)
                     .build();
             TeamUser teamUser3 = TeamUser.builder()
-                    .game(cs2)
-                    .user(user2)
+                    .game(game1)
+                    .user(user3)
                     .team(team1)
                     .build();
             teamUserRepository.saveAllAndFlush(Arrays.asList(teamUser, teamUser2, teamUser3));
@@ -175,11 +175,11 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.now())
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .location(location1)
                     .build();
-            tournament1.getUsersManaging().add(user2);
+            tournament1.getUsersManaging().add(user3);
             Tournament tournament2 = Tournament.builder()
                     .name("Turniej 2")
                     .description("Opis drugiego turnieju.")
@@ -187,8 +187,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.now())
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user2)
-                    .game(dota2)
+                    .userOwner(user3)
+                    .game(game2)
                     .location(location2)
                     .build();
             Tournament tournament3 = Tournament.builder()
@@ -198,8 +198,8 @@ public class BootstrapData implements CommandLineRunner {
                     // without end date
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user2)
-                    .game(dota2)
+                    .userOwner(user3)
+                    .game(game2)
                     // without location
                     .build();
             Tournament fillerTournament1 = Tournament.builder()
@@ -209,8 +209,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-07-02", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament2 = Tournament.builder()
                     .name("Test Turniej 2")
@@ -219,8 +219,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-07-02", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament3 = Tournament.builder()
                     .name("Test Turniej 3")
@@ -229,8 +229,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-07-03", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament4 = Tournament.builder()
                     .name("Test Turniej 4")
@@ -238,8 +238,8 @@ public class BootstrapData implements CommandLineRunner {
                     .startDate(LocalDate.parse("2025-11-01", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament5 = Tournament.builder()
                     .name("Test Turniej 5")
@@ -247,8 +247,8 @@ public class BootstrapData implements CommandLineRunner {
                     .startDate(LocalDate.parse("2025-11-02", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament6 = Tournament.builder()
                     .name("Test Turniej 6")
@@ -256,8 +256,8 @@ public class BootstrapData implements CommandLineRunner {
                     .startDate(LocalDate.parse("2025-11-02", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament7 = Tournament.builder()
                     .name("Test Turniej 7")
@@ -266,8 +266,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-01-05", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament8 = Tournament.builder()
                     .name("Test Turniej 8")
@@ -277,8 +277,8 @@ public class BootstrapData implements CommandLineRunner {
                     .finished(true)
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament9 = Tournament.builder()
                     .name("Test Turniej 9")
@@ -288,8 +288,8 @@ public class BootstrapData implements CommandLineRunner {
                     .finished(true)
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament10 = Tournament.builder()
                     .name("Test Turniej 10")
@@ -299,8 +299,8 @@ public class BootstrapData implements CommandLineRunner {
                     .finished(true)
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament11 = Tournament.builder()
                     .name("Test Turniej 11")
@@ -309,8 +309,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-04-29", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user1)
-                    .game(cs2)
+                    .userOwner(user2)
+                    .game(game1)
                     .build();
             Tournament fillerTournament12 = Tournament.builder()
                     .name("Test Turniej 12")
@@ -319,8 +319,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-10-20", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user2)
-                    .game(cs2)
+                    .userOwner(user3)
+                    .game(game1)
                     .build();
             Tournament fillerTournament13 = Tournament.builder()
                     .name("Test Turniej 13")
@@ -329,8 +329,8 @@ public class BootstrapData implements CommandLineRunner {
                     .endDate(LocalDate.parse("2025-05-20", formatter))
                     .joinSecretCode("12345678")
                     .manageSecretCode("87654321")
-                    .userOwner(user2)
-                    .game(cs2)
+                    .userOwner(user3)
+                    .game(game1)
                     .build();
             tournamentRepository.saveAllAndFlush(Arrays.asList(tournament1, tournament2, tournament3,
                     fillerTournament1, fillerTournament2, fillerTournament3, fillerTournament4, fillerTournament5,
