@@ -58,6 +58,22 @@ spring:
 
 ---
 
+# H2-TEST profile
+# disables Flyway migrations, since in this project, they're incompatible with the H2 database
+# enables Hibernate's create-drop ddl-auto to replace the Flyway migrations
+
+spring:
+  config:
+    activate:
+      on-profile: h2-test
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+---
+
 # PROD profile
 
 spring:
