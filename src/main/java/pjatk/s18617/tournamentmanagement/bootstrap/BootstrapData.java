@@ -10,6 +10,7 @@ import pjatk.s18617.tournamentmanagement.repositories.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
@@ -23,6 +24,7 @@ public class BootstrapData implements CommandLineRunner {
     private final TeamRepository teamRepository;
     private final TournamentTeamRepository tournamentTeamRepository;
     private final MatchRepository matchRepository;
+    private final TeamUserRepository teamUserRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -131,6 +133,23 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
             teamRepository.saveAllAndFlush(Arrays.asList(team1, team2, team3, team4, team5, team6, team7, team8,
                     teamAdmin));
+
+            TeamUser teamUser = TeamUser.builder()
+                    .game(cs2)
+                    .user(user1)
+                    .team(team1)
+                    .build();
+            TeamUser teamUser2 = TeamUser.builder()
+                    .game(dota2)
+                    .user(user1)
+                    .team(team1)
+                    .build();
+            TeamUser teamUser3 = TeamUser.builder()
+                    .game(cs2)
+                    .user(user2)
+                    .team(team1)
+                    .build();
+            teamUserRepository.saveAllAndFlush(Arrays.asList(teamUser, teamUser2, teamUser3));
 
             Location location1 = Location.builder()
                     .country("Polska")
