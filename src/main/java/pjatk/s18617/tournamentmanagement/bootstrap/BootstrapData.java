@@ -2,6 +2,7 @@ package pjatk.s18617.tournamentmanagement.bootstrap;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,11 +11,11 @@ import pjatk.s18617.tournamentmanagement.repositories.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
+@Profile({"dev", "bootstrap-data"})
 public class BootstrapData implements CommandLineRunner {
 
     private final UserRepository userRepository;
