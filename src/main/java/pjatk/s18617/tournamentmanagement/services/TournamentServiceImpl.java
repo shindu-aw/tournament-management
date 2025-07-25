@@ -146,6 +146,7 @@ public class TournamentServiceImpl implements TournamentService {
     public Tournament updateWithAuthorization(Tournament tournament, TournamentEditDto tournamentEditDto,
                                               String username) {
         checkAuthorization(tournament, username);
+        throwBadRequestIfFinished(tournament);
 
         tournament.setName(tournamentEditDto.getName());
         tournament.setDescription(tournamentEditDto.getDescription());

@@ -42,7 +42,7 @@ isNotFinished=${not tournament.finished}
         <div th:unless="${isNotFinished}" class="alert alert-warning" role="alert">
             Ten turniej jest zakończony.
             <br>
-            Funkcje dodawania meczów i drużyn, a także usuwania meczów są wyłączone.
+            Funkcje edycji turnieju, dodawania meczów i drużyn, a także usuwania meczów są wyłączone.
         </div>
 
 
@@ -67,8 +67,9 @@ isNotFinished=${not tournament.finished}
                             <td>Turniej</td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <form th:action="@{'/tournament/' + ${tournament.id} + '/edit'}" method="get"
-                                          class="m-0">
+                                    <form th:if="${isNotFinished}"
+                                          th:action="@{'/tournament/' + ${tournament.id} + '/edit'}"
+                                          method="get" class="m-0">
                                         <input type="submit" value="Edytuj" class="btn btn-secondary btn-sm"/>
                                     </form>
                                     <form th:action="@{'/tournament/' + ${tournament.id} + '/delete'}" method="post"
@@ -272,7 +273,7 @@ isNotFinished=${not tournament.finished}
                             <th>Gra:</th>
                             <td>
                                 <a th:text="${{tournament.game.name}}"
-                                th:href="@{'/game/' + ${tournament.game.id} + '/tournaments'}"></a>
+                                   th:href="@{'/game/' + ${tournament.game.id} + '/tournaments'}"></a>
                             </td>
                         </tr>
                         <tr>

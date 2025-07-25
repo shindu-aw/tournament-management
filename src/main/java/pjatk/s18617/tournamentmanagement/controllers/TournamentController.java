@@ -112,6 +112,7 @@ public class TournamentController {
 
         String username = principal.getName();
         tournamentService.checkAuthorization(tournament, username);
+        tournamentService.throwBadRequestIfFinished(tournament);
 
         model.addAttribute("tournamentEditDto", new TournamentEditDto(
                 tournament.getId(), tournament.getName(), tournament.getDescription(),
