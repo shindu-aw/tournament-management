@@ -30,8 +30,6 @@ public interface TournamentService {
 
     Optional<Tournament> getById(Long id);
 
-    Optional<Tournament> getWholeById(Long id);
-
     void deleteWithAuthorization(Tournament tournament, String username);
 
     Tournament update(Tournament tournament, TournamentEditDto tournamentEditDto);

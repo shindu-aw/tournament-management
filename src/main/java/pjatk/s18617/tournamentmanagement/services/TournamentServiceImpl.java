@@ -123,11 +123,6 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Optional<Tournament> getWholeById(Long id) {
-        return tournamentRepository.findWholeById(id);
-    }
-
-    @Override
     public void deleteWithAuthorization(Tournament tournament, String username) {
         checkAuthorization(tournament, username);
         tournamentRepository.delete(tournament);
