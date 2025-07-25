@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layouts/base-layout}">
+<head>
+    <title>Usuwanie starych turniejów</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="link-body-emphasis fw-semibold text-decoration-none">Główna strona</a>
+                </li>
+                <li th:text="'Usuwanie starych turniejów'" class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+        </nav>
+
+        <p th:if="${tournamentsDeleted != null}" class="alert alert-info alert-dismissible text-center" role="alert">
+            <span th:text="${tournamentsDeleted} + ' turnieji zostało usuniętych.'"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
+        </p>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3 p-3 bg-body rounded shadow-sm">
+
+                <h1 class="h3 mb-3 fw-normal text-center">Usuń stare turnieje</h1>
+
+                <ol class="list-group list-group-numbered mb-3">
+                    <li class="list-group-item">
+                        Oznacza turnieje, gdzie data rozpoczęcia jest ponad sześć miesięcy starsza od obecnej daty, jako
+                        zakończone, i ustawia datę zakończenia na dzisiejszą.
+                    </li>
+                    <li class="list-group-item">
+                        Oznacza turnieje, gdzie data zakończenia jest ponad trzy miesiące starsza od obecnej daty, jako
+                        zakończone.
+                    </li>
+                    <li class="list-group-item">
+                        Usuwa <strong>zakończone</strong> turnieje, gdzie data zakończenia jest starsza od wprowadzonej
+                        daty.
+                    </li>
+                </ol>
+
+                <form action="#" th:action="@{'/admin/delete-old-tournaments'}" th:object="${dateDto}"
+                      method="post">
+
+                    <div class="form-group mb-3">
+                        <label for="date">Data sprzed której zakończone turnieje zostaną usunięte:</label>
+                        <input type="date" th:field="*{date}" id="date" class="form-control"/>
+                        <ul class="text-danger">
+                            <li th:each="err: ${#fields.errors('date')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Usuń turnieje</button>
+
+                </form>
+
+            </div>
+        </div>
+
+
+    </div>
+</section>
+</body>
+</html>

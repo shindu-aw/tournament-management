@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,7 @@ import pjatk.s18617.tournamentmanagement.utils.SecretCodeGenerator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -37,6 +39,8 @@ public class TournamentServiceImpl implements TournamentService {
     private final GameRepository gameRepository;
     private final UserService userService;
     private final TournamentTeamRepository tournamentTeamRepository;
+
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public void checkAuthorization(Tournament tournament, User user) {
@@ -195,6 +199,17 @@ public class TournamentServiceImpl implements TournamentService {
             tournament.setEndDate(LocalDate.now());
         tournament.setFinished(true);
         tournamentRepository.save(tournament);
+    }
+
+    @Transactional
+    @Override
+    public int deleteCompletedTournamentsOlderThanWithAdminAuthorization(LocalDate date, String currentUserName) {
+        userService.checkAdminAuthorization(currentUserName);
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(
+                "SELECT manage_tournaments_by_date(?)",
+                Integer.class,
+                date
+        )).describeConstable().orElseThrow(NotFoundException::new);
     }
 
 

@@ -45,4 +45,6 @@ public interface TournamentService {
     void removeUserModeratorWithAuthorization(Long tournamentId, Long managingUserId, String currentUserName);
 
     void setAsFinishedWithAuthorization(Long tournamentId, String currentUserName);
+
+    int deleteCompletedTournamentsOlderThanWithAdminAuthorization(LocalDate date, String currentUserName);
 }
