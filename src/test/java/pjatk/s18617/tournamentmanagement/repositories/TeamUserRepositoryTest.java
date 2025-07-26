@@ -38,11 +38,13 @@ class TeamUserRepositoryTest {
                 .name("team")
                 .description("description")
                 .userOwner(user)
+                .secretCode("12345678")
                 .build();
         Team team2 = Team.builder()
                 .name("team 2")
                 .description("description 2")
                 .userOwner(user)
+                .secretCode("12345678")
                 .build();
         teamRepository.saveAll(Arrays.asList(team, team2));
         Game game = Game.builder()

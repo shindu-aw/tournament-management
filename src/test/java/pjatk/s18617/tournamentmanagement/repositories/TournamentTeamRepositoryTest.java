@@ -49,11 +49,13 @@ class TournamentTeamRepositoryTest {
                 .name("team")
                 .description("description")
                 .userOwner(user)
+                .secretCode("12345678")
                 .build();
         Team team2 = Team.builder()
                 .name("team2")
                 .description("description2")
                 .userOwner(user)
+                .secretCode("12345678")
                 .build();
         teamRepository.saveAll(Arrays.asList(team, team2));
 
