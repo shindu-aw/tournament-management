@@ -353,8 +353,33 @@ public class BootstrapData implements CommandLineRunner {
                     .tournament(tournament1)
                     .team(team4)
                     .build();
+            TournamentTeam tournamentTeam5 = TournamentTeam.builder()
+                    .tournament(tournament2)
+                    .team(team1)
+                    .build();
+            TournamentTeam tournamentTeam6 = TournamentTeam.builder()
+                    .tournament(tournament2)
+                    .team(team2)
+                    .build();
+            TournamentTeam tournamentTeam7 = TournamentTeam.builder()
+                    .tournament(tournament3)
+                    .team(team1)
+                    .build();
+            TournamentTeam tournamentTeam8 = TournamentTeam.builder()
+                    .tournament(tournament3)
+                    .team(team2)
+                    .build();
+            TournamentTeam tournamentTeam9 = TournamentTeam.builder()
+                    .tournament(fillerTournament1)
+                    .team(team1)
+                    .build();
+            TournamentTeam tournamentTeam10 = TournamentTeam.builder()
+                    .tournament(fillerTournament1)
+                    .team(team2)
+                    .build();
             tournamentTeamRepository.saveAllAndFlush(Arrays.asList(tournamentTeam1, tournamentTeam2, tournamentTeam3,
-                    tournamentTeam4));
+                    tournamentTeam4, tournamentTeam5, tournamentTeam6, tournamentTeam7, tournamentTeam8,
+                    tournamentTeam9, tournamentTeam10));
 
 
             Match match1 = Match.builder()
@@ -379,7 +404,31 @@ public class BootstrapData implements CommandLineRunner {
                     .tournamentTeam2(tournamentTeam3)
                     .date(LocalDate.parse("2025-07-03", formatter))
                     .build();
-            matchRepository.saveAllAndFlush(Arrays.asList(match1, match2, match3));
+            Match match4 = Match.builder()
+                    .tournament(tournament2)
+                    .tournamentTeam1(tournamentTeam5)
+                    .tournamentTeam2(tournamentTeam6)
+                    .date(LocalDate.parse("2025-07-01", formatter))
+                    .team1Score(12)
+                    .team2Score(30)
+                    .build();
+            Match match5 = Match.builder()
+                    .tournament(tournament3)
+                    .tournamentTeam1(tournamentTeam7)
+                    .tournamentTeam2(tournamentTeam8)
+                    .date(LocalDate.parse("2025-07-01", formatter))
+                    .team1Score(12)
+                    .team2Score(30)
+                    .build();
+            Match match6 = Match.builder()
+                    .tournament(fillerTournament1)
+                    .tournamentTeam1(tournamentTeam9)
+                    .tournamentTeam2(tournamentTeam10)
+                    .date(LocalDate.parse("2025-07-01", formatter))
+                    .team1Score(12)
+                    .team2Score(30)
+                    .build();
+            matchRepository.saveAllAndFlush(Arrays.asList(match1, match2, match3, match4, match5, match6));
 
 
         }
