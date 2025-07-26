@@ -29,6 +29,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
     public Page<User> searchPage(String username, String teamName, Integer pageNumber, Integer pageSize) {
@@ -92,7 +93,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -120,7 +120,6 @@ public class UserServiceImpl implements UserService {
     public User updateUserPasswordWithAuthorization(User user, PasswordDto passwordDto, String currentUserName) {
         checkEditUserAuthorization(user, currentUserName);
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(passwordDto.getPassword()));
 
         return userRepository.save(user);
