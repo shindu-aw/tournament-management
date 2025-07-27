@@ -31,6 +31,7 @@ migrations and cleanup tasks
 - **Build tool:** Maven is used for building and dependency management
 - **Database:** H2 and MariaDB `Localcontainers` are used for tests, but for running the application, a MariaDB database
   is needed.
+- **Docker:** Docker is needed to run the integration tests, since `Localcontainers` need it.
 
 ## Installation
 
