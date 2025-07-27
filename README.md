@@ -112,6 +112,7 @@ announcements, etc.
     - Lighter integration tests run with H2, and the ones requiring Flyway support run with Testcontainers.
     - Lighter integration tests aren't marked as such, because they can be executed very quickly. They're pretty much
       treated as unit tests, despite not being pure unit tests. That's mainly so that when running tests via `mvn test`,
-      the heavier integrations tests aren't run, only the lighter ones. (Thanks to `maven-surefire-plugin` and
+      the heavier integrations tests aren't run, only the lighter ones. To run all the tests, including the heavier
+      ones, `mvn verify` has to be run, and they require Docker to be running. (Thanks to `maven-surefire-plugin` and
       `maven-failsafe-plugin`.)
 - **Flyway migrations**: Applied automatically, unless disabled by profile.
