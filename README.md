@@ -1,66 +1,53 @@
 # Tournament Management System
 
-The Tournament Management Application is a web-based platform built with Java Spring Boot. Its purpose is to help users
-organize and manage tournaments efficiently. The application covers several aspects including tournament creation, team
-registration, match scheduling, announcement management, and moderator control. It also provides authorization features
-using secret codes and role-based access to ensure that only authorized users can perform sensitive operations.
-The application leverages Spring MVC for controllers, Spring Data JPA for persistence, and Flyway for database
-migrations and cleanup tasks
+A web-based tournament management platform built with **Java 21**, **Spring Boot**, and **MariaDB**, designed for
+organizing tournaments, managing teams, scheduling matches, and handling announcements with robust role-based security.
 
-## Features
+## ⚡️ Features
 
-- **User Management**: Supports registration and secure login. Users can update their profiles and change passwords.
-- **Tournament Management**: Create, edit, and delete tournaments. Tournaments can have start and end dates along with
-  descriptions.
-- **Match Scheduling**: Create and update matches between teams within a tournament. Score tracking and match deletion
-  are supported.
-- **Team Registration**: Teams can be registered to tournaments using secret codes. The system filters out already
-  registered teams.
-- **Announcements**: Tournament owners can post announcements for participants.
-- **Moderator Functions**: Secret-code-based moderator application and removal ensure that only trusted users manage
-  tournaments.
-- **Administrative Tools**: Admins can perform tasks such as deleting tournaments that are older than a specified date.
-- **Authorization Checks**: Critical operations include authorization logic that validates the current user's rights
-  based on roles and secret codes.
-- **Database Migrations**: Uses Flyway for managing schema changes and cleaning up the database in test or cleanup
-  profiles
+- **User & Role Management**: Registration, profile updates, password changes (with role-based permissions: user,
+  moderator, admin).
+- **Tournament Life Cycle**: Create, update, finish, and auto-cleanup of tournaments (with custom procedures for
+  archival/removal).
+- **Team Registration**: Register and manage teams using join/manage secret codes.
+- **Match Scheduling & Results**: Schedule matches, track scores (with DB triggers automatically updating team results).
+- **Announcements**: Owners can create announcements.
+- **Moderator Tools**: Moderator management via secret codes.
+- **Database Migrations**: Fully automated schema updates via Flyway, including advanced logic (custom procedures,
+  cleanup tasks).
+- **Multiple Environments / Profiles**: Seamless switching between `dev`, `prod`, `h2-test`, and `flyway-clean`
+  profiles.
+- **Integration & E2E Tests**: Support for H2 and MariaDB via Testcontainers (requires Docker).
 
-## Requirements
+## 🏗️ Tech Stack
 
-- **Java:** JDK 21 or later
-- **Build tool:** Maven is used for building and dependency management
-- **Database:** H2 and MariaDB `Localcontainers` are used for tests, but for running the application, a MariaDB database
-  is needed.
-- **Docker:** Docker is needed to run the integration tests, since `Localcontainers` need it.
+- Java 21
+- Spring Boot
+- Spring MVC, Data JPA
+- MariaDB (Also supports H2 for testing)
+- Flyway (for DB migrations, triggers, and procedures)
+- Maven (build and dependency management)
+- Docker (for integration testing with Testcontainers)
 
-## Installation
+## 🔧 Requirements
+
+- JDK 21 or later
+- Maven
+- MariaDB database server
+- Docker (for running integration tests using Testcontainers)
+
+## 🚀 Getting started
 
 #### 1. Clone the repository
 
-Use Git to clone the repository:
-
 ```bash
 git clone https://github.com/shindu-aw/tournament-management.git
-```
-
-#### 2. Navigate to the project directory
-
-```bash
 cd tournament-management
 ```
 
-#### 3. Build the project
+#### 2. Configure environment variables
 
-Use Maven to build the application:
-
-```bash
-mvn clean install
-```
-
-#### 4. Configure environment variables
-
-To run this project, you will need to create an `.env` file at the root of the project. Example of the `.env` file with
-all the necessary fields is included below (connection info to a MariaDB database).
+Create a `.env` file in the project root with the following fields, or set these as system environment variables:
 
 ```dotenv
 # Environemntal variables used in Spring Boot configuration (application.yml)
@@ -71,11 +58,30 @@ DB_PASSWORD=password
 DB_NAME=tournaments
 ```
 
-Alternatively, those variables can be passed as system environment variables or command-line arguments.
+_See [application.yml](src/main/resources/application.yml) for all available configuration settings and active
+profiles._
 
-## Usage
+#### 3. Build the application
 
-#### 1. Run the application
+Use Maven to build the application:
+
+```bash
+mvn clean install
+```
+
+#### 4. Set the profiles
+
+- `dev`: Default for development (debug logging).
+- `h2-test`: Runs with H2 DB, skips Flyway and uses Hibernate `create-drop`.
+- `flyway-clean`: Enables database cleanup/experimentation (do not **ever** use in production).
+- `prod`: Production settings, stricter config (no debug logging).
+
+Switch profiles by setting `SPRING_PROFILES_ACTIVE` environment variable or modifying `application.yml`.
+
+_(If you want to set the profiles through the environment variables, you should first remove all active profiles
+from [application.yml](src/main/resources/application.yml))_
+
+#### 5. Run the application
 
 You can start the application in your IDE, or use Maven:
 
@@ -85,9 +91,23 @@ mvn spring-boot:run
 
 The application will start on the default port (usually 8080).
 
-#### 2. Access the web interface
+#### 6. Access the web interface
 
-Open your web browser and navigate to: http://localhost:8080
+Open your web browser and navigate to: http://localhost:8080/
 
 New users can browse the website, while logged-in users can create tournaments, add teams, create matches, post
 announcements, etc.
+
+## ⚙️ Database Schema & Logic
+
+- Automated migrations ensure the schema is valid on startup (via Flyway).
+- DB triggers update total scores on match insert/update/delete.
+- Admins and tournament owners can run a stored procedure to recount the total scores of teams in a tournament.
+- Admins can run a stored function to clean up old tournaments and associated data.
+- DB indexes optimize queries on frequently searched fields.
+
+## 🧪 Testing
+
+- **Integration tests**: Run with H2 or MariaDB via Testcontainers (Docker required).
+  - Lighter integration tests run with H2, and the ones requiring Flyway support run with Testcontainers.
+- **Flyway migrations**: Applied automatically, unless disabled by profile.
