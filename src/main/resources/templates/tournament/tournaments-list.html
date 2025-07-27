@@ -38,7 +38,8 @@
                     <div class="col-md-3">
                         <label for="ownerUsername" class="form-label">Nazwa właściciela</label>
                         <input type="text" class="form-control"
-                               th:name="ownerUsername" name="ownerUsername" id="ownerUsername" th:value="${ownerUsername}">
+                               th:name="ownerUsername" name="ownerUsername" id="ownerUsername"
+                               th:value="${ownerUsername}">
                     </div>
                     <div class="col-md-3">
                         <label for="afterDate" class="form-label">Rozpoczęty po dacie (włącznie)</label>
@@ -59,9 +60,8 @@
         </div>
 
 
-
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <table class="table">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -82,10 +82,12 @@
                     </td>
                     <td th:text="${{tournament.startDate}}"/>
                     <td th:text="${{tournament.endDate}}"/>
-                    <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
+                    <td>
+                        <span th:class="${tournament.finished} ? 'badge text-bg-secondary' : 'badge text-bg-success'"
+                              th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></span>
+                    </td>
                 </tr>
                 </tbody>
-
             </table>
 
             <!-- * Requires totalPages and currentPage model attributes to be passed * -->

@@ -89,7 +89,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
 
         </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
             <h2>Gracze</h2>
 
             <div sec:authorize="isAuthenticated()">
@@ -97,7 +97,7 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                    class="btn btn-link"></a>
             </div>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -130,15 +130,17 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
             </table>
         </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
+
             <h2>Turnieje</h2>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
                     <th>Data rozpoczęcia</th>
                     <th>Data zakończenia</th>
+                    <th>Status</th>
                     <th th:if="${isAdminOrOwner}">
                         Akcje
                     </th>
@@ -154,6 +156,10 @@ isAdminOrOwner=${isAdmin or #authentication.name == team.userOwner.username}
                     <td>
                     <span th:if="${tournamentRegistration.tournament.endDate != null}"
                           th:text="${{tournamentRegistration.tournament.endDate}}"></span>
+                    </td>
+                    <td>
+                        <span th:class="${tournamentRegistration.tournament.finished} ? 'badge text-bg-secondary' : 'badge text-bg-success'"
+                              th:text="${tournamentRegistration.tournament.finished} ? 'Zakończony' : 'Otwarty'"></span>
                     </td>
                     <td th:if="${isAdminOrOwner}">
                         <form th:action="@{'/team/'+${team.id}+'/tournament/leave/'+${tournamentRegistration.id}}"

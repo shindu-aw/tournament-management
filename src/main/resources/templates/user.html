@@ -51,10 +51,11 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </form>
         </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
+
             <h1>Założone drużyny</h1>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -83,10 +84,10 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </table>
         </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
             <h1>Gracz w drużynach</h1>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -115,10 +116,10 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </table>
         </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
             <h1>Założone turnieje</h1>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -141,7 +142,10 @@ canEdit=${isAdmin or #authentication.name == user.username}
                     <td>
                         <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
                     </td>
-                    <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
+                    <td>
+                        <span th:class="${tournament.finished} ? 'badge text-bg-secondary' : 'badge text-bg-success'"
+                              th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></span>
+                    </td>
                     <td th:if="${canEdit}" class="d-flex gap-2">
                         <form th:unless="${tournament.finished}" method="get" class="m-0"
                               th:action="@{'/tournament/' + ${tournament.id} + '/edit'}">
@@ -160,10 +164,10 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </table>
         </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
             <h1>Zarządzane turnieje</h1>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -183,7 +187,10 @@ canEdit=${isAdmin or #authentication.name == user.username}
                     <td>
                         <span th:if="${tournament.endDate != null}" th:text="${{tournament.endDate}}"></span>
                     </td>
-                    <td th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></td>
+                    <td>
+                        <span th:class="${tournament.finished} ? 'badge text-bg-secondary' : 'badge text-bg-success'"
+                              th:text="${tournament.finished} ? 'Zakończony' : 'Otwarty'"></span>
+                    </td>
                 </tr>
                 </tbody>
             </table>

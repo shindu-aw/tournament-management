@@ -205,10 +205,10 @@ isNotFinished=${not tournament.finished}
         <div class="row">
 
             <div class="col-md-9">
-                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
                     <h2>Drużyny – tabela wyników</h2>
 
-                    <table class="table">
+                    <table class="table table-hover align-middle">
                         <thead>
                         <tr>
                             <th>Miejsce</th>
@@ -257,7 +257,7 @@ isNotFinished=${not tournament.finished}
 
             <div class="col-md-3">
 
-                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
                     <table class="table table-sm caption-top">
 
                         <caption><h5>Podstawowe dane</h5></caption>
@@ -292,7 +292,7 @@ isNotFinished=${not tournament.finished}
                     </div>
                 </div>
 
-                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
                     <div th:if="${tournament.location != null}">
                         <table th:if="${tournament.location} != null" class="table table-sm caption-top">
 
@@ -356,7 +356,7 @@ isNotFinished=${not tournament.finished}
         </div>
 
 
-        <div th:unless="${sortedMatches.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm">
+        <div th:unless="${sortedMatches.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
             <h2>Mecze</h2>
 
             <div th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
@@ -365,7 +365,7 @@ isNotFinished=${not tournament.finished}
                 </form>
             </div>
 
-            <table class="table">
+            <table class="table table-hover align-middle">
                 <thead>
                 <tr>
                     <th>Data</th>
