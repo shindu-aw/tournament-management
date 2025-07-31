@@ -153,4 +153,20 @@ public class UserController {
         return "users-list";
     }
 
+    @PostMapping("/user/{userId}/ban")
+    public String banUser(@PathVariable Long userId, Principal principal) {
+        User userToBeBanned = userService.findById(userId).orElseThrow(NotFoundException::new);
+        String currentUserName = principal.getName();
+        userService.banUserWithAdminAuthorization(userToBeBanned, currentUserName);
+        return "redirect:/user/" + userId;
+    }
+
+    @PostMapping("/user/{userId}/unban")
+    public String unbanUser(@PathVariable Long userId, Principal principal) {
+        User userToBeBanned = userService.findById(userId).orElseThrow(NotFoundException::new);
+        String currentUserName = principal.getName();
+        userService.unbanUserWithAdminAuthorization(userToBeBanned, currentUserName);
+        return "redirect:/user/" + userId;
+    }
+
 }

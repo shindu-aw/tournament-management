@@ -29,4 +29,8 @@ public interface UserService {
     User updateUserWithAuthorization(User user, UserEditDto userEditDto, String currentUserName);
 
     User updateUserPasswordWithAuthorization(User user, PasswordDto passwordDto, String currentUserName);
+
+    User banUserWithAdminAuthorization(User user, String currentUserName);
+
+    User unbanUserWithAdminAuthorization(User user, String currentUserName);
 }

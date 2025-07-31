@@ -30,8 +30,8 @@ CREATE TABLE announcement
 
 CREATE TABLE game
 (
-    id            BIGINT      NOT NULL,
-    name          VARCHAR(50) NOT NULL,
+    id            BIGINT        NOT NULL,
+    name          VARCHAR(50)   NOT NULL,
     `description` VARCHAR(1000) NULL,
     CONSTRAINT pk_game PRIMARY KEY (id)
 );
@@ -59,8 +59,8 @@ CREATE TABLE location
 CREATE TABLE match_entry
 (
     id                   BIGINT NOT NULL,
-    team_1_score         INT NULL,
-    team_2_score         INT NULL,
+    team_1_score         INT    NULL,
+    team_2_score         INT    NULL,
     date                 date   NOT NULL,
     tournament_id        BIGINT NOT NULL,
     tournament_team_1_id BIGINT NULL,
@@ -70,11 +70,11 @@ CREATE TABLE match_entry
 
 CREATE TABLE team
 (
-    id            BIGINT      NOT NULL,
-    name          VARCHAR(50) NOT NULL,
+    id            BIGINT        NOT NULL,
+    name          VARCHAR(50)   NOT NULL,
     `description` VARCHAR(1000) NULL,
-    secret_code   VARCHAR(8)  NOT NULL,
-    user_owner_id BIGINT      NOT NULL,
+    secret_code   VARCHAR(8)    NOT NULL,
+    user_owner_id BIGINT        NOT NULL,
     CONSTRAINT pk_team PRIMARY KEY (id)
 );
 
@@ -90,24 +90,24 @@ CREATE TABLE team_user
 
 CREATE TABLE tournament
 (
-    id                 BIGINT      NOT NULL,
-    name               VARCHAR(50) NOT NULL,
+    id                 BIGINT        NOT NULL,
+    name               VARCHAR(50)   NOT NULL,
     `description`      VARCHAR(1000) NULL,
-    start_date         date        NOT NULL,
-    end_date           date NULL,
-    finished           BIT(1)      NOT NULL,
-    join_secret_code   VARCHAR(8)  NOT NULL,
-    manage_secret_code VARCHAR(8)  NOT NULL,
-    user_owner_id      BIGINT      NOT NULL,
-    location_id        BIGINT NULL,
-    game_id            BIGINT NULL,
+    start_date         date          NOT NULL,
+    end_date           date          NULL,
+    finished           BIT(1)        NOT NULL,
+    join_secret_code   VARCHAR(8)    NOT NULL,
+    manage_secret_code VARCHAR(8)    NOT NULL,
+    user_owner_id      BIGINT        NOT NULL,
+    location_id        BIGINT        NULL,
+    game_id            BIGINT        NULL,
     CONSTRAINT pk_tournament PRIMARY KEY (id)
 );
 
 CREATE TABLE tournament_team
 (
     id            BIGINT NOT NULL,
-    score_sum     INT NULL,
+    score_sum     INT    NULL,
     tournament_id BIGINT NULL,
     team_id       BIGINT NULL,
     CONSTRAINT pk_tournament_team PRIMARY KEY (id)
@@ -121,11 +121,12 @@ CREATE TABLE tournament_user
 
 CREATE TABLE user
 (
-    id            BIGINT       NOT NULL,
-    username      VARCHAR(20)  NOT NULL,
-    password      VARCHAR(255) NOT NULL,
+    id            BIGINT        NOT NULL,
+    username      VARCHAR(20)   NOT NULL,
+    password      VARCHAR(255)  NOT NULL,
     `description` VARCHAR(1000) NULL,
-    `role`        VARCHAR(5)   NOT NULL,
+    `role`        VARCHAR(5)    NOT NULL,
+    `banned`      BIT(1)        NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 

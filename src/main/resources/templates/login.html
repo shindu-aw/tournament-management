@@ -19,7 +19,12 @@
                     <h1 class="h3 mb-3 fw-normal text-center">Zaloguj się</h1>
 
                     <div th:if="${param.error}" class="alert alert-danger">
-                        Nieprawidłowa nazwa użytkownika lub hasło.
+                        <span th:unless="${param.error[0] == 'disabled'}">
+                            Nieprawidłowa nazwa użytkownika lub hasło.
+                        </span>
+                        <span th:if="${param.error[0] == 'disabled'}">
+                            Użytkownik został zablokowany przez administratora.
+                        </span>
                     </div>
                     <div th:if="${param.logout}" class="alert alert-success">
                         Zostałeś wylogowany.
@@ -35,7 +40,7 @@
                         <input name="password" type="password" class="form-control" id="password" required>
                     </div>
 
-                    <input type="hidden" name="returnTo" th:value="${returnTo}" >
+                    <input type="hidden" name="returnTo" th:value="${returnTo}">
 
                     <button class="btn btn-primary w-100" type="submit">Zaloguj się</button>
 

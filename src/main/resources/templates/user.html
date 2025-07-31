@@ -37,6 +37,10 @@ canEdit=${isAdmin or #authentication.name == user.username}
             Ten użytkownik jest administratorem.
         </div>
 
+        <div th:if="${user.banned}" class="alert alert-danger" role="alert">
+            Konto tego użytkownika zostało zablokowane przez administratora.
+        </div>
+
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h5 class="border-bottom pb-2 mb-0">Opis</h5>
             <p th:text="${{user.description}}"/>
@@ -48,6 +52,14 @@ canEdit=${isAdmin or #authentication.name == user.username}
             </form>
             <form th:action="@{'/user/' + ${userId} + '/edit-password'}" method="get" class="m-0">
                 <input type="submit" value="Edytuj hasło" class="btn btn-secondary"/>
+            </form>
+            <form th:if="${isAdmin}" th:unless="${user.banned}"
+                  th:action="@{'/user/' + ${userId} + '/ban'}" method="post" class="m-0">
+                <input type="submit" value="Zablokuj dostęp" class="btn btn-danger"/>
+            </form>
+            <form th:if="${isAdmin and user.banned}"
+                  th:action="@{'/user/' + ${userId} + '/unban'}" method="post" class="m-0">
+                <input type="submit" value="Odblokuj dostęp" class="btn btn-success"/>
             </form>
         </div>
 

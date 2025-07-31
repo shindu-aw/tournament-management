@@ -125,4 +125,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User banUserWithAdminAuthorization(User user, String currentUserName) {
+        checkAdminAuthorization(currentUserName);
+
+        user.setBanned(true);
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User unbanUserWithAdminAuthorization(User user, String currentUserName) {
+        checkAdminAuthorization(currentUserName);
+
+        user.setBanned(false);
+
+        return userRepository.save(user);
+    }
+
 }

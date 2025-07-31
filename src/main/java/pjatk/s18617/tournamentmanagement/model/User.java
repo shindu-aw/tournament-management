@@ -42,6 +42,10 @@ public class User implements UserDetails {
     private Role role = Role.USER;
 
     @Builder.Default
+    @Column(name = "banned", nullable = false)
+    private Boolean banned = false;
+
+    @Builder.Default
     @OneToMany(mappedBy = "userOwner", orphanRemoval = true)
     @OrderBy("name")
     private List<Team> teamsOwned = new ArrayList<>();
@@ -111,6 +115,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return !banned;
     }
 }
