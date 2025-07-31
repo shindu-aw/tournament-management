@@ -107,9 +107,9 @@ CREATE TABLE tournament
 CREATE TABLE tournament_team
 (
     id            BIGINT NOT NULL,
-    score_sum     INT    NULL,
-    tournament_id BIGINT NULL,
-    team_id       BIGINT NULL,
+    score_sum     INT    NOT NULL,
+    tournament_id BIGINT NOT NULL,
+    team_id       BIGINT NOT NULL,
     CONSTRAINT pk_tournament_team PRIMARY KEY (id)
 );
 

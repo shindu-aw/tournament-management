@@ -23,15 +23,15 @@ public class TournamentTeam {
     private Long id;
 
     @Builder.Default
-    @Column(name = "score_sum")
+    @Column(name = "score_sum", nullable = false)
     private Integer scoreSum = 0;
 
     @ManyToOne
-    @JoinColumn(name = "tournament_id")
+    @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
     // the two reverse associations below are added solely for easy leftover match removal
