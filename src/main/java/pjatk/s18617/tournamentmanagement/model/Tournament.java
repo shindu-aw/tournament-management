@@ -67,7 +67,7 @@ public class Tournament {
     private Location location;
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
     @Builder.Default

@@ -100,7 +100,7 @@ CREATE TABLE tournament
     manage_secret_code VARCHAR(8)    NOT NULL,
     user_owner_id      BIGINT        NOT NULL,
     location_id        BIGINT        NULL,
-    game_id            BIGINT        NULL,
+    game_id            BIGINT        NOT NULL,
     CONSTRAINT pk_tournament PRIMARY KEY (id)
 );
 
