@@ -116,7 +116,8 @@ CREATE TABLE tournament_team
 CREATE TABLE tournament_user
 (
     tournament_id BIGINT NOT NULL,
-    user_id       BIGINT NOT NULL
+    user_id       BIGINT NOT NULL,
+    CONSTRAINT pk_tournament_user PRIMARY KEY (tournament_id, user_id)
 );
 
 CREATE TABLE user
