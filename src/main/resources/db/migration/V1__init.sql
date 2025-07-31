@@ -81,9 +81,9 @@ CREATE TABLE team
 CREATE TABLE team_user
 (
     id        BIGINT NOT NULL,
-    team_id   BIGINT NULL,
-    user_id   BIGINT NULL,
-    game_id   BIGINT NULL,
+    team_id   BIGINT NOT NULL,
+    user_id   BIGINT NOT NULL,
+    game_id   BIGINT NOT NULL,
     join_date date   NOT NULL,
     CONSTRAINT pk_team_user PRIMARY KEY (id)
 );
