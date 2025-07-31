@@ -2,6 +2,7 @@ package pjatk.s18617.tournamentmanagement.services;
 
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -165,7 +166,25 @@ public class TournamentServiceImpl implements TournamentService {
     public Tournament addUserModerator(Tournament tournament, String username) {
         User user = userService.findByUsername(username).orElseThrow(NotFoundException::new);
         tournament.getUsersManaging().add(user);
-        return tournamentRepository.save(tournament);
+        try {
+            return tournamentRepository.save(tournament);
+        } catch (DataAccessException ex) {
+            // is the error caused by a duplicate entry?
+            if (ex.getMessage() != null && ex.getMessage().contains("Duplicate entry")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "Już jesteś moderatorem tego turnieju.",
+                        ex
+                );
+            }
+
+            // if the duplicate entry is not the cause, then something's wrong
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Niespodziewany error nastąpił w bazie danych.",
+                    ex
+            );
+        }
     }
 
     @Override
