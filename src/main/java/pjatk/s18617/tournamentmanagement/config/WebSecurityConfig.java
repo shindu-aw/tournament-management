@@ -66,8 +66,8 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
                 .logout((logout) -> logout
-                    .logoutSuccessHandler(customLogoutSuccessHandler())
-                    .permitAll()
+                        .logoutSuccessHandler(customLogoutSuccessHandler())
+                        .permitAll()
                 );
 
         return http.build();
