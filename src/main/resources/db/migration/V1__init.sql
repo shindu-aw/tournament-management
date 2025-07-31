@@ -59,12 +59,12 @@ CREATE TABLE location
 CREATE TABLE match_entry
 (
     id                   BIGINT NOT NULL,
-    team_1_score         INT    NULL,
-    team_2_score         INT    NULL,
+    team_1_score         INT    NOT NULL,
+    team_2_score         INT    NOT NULL,
     date                 date   NOT NULL,
     tournament_id        BIGINT NOT NULL,
-    tournament_team_1_id BIGINT NULL,
-    tournament_team_2_id BIGINT NULL,
+    tournament_team_1_id BIGINT NOT NULL,
+    tournament_team_2_id BIGINT NOT NULL,
     CONSTRAINT pk_match_entry PRIMARY KEY (id)
 );
 

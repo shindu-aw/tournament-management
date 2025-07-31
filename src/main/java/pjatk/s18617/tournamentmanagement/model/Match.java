@@ -24,11 +24,11 @@ public class Match {
     private Long id;
 
     @Builder.Default
-    @Column(name = "team_1_score")
+    @Column(name = "team_1_score", nullable = false)
     private Integer team1Score = 0;
 
     @Builder.Default
-    @Column(name = "team_2_score")
+    @Column(name = "team_2_score", nullable = false)
     private Integer team2Score = 0;
 
     @Column(name = "date", nullable = false)
@@ -39,11 +39,11 @@ public class Match {
     private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name = "tournament_team_1_id")
+    @JoinColumn(name = "tournament_team_1_id", nullable = false)
     private TournamentTeam tournamentTeam1;
 
     @ManyToOne
-    @JoinColumn(name = "tournament_team_2_id")
+    @JoinColumn(name = "tournament_team_2_id", nullable = false)
     private TournamentTeam tournamentTeam2;
 
     @Override
