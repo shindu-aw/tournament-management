@@ -14,7 +14,7 @@
 </head>
 <body class="bg-body-tertiary d-flex flex-column h-100">
 
-<nav th:replace="~{/fragments/nav::nav}"></nav>
+<nav th:replace="~{fragments/nav::nav}"></nav>
 
 <p th:if="${param.message}" class="alert alert-info alert-dismissible text-center" role="alert">
     <span th:text="${{param.message}}"></span>
@@ -28,7 +28,7 @@
     </section>
 </main>
 
-<footer th:replace="~{/fragments/footer::footer}"></footer>
+<footer th:replace="~{fragments/footer::footer}"></footer>
 
 </body>
 </html>
