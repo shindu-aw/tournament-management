@@ -356,7 +356,7 @@ isNotFinished=${not tournament.finished}
         </div>
 
 
-        <div th:unless="${sortedMatches.isEmpty()}" class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
+        <div class="my-3 p-3 bg-body rounded shadow-sm table-responsive">
             <h2>Mecze</h2>
 
             <div th:if="${isOwnerOrAdminOrModerator and isNotFinished}">
